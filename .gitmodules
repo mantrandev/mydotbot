@@ -1,3 +1,6 @@
 [submodule "dotbot"]
 	path = dotbot
 	url = https://github.com/anishathalye/dotbot
+[submodule "ai/commonSkills/visual-explainer"]
+	path = ai/commonSkills/visual-explainer
+	url = https://github.com/nicobailon/visual-explainer.git

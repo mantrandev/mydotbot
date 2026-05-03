@@ -78,6 +78,20 @@ Creates symlinks for:
 | visual-explainer | Generate HTML visual explainers for code/systems |
 | writing-unit-tests | Write XCTest + Cuckoo mock unit tests |
 
+## Submodules
+
+| Submodule | Source |
+|---|---|
+| `dotbot` | https://github.com/anishathalye/dotbot |
+| `ai/commonSkills/visual-explainer` | https://github.com/nicobailon/visual-explainer |
+
+Update visual-explainer to latest upstream:
+```bash
+git submodule update --remote ai/commonSkills/visual-explainer
+git add ai/commonSkills/visual-explainer
+git commit -m "chore: update visual-explainer submodule"
+```
+
 ## Updating skills
 
 Edit source in `ai/commonSkills/` or `ai/iOS/`, then run:
