@@ -1,4 +1,0 @@
-interface:
-  display_name: "Simulate Notification"
-  short_description: "Simulate iOS APNS pushes."
-  default_prompt: "Use $simulate-notification to simulate a visible or silent APNS notification for the current iOS app."
