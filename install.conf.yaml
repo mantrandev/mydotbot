@@ -9,8 +9,12 @@
     - ~/.codex/skills
     - ~/.pi/agent
     - ~/.agents
+    - ~/.zsh
 
 - link:
+    ~/.zshrc: zsh/.zshrc
+    ~/.zprofile: zsh/.zprofile
+    ~/.zsh/jira.zsh: zsh/jira.zsh
     ~/.claude/CLAUDE.md: ai/AGENTS.md
     ~/.claude/skills: ai/skills
     ~/.codex/AGENTS.md: ai/AGENTS.md
