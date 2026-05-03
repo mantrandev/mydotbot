@@ -1,0 +1,4 @@
+interface:
+  display_name: "ShopHelp PerfTrace Triage"
+  short_description: "Explain PerfTrace logs before fixing"
+  default_prompt: "Use $shophelp-perftrace-triage to explain this ShopHelp PerfTrace output, rank the likely causes, and tell me what to inspect next."

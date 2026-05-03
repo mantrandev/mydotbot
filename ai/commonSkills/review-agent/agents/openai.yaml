@@ -1,0 +1,4 @@
+interface:
+  display_name: "Review Agent"
+  short_description: "Findings-first review of diffs and branches"
+  default_prompt: "Use $review-agent to review this diff, inspect surrounding code, and return prioritized findings with file and line references."

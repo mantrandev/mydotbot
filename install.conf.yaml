@@ -1,0 +1,56 @@
+- defaults:
+    link:
+      relink: true
+      force: true
+
+- create:
+    - ~/.claude
+    - ~/.codex
+    - ~/.codex/skills
+    - ~/.pi/agent
+    - ~/.agents
+
+- link:
+    ~/.claude/CLAUDE.md: ai/AGENTS.md
+    ~/.claude/skills: ai/skills
+    ~/.codex/AGENTS.md: ai/AGENTS.md
+    ~/.codex/skills/analyzing-source-code: ai/skills/analyzing-source-code
+    ~/.codex/skills/analyzing-video: ai/skills/analyzing-video
+    ~/.codex/skills/architecture-validator: ai/skills/architecture-validator
+    ~/.codex/skills/branch-cleaner: ai/skills/branch-cleaner
+    ~/.codex/skills/check-async-pattern: ai/skills/check-async-pattern
+    ~/.codex/skills/clean-debug: ai/skills/clean-debug
+    ~/.codex/skills/create-branch: ai/skills/create-branch
+    ~/.codex/skills/create-desc-mr: ai/skills/create-desc-mr
+    ~/.codex/skills/creating-repository: ai/skills/creating-repository
+    ~/.codex/skills/creating-screen: ai/skills/creating-screen
+    ~/.codex/skills/creating-usecase: ai/skills/creating-usecase
+    ~/.codex/skills/creating-viewmodel: ai/skills/creating-viewmodel
+    ~/.codex/skills/debugging-ios: ai/skills/debugging-ios
+    ~/.codex/skills/diagnostics-agent: ai/skills/diagnostics-agent
+    ~/.codex/skills/find-skills: ai/skills/find-skills
+    ~/.codex/skills/find-ticket: ai/skills/find-ticket
+    ~/.codex/skills/gemini-plan: ai/skills/gemini-plan
+    ~/.codex/skills/jira-acli: ai/skills/jira-acli
+    ~/.codex/skills/liquid-glass-ios: ai/skills/liquid-glass-ios
+    ~/.codex/skills/matplotlib: ai/skills/matplotlib
+    ~/.codex/skills/planning-feature: ai/skills/planning-feature
+    ~/.codex/skills/pre-commit-check: ai/skills/pre-commit-check
+    ~/.codex/skills/quick-commit: ai/skills/quick-commit
+    ~/.codex/skills/registering-dependency: ai/skills/registering-dependency
+    ~/.codex/skills/review-agent: ai/skills/review-agent
+    ~/.codex/skills/reviewing-code: ai/skills/reviewing-code
+    ~/.codex/skills/shophelp-perftrace-triage: ai/skills/shophelp-perftrace-triage
+    ~/.codex/skills/shophelp-test-failure-triage: ai/skills/shophelp-test-failure-triage
+    ~/.codex/skills/sim-validation-flow: ai/skills/sim-validation-flow
+    ~/.codex/skills/simulate-notification: ai/skills/simulate-notification
+    ~/.codex/skills/swift-lint-check: ai/skills/swift-lint-check
+    ~/.codex/skills/unused-code-finder: ai/skills/unused-code-finder
+    ~/.codex/skills/usage-dashboard: ai/skills/usage-dashboard
+    ~/.codex/skills/validate-di: ai/skills/validate-di
+    ~/.codex/skills/visual-explainer: ai/skills/visual-explainer
+    ~/.codex/skills/writing-unit-tests: ai/skills/writing-unit-tests
+    ~/.pi/agent/AGENTS.md: ai/AGENTS.md
+    ~/.pi/agent/skills: ai/skills
+    ~/.agents/AGENTS.md: ai/AGENTS.md
+    ~/.agents/skills: ai/skills

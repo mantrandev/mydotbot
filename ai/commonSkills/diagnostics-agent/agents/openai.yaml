@@ -1,0 +1,4 @@
+interface:
+  display_name: "Diagnostics Agent"
+  short_description: "Investigate symptoms and rank likely causes"
+  default_prompt: "Use $diagnostics-agent to investigate these symptoms, rank the likely causes, and tell me the next evidence to gather before fixing anything."
