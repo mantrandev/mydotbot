@@ -1,6 +1,6 @@
 # mydotbot
 
-Dotbot-managed agent config for Claude, Codex, and Pi.
+Dotbot-managed dotfiles for shell, agents (Claude, Codex, Pi), and skills.
 
 ## Structure
 
@@ -12,6 +12,10 @@ ai/
 ├── web/                   # Parked web skills (not default-loaded)
 ├── skills/                # Generated active skills (built by sync script)
 └── sync-agent-config.sh   # Propagates changes to all agents
+zsh/
+├── .zshrc                 # Zsh config (oh-my-zsh, nvm, aliases)
+├── .zprofile              # Homebrew shellenv
+└── jira.zsh               # Jira shell helpers
 ```
 
 ## Install
@@ -21,6 +25,13 @@ ai/
 ```
 
 Creates symlinks for:
+
+**Shell**
+- `~/.zshrc` → `zsh/.zshrc`
+- `~/.zprofile` → `zsh/.zprofile`
+- `~/.zsh/jira.zsh` → `zsh/jira.zsh`
+
+**Agents**
 - `~/.claude/` — Claude Code
 - `~/.codex/` — Codex
 - `~/.pi/agent/` — Pi
