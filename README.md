@@ -18,6 +18,42 @@ zsh/
 └── jira.zsh               # Jira shell helpers
 ```
 
+## New device setup
+
+```bash
+# 1. Install Homebrew
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+
+# 2. Clone and install
+git clone https://github.com/mantrandev/mydotbot.git ~/mydotbot
+cd ~/mydotbot
+git submodule update --init
+./install.sh
+```
+
+`./install.sh` will automatically:
+- Install all apps and CLI tools via `brew bundle`
+- Install VS Code extensions
+- Install npm global packages
+- Create all symlinks
+
+## Manual installs
+
+These are not on Homebrew — install once on a new device:
+
+| App | Link |
+|---|---|
+| Xcode | [Mac App Store](https://apps.apple.com/app/xcode/id497799835) |
+| TestFlight | [Mac App Store](https://apps.apple.com/app/testflight/id899247664) |
+| Keynote | [Mac App Store](https://apps.apple.com/app/keynote/id409183694) |
+| RocketSim | [Mac App Store](https://apps.apple.com/app/rocketsim-for-xcode-simulator/id1504940162) |
+| Perplexity | [Mac App Store](https://apps.apple.com/app/perplexity-ask-anything/id1668000334) |
+| Zalo | [zalo.me](https://zalo.me/pc) |
+| BlueStacks | [bluestacks.com](https://www.bluestacks.com) |
+| EarnApp | [earnapp.com](https://earnapp.com/i/sdk) |
+| Honeygain | [honeygain.com](https://www.honeygain.com) |
+| SF Symbols | [developer.apple.com](https://developer.apple.com/sf-symbols/) |
+
 ## Install
 
 ```bash
