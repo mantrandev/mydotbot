@@ -66,6 +66,7 @@ Creates symlinks for:
 - `~/.zshrc` → `zsh/.zshrc`
 - `~/.zprofile` → `zsh/.zprofile`
 - `~/.zsh/jira.zsh` → `zsh/jira.zsh`
+- `~/.claude/statusline-command.sh` → `zsh/statusline-command.sh`
 
 **Agents**
 - `~/.claude/` — Claude Code
