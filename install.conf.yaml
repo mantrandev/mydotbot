@@ -3,6 +3,18 @@
       relink: true
       force: true
 
+- shell:
+    - command: brew bundle --file=Brewfile
+      description: Install Homebrew packages and apps
+      stdin: true
+      stdout: true
+    - command: scripts/install-vscode-extensions.sh
+      description: Install VS Code extensions
+      stdout: true
+    - command: scripts/install-npm-globals.sh
+      description: Install npm global packages
+      stdout: true
+
 - create:
     - ~/.claude
     - ~/.codex
