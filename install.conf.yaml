@@ -27,6 +27,7 @@
     ~/.zshrc: zsh/.zshrc
     ~/.zprofile: zsh/.zprofile
     ~/.zsh/jira.zsh: zsh/jira.zsh
+    ~/.claude/statusline-command.sh: zsh/statusline-command.sh
     ~/.claude/CLAUDE.md: ai/AGENTS.md
     ~/.claude/skills: ai/skills
     ~/.codex/AGENTS.md: ai/AGENTS.md
