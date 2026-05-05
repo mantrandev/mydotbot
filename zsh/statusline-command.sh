@@ -54,17 +54,19 @@ if [ "$five_h_reset" -gt 0 ]; then
     reset_in="${diff_m}m"
   fi
 
-  fh_colored="\033[38;5;208m5h ${five_h_pct_int}%%\033[0m"
-
-  if [ "$seven_d_pct_int" -ge 80 ]; then
-    sd_colored="\033[38;5;208m7d ${seven_d_pct_int}%%\033[0m"
-  elif [ "$seven_d_pct_int" -ge 50 ]; then
-    sd_colored="\033[38;5;208m7d ${seven_d_pct_int}%%\033[0m"
+  if [ "$five_h_pct_int" -ge 80 ]; then
+    fh_colored="\033[0;31m5h: ${five_h_pct_int}%\033[0m"
   else
-    sd_colored="\033[38;5;208m7d ${seven_d_pct_int}%%\033[0m"
+    fh_colored="\033[38;5;208m5h: ${five_h_pct_int}%\033[0m"
   fi
 
-  rate_info="  |  ${fh_colored}  ${sd_colored}  \033[38;5;208m↺ ${reset_in}\033[0m"
+  if [ "$seven_d_pct_int" -ge 80 ]; then
+    sd_colored="\033[0;31m7d: ${seven_d_pct_int}%\033[0m"
+  else
+    sd_colored="\033[38;5;208m7d: ${seven_d_pct_int}%\033[0m"
+  fi
+
+  rate_info="  |  ${fh_colored}  |  ${sd_colored}  |  \033[38;5;208m↺ ${reset_in}\033[0m"
 fi
 
 # Line 1: [Model] account | 🌿 branch
@@ -88,6 +90,6 @@ else
   bar_colored="\033[0;32m${bar}\033[0m"
 fi
 
-line2="${bar_colored}  ${used_int}%%${rate_info}"
+line2="${bar_colored}  ${used_int}%${rate_info}"
 
 printf '%b\n%b' "${line1}" "${line2}"
