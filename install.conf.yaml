@@ -17,6 +17,9 @@
 
 - create:
     - ~/.claude
+    - ~/.claude-account1
+    - ~/.claude-account2
+    - ~/.local/share/claude/projects
     - ~/.codex
     - ~/.codex/skills
     - ~/.pi/agent
@@ -30,6 +33,16 @@
     ~/.claude/statusline-command.sh: zsh/statusline-command.sh
     ~/.claude/CLAUDE.md: ai/AGENTS.md
     ~/.claude/skills: ai/skills
+    ~/.claude/history.jsonl:
+      path: ~/.local/share/claude/history.jsonl
+    ~/.claude/projects:
+      path: ~/.local/share/claude/projects
+    ~/.claude-account1/history.jsonl:
+      path: ~/.local/share/claude/history.jsonl
+    ~/.claude-account2/history.jsonl:
+      path: ~/.local/share/claude/history.jsonl
+    ~/.claude-account2/projects:
+      path: ~/.local/share/claude/projects
     ~/.codex/AGENTS.md: ai/AGENTS.md
     ~/.codex/skills/analyzing-source-code: ai/skills/analyzing-source-code
     ~/.codex/skills/analyzing-video: ai/skills/analyzing-video
