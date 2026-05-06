@@ -23,20 +23,20 @@ Behavior:
 If `JIRA_PROJECT` is unset, require full issue keys like `ABC-123`.
 If `JIRA_WORKFLOW_STATUSES` is unset, use explicit transitions instead of forward/backward.
 
-## ShopHelp example
+## Example setup
 
 ```bash
-export JIRA_SITE="crossian.atlassian.net"
-export JIRA_PROJECT="SHOPHELP"
+export JIRA_SITE="your-company.atlassian.net"
+export JIRA_PROJECT="[PROJECT]"
 export JIRA_TODO_STATUS="TO DO"
 export JIRA_WORKFLOW_STATUSES='["TO DO","In Progress","Testing","Block","Review","Wait to build PROD","DONE"]'
 ```
 
 With that setup:
 
-- `3642` resolves to `SHOPHELP-3642`
-- branch names like `feature/SHOPHELP-3642-fix-login` work with current-branch flows
-- `forward` / `backward` use the ShopHelp workflow order
+- `3642` resolves to `[PROJECT]-3642`
+- branch names like `feature/[PROJECT]-3642-fix-login` work with current-branch flows
+- `forward` / `backward` use the configured workflow order
 
 ## One-time Jira auth
 
@@ -73,7 +73,7 @@ Good prompts for this skill:
 - "Open Jira ABC-123 in browser"
 - "Move current branch ticket to Review"
 - "Advance this ticket one step"
-- "Assign SHOPHELP-3642 to me"
+- "Assign [PROJECT]-3642 to me"
 - "Comment on 3642: QA ready"
 - "Replace the description of the current branch ticket from /tmp/desc.md"
 - "Show my sprint issues"

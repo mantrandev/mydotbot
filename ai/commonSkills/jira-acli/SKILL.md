@@ -12,14 +12,14 @@ Use `jhelp` shell functions as the primary interface. They wrap `acli jira` with
 Always prefix Bash commands with `source ~/.zshrc 2>/dev/null;` — the tool runs a non-interactive shell that does not load `.zshrc` by default. Without this, `jhelp` functions and `JIRA_*` env vars will be missing.
 
 ```bash
-source ~/.zshrc 2>/dev/null; jv SHOPHELP-3682
+source ~/.zshrc 2>/dev/null; jv [PROJECT]-3682
 ```
 
 ## Input formats accepted by all jhelp functions
 
-- bare number: `3642` → resolves to `SHOPHELP-3642`
-- explicit key: `SHOPHELP-3642`
-- full Jira URL: `https://crossian.atlassian.net/browse/SHOPHELP-3642`
+- bare number: `3642` → resolves to `[PROJECT]-3642`
+- explicit key: `[PROJECT]-3642`
+- full Jira URL: `https://[JIRA_SITE]/browse/[PROJECT]-3642`
 
 ## Commands
 
@@ -89,7 +89,7 @@ source ~/.zshrc 2>/dev/null; jqw "[JQL]"                 # search with JQL
 ### Current branch
 
 ```bash
-source ~/.zshrc 2>/dev/null; jkey                        # extract SHOPHELP-xxxx from branch name
+source ~/.zshrc 2>/dev/null; jkey                        # extract [PROJECT]-xxxx from branch name
 source ~/.zshrc 2>/dev/null; jvb                         # view current branch ticket
 source ~/.zshrc 2>/dev/null; jib                         # move current branch → In Progress
 source ~/.zshrc 2>/dev/null; jreviewb                    # move current branch → Review
