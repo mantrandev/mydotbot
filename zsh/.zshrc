@@ -4,8 +4,8 @@ plugins=(git)
 source $ZSH/oh-my-zsh.sh
 
 # aliases
-alias claude_upgrade='brew upgrade claude-code'
-alias claude-mine='CLAUDE_CONFIG_DIR=~/.claude-account1 claude'
+alias claude-mine='CLAUDE_CONFIG_DIR=~/.claude claude'
+alias claude-G='CLAUDE_CONFIG_DIR=~/.claude-account1 claude'
 alias claude-crossian='CLAUDE_CONFIG_DIR=~/.claude-account2 claude'
 
 [[ -f "$HOME/.zsh/jira.zsh" ]] && source "$HOME/.zsh/jira.zsh"
