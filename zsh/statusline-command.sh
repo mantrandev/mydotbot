@@ -3,11 +3,11 @@ input=$(cat)
 
 cwd=$(echo "$input" | jq -r '.workspace.current_dir // .cwd // ""')
 
-if echo "${CLAUDE_CONFIG_DIR:-}" | grep -q "claude-account2"; then
-  account="teams"
-else
-  account="personal"
-fi
+case "${CLAUDE_CONFIG_DIR:-}" in
+  *claude-account1*) account="G" ;;
+  *claude-account2*) account="crossian" ;;
+  *)                 account="personal" ;;
+esac
 
 branch=""
 dirty=""
