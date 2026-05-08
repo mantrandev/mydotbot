@@ -4,6 +4,8 @@ tap "homebrew/bundle"
 # AI
 cask "claude"
 cask "chatgpt"
+cask "chatgpt-atlas"
+cask "google-gemini"
 cask "cursor"
 
 # Browsers
@@ -18,6 +20,7 @@ cask "ghostty"
 cask "github-copilot-for-xcode"
 cask "http-toolkit"
 cask "iterm2"
+cask "warp"
 cask "postman"
 cask "proxyman"
 cask "raycast"
