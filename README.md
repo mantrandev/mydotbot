@@ -104,8 +104,6 @@ Creates symlinks for:
 | registering-dependency | Register dependency in Swinject DI container |
 | review-agent | Findings-first code review agent |
 | reviewing-code | Review Swift code against project standards |
-| shophelp-perftrace-triage | Diagnose ShopHelp PerfTrace telemetry |
-| shophelp-test-failure-triage | Diagnose ShopHelp XCTest failures |
 | sim-validation-flow | iOS simulator validation via lldb + axe |
 | simulate-notification | iOS simulator APNS push notification testing |
 | swift-lint-check | Swift code standards linting |
