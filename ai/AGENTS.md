@@ -123,6 +123,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - Use Conventional Commits for commit messages unless repo-local rules override.
 - Do not include `Co-Authored-By` or AI attribution in commit messages.
 - Keep commits focused on the actual change.
+- When invoking the commit subagent, always pass: explicit change type (with note if diff could be misread), one-sentence root cause or intent, and a suggested commit message.
 
 ## Skills
 
