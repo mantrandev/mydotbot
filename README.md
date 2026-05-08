@@ -7,6 +7,7 @@ Dotbot-managed dotfiles for shell, agents (Claude, Codex, Pi), and skills.
 ```
 ai/
 ├── AGENTS.md              # Shared global rules for all agents
+├── agents/                # Claude Code subagent definitions
 ├── commonSkills/          # Source skills (Claude + Codex)
 ├── iOS/                   # iOS-specific source skills
 ├── web/                   # Parked web skills (not default-loaded)
@@ -100,7 +101,6 @@ Creates symlinks for:
 | matplotlib | Plotting: line, scatter, bar, heatmap, 3D |
 | planning-feature | Plan iOS feature with architecture decisions |
 | pre-commit-check | Run all code standard checks before commit |
-| quick-commit | Stage all + conventional commit message |
 | registering-dependency | Register dependency in Swinject DI container |
 | review-agent | Findings-first code review agent |
 | reviewing-code | Review Swift code against project standards |
@@ -112,6 +112,14 @@ Creates symlinks for:
 | validate-di | Validate Swinject DI registrations |
 | visual-explainer | Generate HTML visual explainers for code/systems |
 | writing-unit-tests | Write XCTest + Cuckoo mock unit tests |
+
+## Agents
+
+Claude Code subagent definitions live in `ai/agents/`. Each file is a standalone agent with its own model, tools, and instructions.
+
+| Agent | Description |
+|---|---|
+| commit | Create a single focused git commit |
 
 ## Submodules
 

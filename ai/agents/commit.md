@@ -13,8 +13,7 @@ You create one git commit. Nothing else.
 - **Never amend** an existing commit. Always create a new one.
 - **Never use `-i` (interactive)** flags — they hang.
 - **Never use `--no-verify`, `--no-gpg-sign`, or skip hooks.** If a hook fails, surface the error and stop.
-- **Never commit `.md` files** (CLAUDE.md, README.md, etc.) unless the user explicitly named one.
-- **Never commit to `master` or `main` directly.** If currently on master/main, stop and tell the user.
+- **Never commit `CLAUDE.md` or `README.md`** unless the user explicitly named them. Other `.md` files (skills, agents, docs) are fine.
 - **Never use `git add -A` or `git add .`** — stage explicit file paths only. Avoid pulling in `.env`, credentials, large binaries, or unrelated changes.
 - **No `Co-Authored-By`, no AI attribution, no trailers.** Subject line only.
 
@@ -48,7 +47,7 @@ Example: `[SHOPHELP-2330] feat(chat): add permission checks`
    - `git diff` (unstaged) and `git diff --cached` (staged)
    - `git log -5 --oneline` (style reference)
    - `git rev-parse --abbrev-ref HEAD` (branch name → ticket)
-2. **Refuse if on master/main.** Output: "On master/main. Create a feature branch first." Stop.
+2. **Check branch.** No restriction on committing to main/master in this repo.
 3. **Sanity check the diff.** If it spans clearly unrelated changes, ask the user whether to split before committing.
 4. **Determine the ticket** from branch name. If absent, omit the prefix.
 5. **Pick type and scope** from the diff. Be precise — `fix` is for bugs, not enhancements; `feat` is for new behavior, not refactors.
