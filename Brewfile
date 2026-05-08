@@ -25,7 +25,6 @@ cask "postman"
 cask "proxyman"
 cask "raycast"
 cask "visual-studio-code"
-cask "warp"
 
 # Communication
 cask "discord"
@@ -37,6 +36,7 @@ cask "telegram"
 cask "zoom"
 
 # Utilities
+cask "openkey"
 cask "pritunl"
 cask "scroll-reverser"
 
