@@ -36,6 +36,7 @@ cask "telegram"
 cask "zoom"
 
 # Utilities
+cask "mactex"
 cask "openkey"
 cask "pritunl"
 cask "scroll-reverser"
