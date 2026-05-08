@@ -19,6 +19,7 @@
     - ~/.claude
     - ~/.claude-account1
     - ~/.claude-account2
+    - ~/.claude-account3
     - ~/.local/share/claude/projects
     - ~/.codex
     - ~/.codex/skills
@@ -33,6 +34,10 @@
     ~/.claude/statusline-command.sh: zsh/statusline-command.sh
     ~/.claude/CLAUDE.md: ai/AGENTS.md
     ~/.claude/skills: ai/skills
+    ~/.claude/memory: ai/memory
+    ~/.claude-account1/memory: ai/memory
+    ~/.claude-account2/memory: ai/memory
+    ~/.claude-account3/memory: ai/memory
     ~/.claude/history.jsonl:
       path: ~/.local/share/claude/history.jsonl
     ~/.claude/projects:
