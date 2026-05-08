@@ -41,6 +41,7 @@ five_h_reset=$(echo "$input" | jq -r '.rate_limits.five_hour.resets_at // 0')
 
 seven_d_pct=$(echo "$input" | jq -r '.rate_limits.seven_day.used_percentage // 0')
 seven_d_pct_int=$(printf '%.0f' "$seven_d_pct")
+seven_d_reset=$(echo "$input" | jq -r '.rate_limits.seven_day.resets_at // 0')
 
 rate_info=""
 if [ "$five_h_reset" -gt 0 ]; then
@@ -56,19 +57,36 @@ if [ "$five_h_reset" -gt 0 ]; then
     reset_in="${diff_m}m"
   fi
 
-  if [ "$five_h_pct_int" -ge 80 ]; then
-    fh_colored="\033[0;31m5h: ${five_h_pct_int}%\033[0m"
-  else
-    fh_colored="\033[38;5;208m5h: ${five_h_pct_int}%\033[0m"
+  sd_reset_str=""
+  if [ "$seven_d_reset" -gt 0 ]; then
+    sd_diff_s=$(( seven_d_reset - now ))
+    if [ "$sd_diff_s" -lt 0 ]; then sd_diff_s=0; fi
+    sd_diff_m=$(( sd_diff_s / 60 ))
+    sd_diff_h=$(( sd_diff_m / 60 ))
+    sd_diff_rem=$(( sd_diff_m % 60 ))
+    sd_diff_d=$(( sd_diff_h / 24 ))
+    sd_diff_h_rem=$(( sd_diff_h % 24 ))
+    if [ "$sd_diff_d" -gt 0 ]; then
+      sd_reset_str=" ↺ ${sd_diff_d}d ${sd_diff_h_rem}h"
+    elif [ "$sd_diff_h" -gt 0 ]; then
+      sd_reset_str=" ↺ ${sd_diff_h}h ${sd_diff_rem}m"
+    else
+      sd_reset_str=" ↺ ${sd_diff_m}m"
+    fi
   fi
 
   if [ "$seven_d_pct_int" -ge 80 ]; then
-    sd_colored="\033[0;31m7d: ${seven_d_pct_int}%\033[0m"
+    sd_colored="\033[0;31m7d: ${seven_d_pct_int}%${sd_reset_str}\033[0m"
   else
-    sd_colored="\033[38;5;208m7d: ${seven_d_pct_int}%\033[0m"
+    sd_colored="\033[38;5;202m7d: ${seven_d_pct_int}%${sd_reset_str}\033[0m"
   fi
 
-  rate_info="  |  ${fh_colored}  |  ${sd_colored}  |  \033[38;5;208m↺ ${reset_in}\033[0m"
+  if [ "$five_h_pct_int" -ge 80 ]; then
+    fh_colored="\033[0;31m5h: ${five_h_pct_int}% ↺ ${reset_in}\033[0m"
+  else
+    fh_colored="\033[38;5;208m5h: ${five_h_pct_int}% ↺ ${reset_in}\033[0m"
+  fi
+  rate_info="  |  ${fh_colored}  |  ${sd_colored}"
 fi
 
 # Line 1: [Model] account | 🌿 branch
