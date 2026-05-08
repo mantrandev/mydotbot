@@ -42,28 +42,33 @@ Example: `[SHOPHELP-2330] feat(chat): add permission checks`
 
 ## Workflow
 
-1. Run in parallel (single message, multiple Bash calls):
+### Fast path — use when the prompt provides explicit file list + suggested message
+
+1. `git rev-parse --abbrev-ref HEAD` — extract ticket from branch name
+2. Stage the exact files provided, commit with the suggested message (adjusted for ticket prefix if needed)
+3. `git status` — verify clean
+
+Total: 3 calls. Skip discovery entirely.
+
+### Full path — use when files/message are unknown
+
+1. Run in parallel:
    - `git status` (no `-uall`)
-   - `git diff` (unstaged) and `git diff --cached` (staged)
-   - `git log -5 --oneline` (style reference)
-   - `git rev-parse --abbrev-ref HEAD` (branch name → ticket)
-2. **Check branch.** No restriction on committing to main/master in this repo.
-3. **Group the diff.** Bucket changed files by topic (feature, scope, concern). Each bucket becomes one commit. Do not ask — split automatically when changes are clearly unrelated.
-4. **Determine the ticket** from branch name. If absent, omit the prefix.
-5. **For each commit bucket:**
-   a. Pick type and scope from that bucket's diff. Be precise — `fix` is for bugs, not enhancements; `feat` is for new behavior, not refactors.
-   b. Draft one message line, under 70 chars.
-   c. Stage only that bucket's files explicitly.
-   d. Commit via HEREDOC:
+   - `git diff` and `git diff --cached`
+   - `git rev-parse --abbrev-ref HEAD`
+2. Group the diff into buckets by topic. Each bucket = one commit. Split automatically, do not ask.
+3. For each bucket:
+   a. Pick type + scope from the diff.
+   b. Stage only that bucket's files explicitly.
+   c. Commit via HEREDOC:
       ```
       git commit -m "$(cat <<'EOF'
       [TICKET] type(scope): description
       EOF
       )"
       ```
-6. Repeat step 5 for each remaining bucket in logical order (dependencies first).
-7. Run `git status` after all commits to verify clean state.
-8. **Hook failure**: fix the underlying issue (or surface it to the user), then re-stage and create a NEW commit. Never `--amend`, never `--no-verify`.
+4. Run `git status` after all commits to verify clean state.
+5. **Hook failure**: fix the issue, re-stage, create a NEW commit. Never `--amend`, never `--no-verify`.
 
 ## Output to user
 
