@@ -5,11 +5,11 @@ description: "Scaffolds a complete feature module with Screen, View, ViewModel, 
 
 # Create Screen / Feature Module
 
-Scaffolds a complete feature module following ShopHelp's MVVM-C + Clean Architecture.
+Scaffolds a complete feature module following MVVM-C + Clean Architecture.
 
 ## Files to Create
 
-All files go in `ShopHelp/Presentation/{Feature}/`:
+All files go in `{App}/Presentation/{Feature}/`:
 
 | File | Purpose |
 |------|---------|
@@ -26,7 +26,7 @@ All files go in `ShopHelp/Presentation/{Feature}/`:
 ```swift
 //
 //  {Feature}Screen.swift
-//  ShopHelp
+//  {App}
 //
 //  Created by Man Tran on DD/MM/YY.
 //
@@ -69,7 +69,7 @@ struct {Feature}Screen: View {
 ```swift
 //
 //  {Feature}ViewModel.swift
-//  ShopHelp
+//  {App}
 //
 //  Created by Man Tran on DD/MM/YY.
 //
@@ -119,7 +119,7 @@ enum {Feature}State {
 ```swift
 //
 //  {Feature}Dependencies.swift
-//  ShopHelp
+//  {App}
 //
 //  Created by Man Tran on DD/MM/YY.
 //
@@ -134,7 +134,7 @@ struct {Feature}Dependencies {
 ```swift
 //
 //  {Feature}Coordinator.swift
-//  ShopHelp
+//  {App}
 //
 //  Created by Man Tran on DD/MM/YY.
 //
@@ -176,6 +176,6 @@ final class {Feature}Coordinator: Coordinator {
 
 ## Reference
 
-See existing screens in `ShopHelp/Presentation/` (ProductList, ProductDetail, MyOrder, Chat) for patterns.
+See existing screens in `{App}/Presentation/` for patterns.
 See `docs/PATTERNS.md` for Screen/Coordinator pattern.
 See `docs/ARCHITECTURE.md` for layer structure.

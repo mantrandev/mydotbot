@@ -5,7 +5,7 @@ description: "Registers a new dependency in Swinject DI container. Use when addi
 
 # Register Dependency
 
-Registers a new dependency in the Swinject DI container following ShopHelp patterns.
+Registers a new dependency in the Swinject DI container following project patterns.
 
 ## Identify the Correct Assembly
 

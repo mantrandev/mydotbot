@@ -1,6 +1,6 @@
 ---
 name: swift-lint-check
-description: Check Swift code for violations of ShopHelp standards
+description: Check Swift code for violations of project code standards
 args: [path]
 ---
 

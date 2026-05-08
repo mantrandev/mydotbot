@@ -9,7 +9,7 @@ Scaffolds a UseCase protocol and implementation following `docs/PATTERNS.md`.
 
 ## File Naming
 
-`{Action}{Entity}UseCase.swift` → placed in `ShopHelp/Domain/UseCases/{Feature}/`
+`{Action}{Entity}UseCase.swift` → placed in `{App}/Domain/UseCases/{Feature}/`
 
 Examples:
 - `GetProductListUseCase.swift`
@@ -21,7 +21,7 @@ Examples:
 ```swift
 //
 //  {Action}{Entity}UseCase.swift
-//  ShopHelp
+//  {App}
 //
 //  Created by Man Tran on DD/MM/YY.
 //
@@ -116,4 +116,4 @@ container.register({Action}{Entity}UseCaseProtocol.self) { resolver in
 ## Reference
 
 See `docs/PATTERNS.md` for the canonical UseCase pattern.
-See `ShopHelp/Domain/UseCases/` for existing implementations.
+See `{App}/Domain/UseCases/` for existing implementations.

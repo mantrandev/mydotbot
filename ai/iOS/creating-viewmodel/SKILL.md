@@ -5,18 +5,18 @@ description: "Scaffolds a ViewModel with @MainActor, ObservableObject, async/awa
 
 # Create ViewModel
 
-Scaffolds a ViewModel following ShopHelp patterns from `docs/PATTERNS.md`.
+Scaffolds a ViewModel following project patterns from `docs/PATTERNS.md`.
 
 ## File Naming
 
-`{Feature}ViewModel.swift` → placed in `ShopHelp/Presentation/{Feature}/`
+`{Feature}ViewModel.swift` → placed in `{App}/Presentation/{Feature}/`
 
 ## Template
 
 ```swift
 //
 //  {Feature}ViewModel.swift
-//  ShopHelp
+//  {App}
 //
 //  Created by Man Tran on DD/MM/YY.
 //
@@ -62,7 +62,7 @@ Every ViewModel must have a corresponding `{Feature}Dependencies.swift`:
 ```swift
 //
 //  {Feature}Dependencies.swift
-//  ShopHelp
+//  {App}
 //
 //  Created by Man Tran on DD/MM/YY.
 //

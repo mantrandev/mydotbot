@@ -112,7 +112,7 @@ source ~/.zshrc 2>/dev/null; jalogin        # login in browser
 source ~/.zshrc 2>/dev/null; jaswitch       # switch to JIRA_SITE
 ```
 
-## Workflow order (ShopHelp)
+## Workflow order
 
 `TO DO` → `In Progress` → `Testing` → `Block` → `Review` → `Wait to build PROD` → `DONE`
 

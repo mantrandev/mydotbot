@@ -5,7 +5,7 @@ description: "Debugs iOS app issues by analyzing logs, crash reports, and code f
 
 # Debug iOS Issue
 
-Systematic debugging workflow for ShopHelp iOS app.
+Systematic debugging workflow for iOS apps.
 
 ## Workflow
 
