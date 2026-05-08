@@ -20,6 +20,7 @@
     - ~/.claude-account1
     - ~/.claude-account2
     - ~/.claude-account3
+    - ~/.claude-account4
     - ~/.local/share/claude/projects
     - ~/.codex
     - ~/.codex/skills
@@ -38,6 +39,11 @@
     ~/.claude-account1/memory: ai/memory
     ~/.claude-account2/memory: ai/memory
     ~/.claude-account3/memory: ai/memory
+    ~/.claude-account4/memory: ai/memory
+    ~/.claude-account4/history.jsonl:
+      path: ~/.local/share/claude/history.jsonl
+    ~/.claude-account4/projects:
+      path: ~/.local/share/claude/projects
     ~/.claude/history.jsonl:
       path: ~/.local/share/claude/history.jsonl
     ~/.claude/projects:

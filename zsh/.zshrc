@@ -5,8 +5,9 @@ source $ZSH/oh-my-zsh.sh
 
 # aliases
 alias claude-mine='CLAUDE_CONFIG_DIR=~/.claude claude'
-alias claude-G='CLAUDE_CONFIG_DIR=~/.claude-account1 claude'
+alias claude-g='CLAUDE_CONFIG_DIR=~/.claude-account1 claude'
 alias claude-h='CLAUDE_CONFIG_DIR=~/.claude-account3 claude'
+alias claude-t='CLAUDE_CONFIG_DIR=~/.claude-account4 claude'
 alias claude-crossian='CLAUDE_CONFIG_DIR=~/.claude-account2 claude'
 
 [[ -f "$HOME/.zsh/jira.zsh" ]] && source "$HOME/.zsh/jira.zsh"

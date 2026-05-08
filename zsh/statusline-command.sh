@@ -4,8 +4,10 @@ input=$(cat)
 cwd=$(echo "$input" | jq -r '.workspace.current_dir // .cwd // ""')
 
 case "${CLAUDE_CONFIG_DIR:-}" in
-  *claude-account1*) account="G" ;;
-  *claude-account2*) account="crossian" ;;
+  *claude-account1*) account="Jang" ;;
+  *claude-account2*) account="Man" ;;
+  *claude-account3*) account="Hao" ;;
+  *claude-account4*) account="Tan" ;;
   *)                 account="personal" ;;
 esac
 
