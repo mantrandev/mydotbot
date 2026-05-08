@@ -11,6 +11,7 @@ packages=(
   "yarn"
   "pi-rewind-hook"
   "pi-subagents"
+  "serve-sim"
 )
 
 npm install -g "${packages[@]}"
