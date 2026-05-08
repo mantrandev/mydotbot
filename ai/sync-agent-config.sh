@@ -74,6 +74,18 @@ for dest, src in shared_targets.items():
             dest.unlink()
     dest.symlink_to(src)
 
+agents_src = ai / 'agents'
+if agents_src.is_dir():
+    claude_dirs = [home / '.claude'] + sorted(home.glob('.claude-account*'))
+    for claude_dir in claude_dirs:
+        claude_agents_dir = claude_dir / 'agents'
+        claude_agents_dir.mkdir(parents=True, exist_ok=True)
+        for agent_file in agents_src.glob('*.md'):
+            dest = claude_agents_dir / agent_file.name
+            if dest.is_symlink() or dest.exists():
+                dest.unlink()
+            dest.symlink_to(agent_file)
+
 codex_skills_dir = home / '.codex' / 'skills'
 codex_skills_dir.mkdir(parents=True, exist_ok=True)
 managed_prefixes = [
@@ -105,5 +117,7 @@ print(f'commonSkills={len([p for p in (ai / "commonSkills").iterdir() if p.is_di
 print(f'iOS={len([p for p in (ai / "iOS").iterdir() if p.is_dir() and not p.name.startswith(".")])}')
 print(f'web={len([p for p in (ai / "web").iterdir() if p.is_dir() and not p.name.startswith(".")])}')
 print(f'active={len(active_skill_names)}')
+agents_count = len(list(agents_src.glob('*.md'))) if agents_src.is_dir() else 0
+print(f'agents={agents_count}')
 print(f'install_conf={dotfiles / "install.conf.yaml"}')
 PY
