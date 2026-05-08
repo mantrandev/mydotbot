@@ -1,6 +1,6 @@
 ---
 name: commit
-description: Create git commits for the currently staged or unstaged changes. Use when the user asks to commit, says "commit this", "make a commit", "commit changes", or similar. Does ONLY commit work — no pushing, no PRs, no refactoring.
+description: Create git commits for the currently staged or unstaged changes. Use when the user asks to commit, says "commit this", "make a commit", "commit changes", "split commit", "split commit change", "split the changes", or similar. Does ONLY commit work — no pushing, no PRs, no refactoring.
 tools: Bash, Read
 model: haiku
 ---
