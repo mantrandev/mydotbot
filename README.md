@@ -83,42 +83,19 @@ Creates symlinks for:
 
 ## Skills
 
-| Skill | Description |
-|---|---|
-| analyzing-source-code | Architecture analysis + Mermaid diagrams |
-| analyzing-video | Frame-by-frame video analysis via FFmpeg |
-| architecture-validator | Clean Architecture boundary checks |
-| branch-cleaner | Find and delete merged feature branches |
-| create-desc-mr | Generate MR description from git diff |
-| creating-repository | Scaffold Repository protocol + implementation |
-| creating-screen | Scaffold full feature module (Screen/View/ViewModel) |
-| creating-usecase | Scaffold UseCase protocol + implementation |
-| creating-viewmodel | Scaffold ViewModel with DI and async/await |
-| debugging-ios | Debug iOS issues from logs and crash reports |
-| diagnostics-agent | Symptom-first root-cause investigation |
-| find-skills | Discover and install agent skills |
-| find-ticket | Search ticket ID across code, commits, branches |
-| jira-acli | Manage Jira via shell functions |
-| liquid-glass-ios | Liquid Glass effects in SwiftUI/UIKit |
-| planning-feature | Plan iOS feature with architecture decisions |
-| registering-dependency | Register dependency in Swinject DI container |
-| review-agent | Findings-first code review agent |
-| reviewing-code | Review Swift code against project standards |
-| sim-validation-flow | iOS simulator validation via lldb + axe |
-| simulate-notification | iOS simulator APNS push notification testing |
-| usage-dashboard | Claude Code usage stats dashboard |
-| validate-di | Validate Swinject DI registrations |
-| visual-explainer | Generate HTML visual explainers for code/systems |
-| web-simulator | Stream iOS Simulator to browser via serve-sim |
-| writing-unit-tests | Write XCTest + Cuckoo mock unit tests |
+22 active skills in `ai/commonSkills/` (cross-agent) and `ai/iOS/` (iOS-only). See each `SKILL.md` for details.
 
 ## Agents
 
-Claude Code subagent definitions live in `ai/agents/`. Each file is a standalone agent with its own model, tools, and instructions.
+5 Claude Code subagents in `ai/agents/` — lightweight tasks run on Haiku, heavier tasks on default model.
 
-| Agent | Description |
-|---|---|
-| commit | Create a single focused git commit |
+| Agent | Model | Description |
+|---|---|---|
+| commit | haiku | Create focused git commits, split by topic |
+| branch-cleaner | haiku | Find and delete merged feature branches |
+| find-ticket | haiku | Search ticket ID across code, commits, branches |
+| validate-di | haiku | Validate Swinject DI registrations |
+| web-simulator | haiku | Stream iOS Simulator to browser via serve-sim |
 
 ## Submodules
 
