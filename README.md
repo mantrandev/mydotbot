@@ -51,8 +51,6 @@ These are not on Homebrew — install once on a new device:
 | RocketSim | [Mac App Store](https://apps.apple.com/app/rocketsim-for-xcode-simulator/id1504940162) |
 | Perplexity | [Mac App Store](https://apps.apple.com/app/perplexity-ask-anything/id1668000334) |
 | Zalo | [zalo.me](https://zalo.me/pc) |
-| BlueStacks | [bluestacks.com](https://www.bluestacks.com) |
-
 | SF Symbols | [developer.apple.com](https://developer.apple.com/sf-symbols/) |
 
 ## Install
