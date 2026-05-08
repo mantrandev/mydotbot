@@ -11,6 +11,7 @@ ai/
 ├── commonSkills/          # Source skills (Claude + Codex)
 ├── iOS/                   # iOS-specific source skills
 ├── web/                   # Parked web skills (not default-loaded)
+├── memory/                # Persistent memory shared across all Claude accounts
 ├── skills/                # Generated active skills (built by sync script)
 └── sync-agent-config.sh   # Propagates changes to all agents
 zsh/
@@ -74,6 +75,12 @@ Creates symlinks for:
 - `~/.codex/` — Codex
 - `~/.pi/agent/` — Pi
 - `~/.agents/` — shared
+
+**Memory** (shared across all Claude accounts)
+- `~/.claude/memory` → `ai/memory`
+- `~/.claude-account1/memory` → `ai/memory`
+- `~/.claude-account2/memory` → `ai/memory`
+- `~/.claude-account3/memory` → `ai/memory`
 
 ## Skills
 
