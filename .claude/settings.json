@@ -38,6 +38,7 @@
   "effortLevel": "high",
   "autoUpdatesChannel": "latest",
   "tui": "default",
+  "theme": "dark",
   "editorMode": "normal",
   "autoCompactEnabled": false
 }
