@@ -83,15 +83,14 @@ Creates symlinks for:
 
 ## Skills
 
-22 active skills in `ai/commonSkills/` (cross-agent) and `ai/iOS/` (iOS-only). See each `SKILL.md` for details.
+23 active skills in `ai/commonSkills/` (cross-agent) and `ai/iOS/` (iOS-only). See each `SKILL.md` for details.
 
 ## Agents
 
-5 Claude Code subagents in `ai/agents/` — lightweight tasks run on Haiku, heavier tasks on default model.
+4 Claude Code subagents in `ai/agents/` — lightweight tasks run on Haiku.
 
 | Agent | Model | Description |
 |---|---|---|
-| commit | haiku | Create focused git commits, split by topic |
 | branch-cleaner | haiku | Find and delete merged feature branches |
 | find-ticket | haiku | Search ticket ID across code, commits, branches |
 | validate-di | haiku | Validate Swinject DI registrations |
