@@ -118,6 +118,7 @@ Creates symlinks for:
 | usage-dashboard | Claude Code usage stats dashboard |
 | validate-di | Validate Swinject DI registrations |
 | visual-explainer | Generate HTML visual explainers for code/systems |
+| web-simulator | Stream iOS Simulator to browser via serve-sim |
 | writing-unit-tests | Write XCTest + Cuckoo mock unit tests |
 
 ## Agents
