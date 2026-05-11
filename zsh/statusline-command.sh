@@ -43,9 +43,10 @@ seven_d_pct=$(echo "$input" | jq -r '.rate_limits.seven_day.used_percentage // 0
 seven_d_pct_int=$(printf '%.0f' "$seven_d_pct")
 seven_d_reset=$(echo "$input" | jq -r '.rate_limits.seven_day.resets_at // 0')
 
-if [ -n "${CLAUDE_CONFIG_DIR:-}" ] && [ -d "${CLAUDE_CONFIG_DIR}" ]; then
+_rl_config_dir="${CLAUDE_CONFIG_DIR:-$HOME/.claude}"
+if [ -d "$_rl_config_dir" ]; then
   _rl_now=$(date +%s)
-  echo "$input" | jq "{updated_at: $_rl_now, five_hour: .rate_limits.five_hour, seven_day: .rate_limits.seven_day}" > "${CLAUDE_CONFIG_DIR}/rate-limits-cache.json" 2>/dev/null || true
+  echo "$input" | jq "{updated_at: $_rl_now, five_hour: .rate_limits.five_hour, seven_day: .rate_limits.seven_day}" > "$_rl_config_dir/rate-limits-cache.json" 2>/dev/null || true
 fi
 
 rate_info=""
