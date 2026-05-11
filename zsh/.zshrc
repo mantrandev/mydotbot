@@ -10,6 +10,14 @@ alias claude-h='CLAUDE_CONFIG_DIR=~/.claude-account3 claude'
 alias claude-t='CLAUDE_CONFIG_DIR=~/.claude-account4 claude'
 alias claude-crossian='CLAUDE_CONFIG_DIR=~/.claude-account2 claude'
 
+function claude-dashboard() {
+  if ! lsof -ti:4242 >/dev/null 2>&1; then
+    nohup python3 ~/Desktop/projects/dashboard/server.py >/dev/null 2>&1 &
+    sleep 0.4
+  fi
+  open http://localhost:4242
+}
+
 [[ -f "$HOME/.zsh/jira.zsh" ]] && source "$HOME/.zsh/jira.zsh"
 
 # nvm
