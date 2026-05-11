@@ -18,6 +18,10 @@ function claude-dashboard() {
   open http://localhost:4242
 }
 
+function claude-dashboard-stop() {
+  kill $(lsof -ti:4242) 2>/dev/null && echo "stopped" || echo "not running"
+}
+
 [[ -f "$HOME/.zsh/jira.zsh" ]] && source "$HOME/.zsh/jira.zsh"
 
 # nvm
