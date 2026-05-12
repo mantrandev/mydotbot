@@ -1,5 +1,6 @@
 # Taps
 tap "homebrew/bundle"
+tap "mantrandev/tap"
 
 # AI
 cask "claude"
@@ -37,7 +38,7 @@ cask "zoom"
 
 # Utilities
 cask "mactex"
-cask "openkey"
+cask "mantrandev/tap/mkey"
 cask "pritunl"
 cask "scroll-reverser"
 
