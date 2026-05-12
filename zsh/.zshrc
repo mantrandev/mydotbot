@@ -9,6 +9,7 @@ alias claude-g='CLAUDE_CONFIG_DIR=~/.claude-account1 claude'
 alias claude-h='CLAUDE_CONFIG_DIR=~/.claude-account3 claude'
 alias claude-t='CLAUDE_CONFIG_DIR=~/.claude-account4 claude'
 alias claude-crossian='CLAUDE_CONFIG_DIR=~/.claude-account2 claude'
+alias claude-xiaomi='CLAUDE_CONFIG_DIR=~/.claude-account5 claude'
 
 function claude-dashboard() {
   if ! lsof -ti:4242 >/dev/null 2>&1; then
@@ -54,3 +55,6 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH="/Users/maybe/.antigravity/antigravity/bin:$PATH"
 export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
 export PATH="$HOME/Library/Python/3.14/bin:$PATH"
+
+# Confluence CLI
+source ~/Desktop/projects/confluence-cli/Scripts/confluence.zsh
