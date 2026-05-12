@@ -8,6 +8,7 @@ case "${CLAUDE_CONFIG_DIR:-}" in
   *claude-account2*) account="Man" ;;
   *claude-account3*) account="Hao" ;;
   *claude-account4*) account="Tan" ;;
+  *claude-account5*) account="Xiaomi" ;;
   *)                 account="personal" ;;
 esac
 
@@ -95,8 +96,16 @@ if [ "$five_h_reset" -gt 0 ]; then
   rate_info="  |  ${fh_colored}  |  ${sd_colored}"
 fi
 
+tps_info=""
+if [ -f /tmp/llm_tps.txt ]; then
+  tps_val=$(cat /tmp/llm_tps.txt 2>/dev/null)
+  if [ -n "$tps_val" ]; then
+    tps_info="  |  \033[0;36m⚡ ${tps_val}\033[0m"
+  fi
+fi
+
 # Line 1: [Model] account | 🌿 branch
-line1="\033[0;33m[${model_short}]\033[0m  \033[0;35m${account}\033[0m"
+line1="\033[0;33m[${model_short}]\033[0m  \033[0;35m${account}\033[0m${tps_info}"
 if [ -n "$branch" ]; then
   line1="${line1}  |  🌿  \033[0;32m${branch}${dirty}\033[0m"
 fi
