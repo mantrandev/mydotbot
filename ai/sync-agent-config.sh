@@ -7,8 +7,9 @@ COMMON_DIR="$AI_DIR/commonSkills"
 IOS_DIR="$AI_DIR/iOS"
 WEB_DIR="$AI_DIR/web"
 ACTIVE_DIR="$AI_DIR/skills"
+LOCAL_DIR="$HOME/.localskills"
 
-mkdir -p "$COMMON_DIR" "$IOS_DIR" "$WEB_DIR"
+mkdir -p "$COMMON_DIR" "$IOS_DIR" "$WEB_DIR" "$LOCAL_DIR"
 rm -rf "$ACTIVE_DIR"
 mkdir -p "$ACTIVE_DIR"
 
@@ -18,6 +19,12 @@ for SOURCE_DIR in "$COMMON_DIR" "$IOS_DIR"; do
     SKILL_NAME="$(basename "$SKILL_DIR")"
     ln -s "../$(basename "$SOURCE_DIR")/$SKILL_NAME" "$ACTIVE_DIR/$SKILL_NAME"
   done < <(find "$SOURCE_DIR" -mindepth 1 -maxdepth 1 -type d ! -name '.*' -print0 | sort -z)
+done
+
+for SKILL_DIR in "$LOCAL_DIR"/*/; do
+  [ -d "$SKILL_DIR" ] || continue
+  SKILL_NAME="$(basename "$SKILL_DIR")"
+  ln -s "$SKILL_DIR" "$ACTIVE_DIR/$SKILL_NAME"
 done
 
 python3 - <<'PY'
@@ -93,6 +100,7 @@ managed_prefixes = [
     str((ai / 'commonSkills').resolve()),
     str((ai / 'iOS').resolve()),
     str((ai / 'web').resolve()),
+    str((home / '.localskills').resolve()),
 ]
 for child in codex_skills_dir.iterdir():
     if not child.is_symlink():

@@ -81,7 +81,17 @@ Creates symlinks for:
 
 ## Skills
 
-23 active skills in `ai/commonSkills/` (cross-agent) and `ai/iOS/` (iOS-only). See each `SKILL.md` for details.
+Active skills are merged from three sources:
+
+| Source | Committed to git | Purpose |
+|---|---|---|
+| `ai/commonSkills/` | Yes | Cross-agent shared skills |
+| `ai/iOS/` | Yes | iOS-specific skills |
+| `~/.localskills/` | No (device-only) | Private skills with sensitive data (tokens, user IDs, internal channels) |
+
+`sync-agent-config.sh` merges all three into `ai/skills/` and propagates to every agent on the device. Skills in `~/.localskills/` are never committed to this repo.
+
+See each `skill.md` for details.
 
 ## Agents
 
@@ -116,3 +126,5 @@ Edit source in `ai/commonSkills/` or `ai/iOS/`, then run:
 ./ai/sync-agent-config.sh
 ./install.sh
 ```
+
+For private/device-only skills, edit directly in `~/.localskills/<skill-name>/skill.md`, then run `./ai/sync-agent-config.sh`. No commit needed.
