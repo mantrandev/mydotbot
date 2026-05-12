@@ -97,11 +97,36 @@ if [ "$five_h_reset" -gt 0 ]; then
 fi
 
 tps_info=""
+session_id=$(echo "$input" | jq -r '.session_id // ""')
+total_out=$(echo "$input" | jq -r '.context_window.total_output_tokens // 0')
+total_api_ms=$(echo "$input" | jq -r '.cost.total_api_duration_ms // 0')
+prev_file="/tmp/statusline-prev-${session_id}.json"
+cc_tps_cache="/tmp/statusline-tps-${session_id}.txt"
+
+if [ -n "$session_id" ] && [ "$total_out" -gt 0 ] && [ "$total_api_ms" -gt 0 ]; then
+  prev_out=0
+  prev_ms=0
+  if [ -f "$prev_file" ]; then
+    prev_out=$(jq -r '.out // 0' "$prev_file" 2>/dev/null || echo 0)
+    prev_ms=$(jq -r '.ms // 0' "$prev_file" 2>/dev/null || echo 0)
+  fi
+  d_out=$((total_out - prev_out))
+  d_ms=$((total_api_ms - prev_ms))
+  if [ "$d_out" -gt 0 ] && [ "$d_ms" -gt 100 ]; then
+    awk "BEGIN { printf \"%.1f t/s (%d tok)\", $d_out * 1000 / $d_ms, $d_out }" > "$cc_tps_cache"
+  fi
+  printf '{"out":%s,"ms":%s}' "$total_out" "$total_api_ms" > "$prev_file"
+fi
+
 if [ -f /tmp/llm_tps.txt ]; then
   tps_val=$(cat /tmp/llm_tps.txt 2>/dev/null)
-  if [ -n "$tps_val" ]; then
-    tps_info="  |  \033[0;36m⚡ ${tps_val}\033[0m"
-  fi
+elif [ -f "$cc_tps_cache" ]; then
+  tps_val=$(cat "$cc_tps_cache" 2>/dev/null)
+else
+  tps_val=""
+fi
+if [ -n "$tps_val" ]; then
+  tps_info="  |  \033[0;36m⚡ ${tps_val}\033[0m"
 fi
 
 # Line 1: [Model] account | 🌿 branch
