@@ -25,7 +25,8 @@
     "code-review@claude-plugins-official": true,
     "swift-lsp@claude-plugins-official": true,
     "figma@claude-plugins-official": true,
-    "warp@claude-code-warp": true
+    "warp@claude-code-warp": true,
+    "clangd-lsp@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "claude-code-warp": {
