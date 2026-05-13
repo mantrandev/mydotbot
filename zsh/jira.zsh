@@ -580,6 +580,22 @@ jmsubtasks() {
   _jira_transition_keys "$target_status" "${keys[@]}"
 }
 
+jstorydone() {
+  local parent="$(_jira_key "$1")" || return 1
+  local jql
+  local -a keys
+
+  jql="parent = ${parent} AND assignee = currentUser()"
+  _jira_search_keys "$jql" || return 1
+  keys=("${reply[@]}")
+
+  if (( ${#keys[@]} > 0 )); then
+    _jira_transition_keys "DONE" "${keys[@]}"
+  fi
+
+  _jira_transition_keys "DONE" "$parent"
+}
+
 jtodo() { jm "$@" "${JIRA_TODO_STATUS}"; }
 jip() { jm "$@" "In Progress"; }
 jtest() { jm "$@" "Testing"; }
@@ -739,6 +755,7 @@ jhelp() {
   _jhelp_cmd "jm [TICKET]... \"[STATUS]\"" "Move one or many tickets to any status"
   _jhelp_cmd "jmove [TICKET]... \"[STATUS]\"" "Alias of jm"
   _jhelp_cmd "jmsubtasks [STORY] \"[STATUS]\"" "Move all my sub-tasks under a story"
+  _jhelp_cmd "jstorydone [STORY]" "Move my sub-tasks + the story itself to DONE"
   _jhelp_cmd "jtodo [TICKET]..." "Move one or many tickets to ${JIRA_TODO_STATUS}"
   _jhelp_cmd "jip [TICKET]..." "Move one or many tickets to In Progress"
   _jhelp_cmd "jtest [TICKET]..." "Move one or many tickets to Testing"

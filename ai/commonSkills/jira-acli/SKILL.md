@@ -42,6 +42,7 @@ source ~/.zshrc 2>/dev/null; jreview [TICKET]...         # → Review
 source ~/.zshrc 2>/dev/null; jir [TICKET]...             # alias of jreview
 source ~/.zshrc 2>/dev/null; jprod [TICKET]...           # → Wait to build PROD
 source ~/.zshrc 2>/dev/null; jdone [TICKET]...           # → DONE
+source ~/.zshrc 2>/dev/null; jstorydone [STORY]          # → DONE: my sub-tasks + story itself
 source ~/.zshrc 2>/dev/null; jforward [TICKET]           # next workflow step
 source ~/.zshrc 2>/dev/null; jbackward [TICKET]          # previous workflow step
 source ~/.zshrc 2>/dev/null; jforwardb                   # forward current branch ticket
