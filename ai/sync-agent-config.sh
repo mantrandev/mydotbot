@@ -81,9 +81,20 @@ for dest, src in shared_targets.items():
             dest.unlink()
     dest.symlink_to(src)
 
+claude_dirs = [home / '.claude'] + sorted(home.glob('.claude-account*'))
+
+for claude_dir in claude_dirs:
+    skills_dest = claude_dir / 'skills'
+    skills_dest.parent.mkdir(parents=True, exist_ok=True)
+    if skills_dest.is_symlink() or (skills_dest.exists() and not skills_dest.is_dir()):
+        skills_dest.unlink()
+    elif skills_dest.is_dir() and not skills_dest.is_symlink():
+        shutil.rmtree(skills_dest)
+    if not skills_dest.exists():
+        skills_dest.symlink_to(active)
+
 agents_src = ai / 'agents'
 if agents_src.is_dir():
-    claude_dirs = [home / '.claude'] + sorted(home.glob('.claude-account*'))
     for claude_dir in claude_dirs:
         claude_agents_dir = claude_dir / 'agents'
         claude_agents_dir.mkdir(parents=True, exist_ok=True)
