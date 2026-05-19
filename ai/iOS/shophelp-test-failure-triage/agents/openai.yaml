@@ -1,0 +1,4 @@
+interface:
+  display_name: "ShopHelp Test Failure Triage"
+  short_description: "Explain failing tests before fixing"
+  default_prompt: "Use $shophelp-test-failure-triage to explain this ShopHelp test failure, classify it, and tell me what to verify before making changes."
