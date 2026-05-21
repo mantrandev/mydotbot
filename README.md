@@ -17,7 +17,9 @@ ai/
 zsh/
 ├── .zshrc                 # Zsh config (oh-my-zsh, nvm, aliases)
 ├── .zprofile              # Homebrew shellenv
-└── jira.zsh               # Jira shell helpers
+├── jira.zsh               # Jira shell helpers
+├── statusline-command.sh  # Claude Code statusline renderer
+└── claude-chain.sh        # Multi-account rate-limit chain runner (mccs)
 ```
 
 ## New device setup
@@ -66,6 +68,8 @@ Creates symlinks for:
 - `~/.zprofile` → `zsh/.zprofile`
 - `~/.zsh/jira.zsh` → `zsh/jira.zsh`
 - `~/.claude/statusline-command.sh` → `zsh/statusline-command.sh`
+
+**Multi-account chaining** — `mccs` runs Claude starting from account1 and auto-advances to the next account when the 5h or 7d rate limit hits 90%, resuming the conversation with `-c`. History is shared across all accounts via symlinks so context is never lost.
 
 **Agents**
 - `~/.claude/` — Claude Code
