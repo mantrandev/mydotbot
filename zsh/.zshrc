@@ -10,7 +10,7 @@ alias claude-h='CLAUDE_CONFIG_DIR=~/.claude-account3 claude'
 alias claude-t='CLAUDE_CONFIG_DIR=~/.claude-account4 claude'
 alias claude-crossian='CLAUDE_CONFIG_DIR=~/.claude-account2 claude'
 alias claude-xiaomi='CLAUDE_CONFIG_DIR=~/.claude-account5 claude'
-alias ccs='bash $HOME/Desktop/projects/mdotbot/zsh/claude-chain.sh'
+alias mccs='bash $HOME/Desktop/projects/mdotbot/zsh/claude-chain.sh'
 
 function claude-dashboard() {
   if ! lsof -ti:4242 >/dev/null 2>&1; then
