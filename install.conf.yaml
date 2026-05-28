@@ -69,6 +69,8 @@
     ~/.codex/skills/analyzing-source-code: ai/skills/analyzing-source-code
     ~/.codex/skills/analyzing-video: ai/skills/analyzing-video
     ~/.codex/skills/architecture-validator: ai/skills/architecture-validator
+    ~/.codex/skills/build-adhoc-dev: ai/skills/build-adhoc-dev
+    ~/.codex/skills/clean-claude-sessions: ai/skills/clean-claude-sessions
     ~/.codex/skills/commit: ai/skills/commit
     ~/.codex/skills/create-desc-mr: ai/skills/create-desc-mr
     ~/.codex/skills/create-gitlab-mr: ai/skills/create-gitlab-mr
@@ -87,6 +89,7 @@
     ~/.codex/skills/registering-dependency: ai/skills/registering-dependency
     ~/.codex/skills/review-agent: ai/skills/review-agent
     ~/.codex/skills/reviewing-code: ai/skills/reviewing-code
+    ~/.codex/skills/shophelp-test-failure-triage: ai/skills/shophelp-test-failure-triage
     ~/.codex/skills/sim-validation-flow: ai/skills/sim-validation-flow
     ~/.codex/skills/simulate-notification: ai/skills/simulate-notification
     ~/.codex/skills/usage-dashboard: ai/skills/usage-dashboard
