@@ -26,7 +26,7 @@ All `.claude` and `.claude-account*` dirs symlink their `projects/` to `~/.local
    bash "$SCRIPT" "$DAYS" "$MODE"
    ```
 
-3. If `MODE=scan`, ask the user **"Xoá hết? (clean/deep/n)"** before running again with the chosen mode. Never delete without confirmation.
+3. If `MODE=scan`, ask the user **"Delete now? (clean/deep/n)"** before running again with the chosen mode. Never delete without confirmation.
 
 ## What the script removes
 

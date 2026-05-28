@@ -1,45 +1,45 @@
 # clean-claude-sessions
 
-Dọn session rác của Claude Code khi máy bắt đầu phình to.
+Clean stale Claude Code session data when the HOME directory starts ballooning.
 
-## Vấn đề
+## The problem
 
-Claude Code lưu mỗi conversation thành 1 file `.jsonl` dưới
-`~/.local/share/claude/projects/<encoded-project-path>/`. File **không bao giờ tự xoá** — chạy lâu sẽ tích từ vài chục MB → vài trăm MB.
+Claude Code stores every conversation as a `.jsonl` file under
+`~/.local/share/claude/projects/<encoded-project-path>/`. These files are **never auto-purged** — running Claude for a while accumulates anywhere from tens to hundreds of MB.
 
-Có 6 account dirs trong HOME: `~/.claude`, `~/.claude-account1..5`. **Tất cả đều symlink `projects/` về cùng một folder gốc** ở `~/.local/share/claude/projects`, nên dọn 1 lần là sạch cho cả 6 account, không bị duplicate.
+There are 6 account dirs in HOME: `~/.claude`, `~/.claude-account1..5`. **All of them symlink their `projects/` directory to the same backing store** at `~/.local/share/claude/projects`, so cleaning runs once for every account — no duplication.
 
 ```
 ~/.claude/projects           ─┐
 ~/.claude-account1/projects  ─┤
-~/.claude-account2/projects  ─┼─►  ~/.local/share/claude/projects  ← dọn ở đây
+~/.claude-account2/projects  ─┼─►  ~/.local/share/claude/projects  ← clean here
 ~/.claude-account3/projects  ─┤
 ~/.claude-account4/projects  ─┤
 ~/.claude-account5/projects  ─┘
 ```
 
-## Cấu trúc một project dir
+## Project dir layout
 
 ```
 -Users-maybe-Desktop-projects-mdotbot/
-├── 97b80be1-…-ebfe2f10600d.jsonl          ← session file (giữ nếu mới)
-├── 97b80be1-…-ebfe2f10600d/                ← subagent meta dir của session trên
+├── 97b80be1-…-ebfe2f10600d.jsonl          ← session file (kept if recent)
+├── 97b80be1-…-ebfe2f10600d/                ← subagent meta dir for the session above
 │   └── subagents/agent-xxx.meta.json
 └── …
 ```
 
-Tên project là path đầy đủ với `/` và `-` đều được encode thành `-`, nên không thể recover path 1-1 (ví dụ `Desktop-shophelp-master` có thể là `Desktop/shophelp-master` hoặc `Desktop/shophelp/master`).
+The project name encodes the full filesystem path with both `/` and `-` collapsed into `-`, so the path can't be uniquely decoded (e.g. `Desktop-shophelp-master` could be `Desktop/shophelp-master` or `Desktop/shophelp/master`).
 
-## Cách dùng
+## Usage
 
 ```bash
-/clean-claude-sessions              # scan, 3 ngày (mặc định)
-/clean-claude-sessions 7            # scan, 7 ngày
-/clean-claude-sessions 3 clean      # xoá .jsonl >3 ngày + orphan UUID dirs
-/clean-claude-sessions 3 deep       # clean + telemetry rác + file-history >14d
+/clean-claude-sessions              # scan, 3 days (default)
+/clean-claude-sessions 7            # scan, 7 days
+/clean-claude-sessions 3 clean      # delete .jsonl >3 days old + orphan UUID dirs
+/clean-claude-sessions 3 deep       # clean + telemetry junk + file-history >14 days
 ```
 
-Hoặc gọi script trực tiếp:
+Or invoke the script directly:
 
 ```bash
 bash ~/dotfiles/ai/commonSkills/clean-claude-sessions/scripts/clean.sh 3 scan
@@ -49,30 +49,30 @@ bash ~/dotfiles/ai/commonSkills/clean-claude-sessions/scripts/clean.sh 3 deep
 
 ## Modes
 
-| Mode | Hành động |
+| Mode | Action |
 |---|---|
-| `scan` | Read-only — in bảng per-project (số .jsonl >threshold / total / size) |
-| `clean` | Xoá `.jsonl` >N ngày + orphan UUID subdirs (parent .jsonl đã gone) + empty dirs |
-| `deep` | `clean` + xoá `~/.claude/telemetry/*` + `~/.claude*/file-history/` >14 ngày |
+| `scan` | Read-only — prints a per-project table (sessions >threshold / total / size) |
+| `clean` | Deletes `.jsonl` >N days + orphan UUID subdirs (whose parent `.jsonl` is gone) + empty dirs |
+| `deep` | `clean` + deletes `~/.claude/telemetry/*` + `~/.claude*/file-history/` files older than 14 days |
 
-## Không bao giờ đụng tới
+## Never touched
 
-- Project dir mà folder gốc vẫn tồn tại trên disk và có session mới
-- `~/.claude*/plugins/` (plugin code, không phải session)
+- Project dirs whose source folder still exists on disk and has recent sessions
+- `~/.claude*/plugins/` (plugin code, not session data)
 - `~/.claude*/agents/`, `memory/`, `settings*.json`, `CLAUDE.md`, `.claude.json`
-- File ngoài `~/.local/share/claude/projects` (trừ mode `deep` đụng tới telemetry + file-history)
+- Anything outside `~/.local/share/claude/projects` (except in `deep` mode, which also touches telemetry + file-history)
 
-## Tham khảo nhanh — chiến lợi phẩm lần đầu chạy
+## Reference — first-run yield
 
-- Store sessions: 103M → 29M (~74M reclaimed)
+- Session store: 103M → 29M (~74M reclaimed)
 - 189 → 11 session files
-- 28 → 7 project dirs (nhiều project đã xoá khỏi Desktop, session vẫn còn mồ côi)
-- Bonus mode `deep`: telemetry 22M + file-history 16M = thêm ~38M
+- 28 → 7 project dirs (many source projects were already deleted from Desktop; sessions remained orphaned)
+- Bonus from `deep` mode: telemetry 22M + file-history 16M = ~38M more
 
-## Khi nào nên chạy
+## When to run
 
-- Khi `du -sh ~/.local/share/claude/projects` > 100M
-- Trước khi backup/sync HOME
-- Hàng tháng làm sạch
+- When `du -sh ~/.local/share/claude/projects` exceeds 100M
+- Before backing up or syncing HOME
+- Monthly cleanup
 
-Không nên auto-cron — vì `clean` xoá cả session đang dùng nếu mtime >threshold (chỉ check mtime, không check "session đang mở"). Chạy thủ công khi bạn biết không có session quan trọng cần keep.
+**Do not put this on cron.** `clean` only checks mtime — it doesn't know whether a session is currently open. Run manually when you're sure no important active session would get caught by the threshold.
