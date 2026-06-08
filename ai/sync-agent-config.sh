@@ -42,7 +42,6 @@ shared_targets = {
     home / '.claude' / 'skills': active,
     home / '.codex' / 'AGENTS.md': ai / 'CLAUDE.md',
     home / '.pi' / 'agent' / 'AGENTS.md': ai / 'CLAUDE.md',
-    home / '.pi' / 'agent' / 'skills': active,
     home / '.agents_common' / 'AGENTS.md': ai / 'CLAUDE.md',
     home / '.agents_common' / 'skills': active,
 }

@@ -74,7 +74,7 @@ Creates symlinks for:
 **Agents**
 - `~/.claude/` — Claude Code
 - `~/.codex/` — Codex
-- `~/.pi/agent/` — Pi
+- `~/.pi/agent/` — Pi (shared rules only, no skills)
 - `~/.agents_common/` — shared
 
 **Memory** (shared across all Claude accounts)
@@ -93,7 +93,7 @@ Active skills are merged from three sources:
 | `ai/iOS/` | Yes | iOS-specific skills |
 | `~/.localskills/` | No (device-only) | Private skills with sensitive data (tokens, user IDs, internal channels) |
 
-`sync-agent-config.sh` merges all three into `ai/skills/` and propagates to every agent on the device. Skills in `~/.localskills/` are never committed to this repo.
+`sync-agent-config.sh` merges all three into `ai/skills/` and propagates them to Claude, Codex, and `~/.agents_common/` (Pi receives only the shared rules file, not skills). Skills in `~/.localskills/` are never committed to this repo.
 
 See each `skill.md` for details.
 

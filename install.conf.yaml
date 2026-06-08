@@ -96,6 +96,5 @@
     ~/.codex/skills/visual-explainer: ai/skills/visual-explainer
     ~/.codex/skills/writing-unit-tests: ai/skills/writing-unit-tests
     ~/.pi/agent/AGENTS.md: ai/CLAUDE.md
-    ~/.pi/agent/skills: ai/skills
     ~/.agents_common/AGENTS.md: ai/CLAUDE.md
     ~/.agents_common/skills: ai/skills
