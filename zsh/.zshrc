@@ -10,7 +10,7 @@ alias claude-h='CLAUDE_CONFIG_DIR=~/.claude-account3 claude'
 alias claude-t='CLAUDE_CONFIG_DIR=~/.claude-account4 claude'
 alias claude-crossian='CLAUDE_CONFIG_DIR=~/.claude-account2 claude'
 alias claude-xiaomi='CLAUDE_CONFIG_DIR=~/.claude-account5 claude'
-alias mccs='bash $HOME/Desktop/projects/mdotbot/zsh/claude-chain.sh'
+alias mccs='bash $HOME/dotfiles/zsh/claude-chain.sh'
 
 function claude-dashboard() {
   if ! lsof -ti:4242 >/dev/null 2>&1; then
@@ -59,3 +59,6 @@ export PATH="$HOME/Library/Python/3.14/bin:$PATH"
 
 # Confluence CLI
 source ~/Desktop/projects/confluence-cli/Scripts/confluence.zsh
+
+# opencode
+export PATH=/Users/maybe/.opencode/bin:$PATH

@@ -61,7 +61,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 
 ## Source of Truth
 
-- `~/dotfiles/ai/AGENTS.md` is the shared global rules source.
+- `~/dotfiles/ai/CLAUDE.md` is the shared global rules source.
 - `~/dotfiles/ai/commonSkills/` stores shared common skills and is default-loaded globally.
 - `~/dotfiles/ai/iOS/` stores shared iOS skills and is default-loaded globally.
 - `~/dotfiles/ai/web/` stores parked web skills that are not default-loaded globally.
@@ -69,7 +69,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - Edit the dotfiles source, not mirrored agent files.
 - When adding, editing, moving, or deleting a shared skill, change `~/dotfiles/ai/commonSkills/`, `~/dotfiles/ai/iOS/`, or `~/dotfiles/ai/web/` only.
 - Do not edit `~/dotfiles/ai/skills/` directly.
-- When updating shared global rules, change `~/dotfiles/ai/AGENTS.md` only.
+- When updating shared global rules, change `~/dotfiles/ai/CLAUDE.md` only.
 - **MANDATORY: After ANY skill add, edit, move, or delete — run `~/dotfiles/ai/sync-agent-config.sh` immediately. This propagates changes to Claude, Codex, and Pi. Never skip this step.**
 - If a mirrored agent path differs from dotfiles, dotfiles wins.
 

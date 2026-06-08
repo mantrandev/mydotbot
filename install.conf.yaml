@@ -26,7 +26,7 @@
     - ~/.codex
     - ~/.codex/skills
     - ~/.pi/agent
-    - ~/.agents
+    - ~/.agents_common
     - ~/.zsh
 
 - link:
@@ -39,7 +39,7 @@
     ~/.claude-account3/statusline-command.sh: zsh/statusline-command.sh
     ~/.claude-account4/statusline-command.sh: zsh/statusline-command.sh
     ~/.claude-account5/statusline-command.sh: zsh/statusline-command.sh
-    ~/.claude/CLAUDE.md: ai/AGENTS.md
+    ~/.claude/CLAUDE.md: ai/CLAUDE.md
     ~/.claude/skills: ai/skills
     ~/.claude/memory: ai/memory
     ~/.claude-account1/memory: ai/memory
@@ -65,7 +65,7 @@
       path: ~/.local/share/claude/history.jsonl
     ~/.claude-account2/projects:
       path: ~/.local/share/claude/projects
-    ~/.codex/AGENTS.md: ai/AGENTS.md
+    ~/.codex/AGENTS.md: ai/CLAUDE.md
     ~/.codex/skills/analyzing-source-code: ai/skills/analyzing-source-code
     ~/.codex/skills/analyzing-video: ai/skills/analyzing-video
     ~/.codex/skills/architecture-validator: ai/skills/architecture-validator
@@ -95,7 +95,7 @@
     ~/.codex/skills/usage-dashboard: ai/skills/usage-dashboard
     ~/.codex/skills/visual-explainer: ai/skills/visual-explainer
     ~/.codex/skills/writing-unit-tests: ai/skills/writing-unit-tests
-    ~/.pi/agent/AGENTS.md: ai/AGENTS.md
+    ~/.pi/agent/AGENTS.md: ai/CLAUDE.md
     ~/.pi/agent/skills: ai/skills
-    ~/.agents/AGENTS.md: ai/AGENTS.md
-    ~/.agents/skills: ai/skills
+    ~/.agents_common/AGENTS.md: ai/CLAUDE.md
+    ~/.agents_common/skills: ai/skills

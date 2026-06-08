@@ -6,7 +6,7 @@ Dotbot-managed dotfiles for shell, agents (Claude, Codex, Pi), and skills.
 
 ```
 ai/
-├── AGENTS.md              # Shared global rules for all agents
+├── CLAUDE.md              # Shared global rules — canonical source (Claude is root)
 ├── agents/                # Claude Code subagent definitions
 ├── commonSkills/          # Source skills (Claude + Codex)
 ├── iOS/                   # iOS-specific source skills
@@ -75,7 +75,7 @@ Creates symlinks for:
 - `~/.claude/` — Claude Code
 - `~/.codex/` — Codex
 - `~/.pi/agent/` — Pi
-- `~/.agents/` — shared
+- `~/.agents_common/` — shared
 
 **Memory** (shared across all Claude accounts)
 - `~/.claude/memory` → `ai/memory`

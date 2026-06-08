@@ -37,39 +37,14 @@ ai = dotfiles / 'ai'
 active = ai / 'skills'
 active_skill_names = sorted(p.name for p in active.iterdir() if p.is_dir() and not p.name.startswith('.'))
 
-lines = []
-lines.append('- defaults:')
-lines.append('    link:')
-lines.append('      relink: true')
-lines.append('      force: true')
-lines.append('')
-lines.append('- create:')
-lines.append('    - ~/.claude')
-lines.append('    - ~/.codex')
-lines.append('    - ~/.codex/skills')
-lines.append('    - ~/.pi/agent')
-lines.append('    - ~/.agents')
-lines.append('')
-lines.append('- link:')
-lines.append('    ~/.claude/CLAUDE.md: ai/AGENTS.md')
-lines.append('    ~/.claude/skills: ai/skills')
-lines.append('    ~/.codex/AGENTS.md: ai/AGENTS.md')
-for name in active_skill_names:
-    lines.append(f'    ~/.codex/skills/{name}: ai/skills/{name}')
-lines.append('    ~/.pi/agent/AGENTS.md: ai/AGENTS.md')
-lines.append('    ~/.pi/agent/skills: ai/skills')
-lines.append('    ~/.agents/AGENTS.md: ai/AGENTS.md')
-lines.append('    ~/.agents/skills: ai/skills')
-(dotfiles / 'install.conf.yaml').write_text('\n'.join(lines) + '\n')
-
 shared_targets = {
-    home / '.claude' / 'CLAUDE.md': ai / 'AGENTS.md',
+    home / '.claude' / 'CLAUDE.md': ai / 'CLAUDE.md',
     home / '.claude' / 'skills': active,
-    home / '.codex' / 'AGENTS.md': ai / 'AGENTS.md',
-    home / '.pi' / 'agent' / 'AGENTS.md': ai / 'AGENTS.md',
+    home / '.codex' / 'AGENTS.md': ai / 'CLAUDE.md',
+    home / '.pi' / 'agent' / 'AGENTS.md': ai / 'CLAUDE.md',
     home / '.pi' / 'agent' / 'skills': active,
-    home / '.agents' / 'AGENTS.md': ai / 'AGENTS.md',
-    home / '.agents' / 'skills': active,
+    home / '.agents_common' / 'AGENTS.md': ai / 'CLAUDE.md',
+    home / '.agents_common' / 'skills': active,
 }
 
 for dest, src in shared_targets.items():
@@ -83,6 +58,14 @@ for dest, src in shared_targets.items():
 
 claude_dirs = [home / '.claude'] + sorted(home.glob('.claude-account*'))
 
+claude_md_src = ai / 'CLAUDE.md'
+for claude_dir in claude_dirs:
+    claude_dir.mkdir(parents=True, exist_ok=True)
+    claude_md_dest = claude_dir / 'CLAUDE.md'
+    if claude_md_dest.is_symlink() or claude_md_dest.exists():
+        claude_md_dest.unlink()
+    claude_md_dest.symlink_to(claude_md_src)
+
 for claude_dir in claude_dirs:
     skills_dest = claude_dir / 'skills'
     skills_dest.parent.mkdir(parents=True, exist_ok=True)
@@ -95,9 +78,13 @@ for claude_dir in claude_dirs:
 
 agents_src = ai / 'agents'
 if agents_src.is_dir():
+    valid_agent_names = {p.name for p in agents_src.glob('*.md')}
     for claude_dir in claude_dirs:
         claude_agents_dir = claude_dir / 'agents'
         claude_agents_dir.mkdir(parents=True, exist_ok=True)
+        for existing in claude_agents_dir.glob('*.md'):
+            if existing.is_symlink() and existing.name not in valid_agent_names:
+                existing.unlink()
         for agent_file in agents_src.glob('*.md'):
             dest = claude_agents_dir / agent_file.name
             if dest.is_symlink() or dest.exists():
@@ -138,5 +125,4 @@ print(f'web={len([p for p in (ai / "web").iterdir() if p.is_dir() and not p.name
 print(f'active={len(active_skill_names)}')
 agents_count = len(list(agents_src.glob('*.md'))) if agents_src.is_dir() else 0
 print(f'agents={agents_count}')
-print(f'install_conf={dotfiles / "install.conf.yaml"}')
 PY

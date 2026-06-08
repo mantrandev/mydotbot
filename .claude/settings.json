@@ -24,9 +24,10 @@
   "enabledPlugins": {
     "code-review@claude-plugins-official": true,
     "swift-lsp@claude-plugins-official": true,
-    "warp@claude-code-warp": true,
     "clangd-lsp@claude-plugins-official": true,
-    "frontend-design@claude-plugins-official": true
+    "frontend-design@claude-plugins-official": true,
+    "warp@claude-code-warp": true,
+    "rust-analyzer-lsp@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
     "claude-code-warp": {
@@ -36,12 +37,14 @@
       }
     }
   },
+  "outputStyle": "Explanatory",
   "effortLevel": "high",
   "autoUpdatesChannel": "latest",
   "tui": "default",
   "theme": "dark",
   "editorMode": "normal",
+  "preferredNotifChannel": "auto",
   "autoCompactEnabled": false,
   "skipAutoPermissionPrompt": true,
-  "model": "opus"
+  "model": "opus[1m]"
 }
