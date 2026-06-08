@@ -40,6 +40,7 @@ git submodule update --init
 - Install VS Code extensions
 - Install npm global packages
 - Create all symlinks
+- Install Claude Code plugins (visual-explainer)
 
 ## Manual installs
 
@@ -108,19 +109,22 @@ See each `skill.md` for details.
 | validate-di | haiku | Validate Swinject DI registrations |
 | web-simulator | haiku | Stream iOS Simulator to browser via serve-sim |
 
+## Plugins
+
+`visual-explainer` is a Claude Code plugin (no longer a skill). `scripts/install-claude-plugins.sh` runs on `./install.sh` and, for every Claude config dir (`~/.claude` + `~/.claude-account1..5`), registers the marketplace and installs the plugin:
+
+```bash
+claude plugin marketplace add nicobailon/visual-explainer
+claude plugin install visual-explainer@visual-explainer-marketplace
+```
+
+The script is idempotent — it skips any config dir that already has the marketplace and plugin. Update to the latest upstream with `claude plugin update visual-explainer`. Add more plugins by appending to the script.
+
 ## Submodules
 
 | Submodule | Source |
 |---|---|
 | `dotbot` | https://github.com/anishathalye/dotbot |
-| `ai/commonSkills/visual-explainer` | https://github.com/nicobailon/visual-explainer |
-
-Update visual-explainer to latest upstream:
-```bash
-git submodule update --remote ai/commonSkills/visual-explainer
-git add ai/commonSkills/visual-explainer
-git commit -m "chore: update visual-explainer submodule"
-```
 
 ## Updating skills
 

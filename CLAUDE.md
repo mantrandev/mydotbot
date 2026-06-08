@@ -29,7 +29,7 @@ Rebuild `ai/skills/` from sources and re-apply symlinks:
 
 **Shell** — `zsh/` contains `.zshrc`, `.zprofile`, `jira.zsh`, and `statusline-command.sh`. Symlinked to `~/.zshrc`, `~/.zprofile`, `~/.zsh/jira.zsh`, and `~/.claude/statusline-command.sh` respectively.
 
-**App install** — `Brewfile` manages all casks and formulae. `scripts/install-vscode-extensions.sh` and `scripts/install-npm-globals.sh` handle VS Code extensions and npm globals. All three run automatically via the `shell:` block in `install.conf.yaml`.
+**App install** — `Brewfile` manages all casks and formulae. `scripts/install-vscode-extensions.sh` and `scripts/install-npm-globals.sh` handle VS Code extensions and npm globals; `scripts/install-claude-plugins.sh` registers marketplaces and installs Claude Code plugins (e.g. visual-explainer) per config dir. All run automatically via the `shell:` blocks in `install.conf.yaml`.
 
 ## Adding a skill
 

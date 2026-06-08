@@ -93,8 +93,12 @@
     ~/.codex/skills/sim-validation-flow: ai/skills/sim-validation-flow
     ~/.codex/skills/simulate-notification: ai/skills/simulate-notification
     ~/.codex/skills/usage-dashboard: ai/skills/usage-dashboard
-    ~/.codex/skills/visual-explainer: ai/skills/visual-explainer
     ~/.codex/skills/writing-unit-tests: ai/skills/writing-unit-tests
     ~/.pi/agent/AGENTS.md: ai/CLAUDE.md
     ~/.agents_common/AGENTS.md: ai/CLAUDE.md
     ~/.agents_common/skills: ai/skills
+
+- shell:
+    - command: scripts/install-claude-plugins.sh
+      description: Install Claude Code plugins (visual-explainer)
+      stdout: true
