@@ -95,6 +95,12 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - Do not overwrite, revert, or clean up user changes unless explicitly requested.
 - Avoid destructive file or git operations unless explicitly requested or clearly approved.
 
+## Artifacts
+
+- Every generated HTML file must be written under `~/.agent/artifacts/` (absolute: `/Users/maybe/.agent/artifacts/`), never the cwd, Desktop, or a project dir.
+- Create the directory if missing, then open or report the absolute path.
+- Applies to all standalone HTML output (courses, dashboards, diagrams, slides, reports) unless the user names a different destination.
+
 ## Review Style
 
 - Present findings first.
