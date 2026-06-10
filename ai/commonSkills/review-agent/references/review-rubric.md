@@ -21,6 +21,22 @@ Flag a finding only with concrete evidence of a real defect, not a style miss.
 - Swallowed errors: empty `catch {}`, `try?` that hides a meaningful failure, errors not propagated or surfaced at the boundary.
 - Secret / PII leakage: tokens, credentials, or user data written to logs, embedded in URLs, or stored in insecure locations (e.g. UserDefaults instead of Keychain).
 
+## API design
+Flag only when an unclear or leaky API creates real risk for callers or future change — not subjective taste.
+- Public methods / properties carry a clear, single meaning.
+- Function and variable names express the actual intent, not the mechanism.
+- The API does not expose more implementation detail than callers need.
+- The method contract is explicit: what input it takes, what it returns, what error cases it can produce.
+- Non-obvious or special behavior is documented.
+
+## Design system & consistency
+Flag only when an inconsistency adds maintenance cost or breaks an established pattern.
+- The change follows the project's existing conventions.
+- It does not introduce a new pattern when an existing one already fits.
+- Naming, file layout, and responsibility split stay consistent with surrounding code.
+- For UI changes: uses the project's components / design tokens / styles instead of one-off implementations.
+- No hard-coded colors, spacing, fonts, copy, or config that belong in shared tokens / constants.
+
 ## Finding standards
 - The issue must be discrete and actionable.
 - The issue must be introduced by the reviewed change, not pre-existing noise.
