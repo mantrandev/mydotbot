@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<!--
+  ╔══════════════════════════════════════════════════════════════════╗
+  ║  EDITORIAL HTML TEMPLATE  ·  html-template skill                    ║
+  ║                                                                    ║
+  ║  HOW TO USE                                                        ║
+  ║  1. Copy this file. Keep the <style> block and the :root tokens    ║
+  ║     EXACTLY — do not invent new colors/fonts.                      ║
+  ║  2. Pick theme on <html>:  data-theme="light"  (default)           ║
+  ║                            data-theme="dark"   (dashboards/diagrams)║
+  ║  3. Replace the content inside <body> with your own, reusing the    ║
+  ║     component blocks below (hero / section / note / table / pre /   ║
+  ║     ol.flow / ol.steps / footer). Delete blocks you don't need.     ║
+  ║  4. Self-contained only: no external fonts/scripts/images.          ║
+  ║  5. Write the final file under ~/.agent/artifacts/ , then open it.  ║
+  ╚══════════════════════════════════════════════════════════════════╝
+-->
+<html lang="en" data-theme="light">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>TITLE — replace me</title>
+<style>
+  /* ============ DESIGN TOKENS — do not edit values, only reuse ============ */
+  :root{
+    --paper:#faf8f4; --ink:#1b1a17; --mut:#6f6a61; --faint:#9a948a;
+    --rule:#e7e2d9; --rule2:#efeae1; --card:#ffffff;
+    --accent:#b4451f; --accent-soft:#f4e7df;
+    --code-bg:#f4f1ea; --code-ink:#3b3630;
+    --good:#3f7d4f; --warn:#9a6a1f; --bad:#c0392b; --blue:#2b6cb0;
+    --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
+    --sans:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+  }
+  html[data-theme="dark"]{
+    --paper:#15130f; --ink:#ece7df; --mut:#a59d90; --faint:#7c7468;
+    --rule:#2c2823; --rule2:#231f1a; --card:#1a1712;
+    --accent:#e0794a; --accent-soft:#2a1d15;
+    --code-bg:#1c1915; --code-ink:#d8cfc2;
+    --good:#6fc187; --warn:#d9a85a; --bad:#e8806b; --blue:#7fb2e6;
+  }
+  /* ============ BASE ============ */
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);
+       font-size:18px;line-height:1.72;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
+  .wrap{max-width:680px;margin:0 auto;padding:72px 24px 120px}
+  /* ============ MASTHEAD ============ */
+  .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
+           color:var(--accent);margin-bottom:22px}
+  h1{font-weight:600;font-size:36px;line-height:1.2;letter-spacing:-.01em;margin:0 0 18px}
+  h1 .code{font-family:var(--mono);font-size:.62em;font-weight:500;background:var(--code-bg);
+           border:1px solid var(--rule);border-radius:5px;padding:2px 7px;vertical-align:middle}
+  .lede{font-size:19px;color:var(--mut);margin:0 0 26px}
+  .meta{font-family:var(--mono);font-size:12px;color:var(--faint);letter-spacing:.02em;
+        border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:14px 0;
+        display:flex;flex-wrap:wrap;gap:6px 18px}
+  .meta b{color:var(--mut);font-weight:600}
+  .meta .ok{color:var(--good)} .meta .hot{color:var(--bad)}
+  /* ============ SUMMARY ============ */
+  .summary{margin:34px 0 8px;padding-left:20px;border-left:2px solid var(--accent)}
+  .summary .tag{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+                color:var(--accent);display:block;margin-bottom:6px}
+  .summary p{margin:0 0 12px;font-size:18px} .summary p:last-child{margin-bottom:0}
+  /* ============ SECTIONS ============ */
+  section{margin-top:58px}
+  .num{font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--accent);display:block;margin-bottom:6px}
+  h2{font-weight:600;font-size:25px;line-height:1.25;letter-spacing:-.01em;margin:0 0 14px}
+  h3{font-weight:600;font-size:18px;margin:26px 0 8px}
+  p{margin:14px 0;color:var(--ink)} strong,b{font-weight:600}
+  a{color:var(--accent);text-underline-offset:3px}
+  /* ============ CODE ============ */
+  pre{background:var(--code-bg);border:1px solid var(--rule);border-radius:8px;
+      padding:15px 17px;overflow-x:auto;margin:18px 0;line-height:1.6}
+  code{font-family:var(--mono);font-size:13px}
+  pre code{color:var(--code-ink);font-size:12.5px}
+  p code,li code,td code{font-family:var(--mono);font-size:13.5px;background:var(--code-bg);
+       border:1px solid var(--rule);border-radius:4px;padding:1px 5px;color:var(--code-ink)}
+  .c-red{color:var(--bad)} .c-grn{color:var(--good)} .c-amb{color:var(--warn)}
+  .c-blu{color:var(--blue)} .c-dim{color:var(--faint)}
+  /* ============ FLOW (linked steps) ============ */
+  ol.flow{list-style:none;counter-reset:f;padding:0;margin:22px 0}
+  ol.flow li{counter-increment:f;position:relative;padding:0 0 18px 44px;margin:0}
+  ol.flow li:not(:last-child){border-left:1px solid var(--rule);margin-left:13px;padding-left:31px}
+  ol.flow li::before{content:counter(f);position:absolute;left:0;top:0;width:27px;height:27px;border-radius:50%;
+       background:var(--paper);border:1.5px solid var(--accent);color:var(--accent);
+       font-family:var(--mono);font-size:12.5px;font-weight:600;display:flex;align-items:center;justify-content:center}
+  ol.flow li .h{font-weight:600;display:block;margin-bottom:1px}
+  ol.flow li .s{font-size:16px;color:var(--mut)}
+  /* ============ STEPS (numbered prose) ============ */
+  ol.steps{list-style:none;counter-reset:s;padding:0;margin:20px 0}
+  ol.steps li{counter-increment:s;position:relative;padding-left:38px;margin:0 0 18px}
+  ol.steps li::before{content:counter(s,decimal-leading-zero);position:absolute;left:0;top:2px;
+       font-family:var(--mono);font-size:13px;font-weight:600;color:var(--accent)}
+  ol.steps li b{display:block;margin-bottom:2px}
+  /* ============ TABLE ============ */
+  table{width:100%;border-collapse:collapse;margin:20px 0;font-size:15.5px;font-family:var(--sans)}
+  thead th{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);
+           text-align:left;font-weight:600;padding:0 14px 9px 0;border-bottom:1px solid var(--ink)}
+  tbody td{padding:13px 14px 13px 0;border-bottom:1px solid var(--rule);vertical-align:top;color:var(--ink)}
+  tbody td:last-child,thead th:last-child{padding-right:0}
+  td b{color:var(--ink)}
+  .x{color:var(--bad);font-weight:600} .yes{color:var(--good);font-weight:600}
+  /* ============ CALLOUT ============ */
+  .note{margin:20px 0;padding:15px 18px;background:var(--card);border:1px solid var(--rule);
+        border-left:2px solid var(--accent);border-radius:0 7px 7px 0}
+  .note .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
+             color:var(--accent);font-weight:600;display:block;margin-bottom:5px}
+  .note p{margin:0;font-size:16.5px;color:var(--ink)}
+  .note.warn{border-left-color:var(--warn)} .note.warn .tag{color:var(--warn)}
+  .note.good{border-left-color:var(--good)} .note.good .tag{color:var(--good)}
+  /* ============ FOOTER ============ */
+  footer{margin-top:70px;padding-top:22px;border-top:1px solid var(--rule);
+         font-family:var(--mono);font-size:12px;color:var(--faint);line-height:1.9}
+  footer .k{color:var(--mut)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <!-- MASTHEAD -->
+  <div class="eyebrow">Section · Kicker label</div>
+  <h1>Document title, optionally with <span class="code">inline-code</span></h1>
+  <p class="lede">One-sentence summary of what this page is about. Keep it calm and informative.</p>
+  <div class="meta">
+    <span><b>Status</b> <span class="ok">resolved</span></span>
+    <span><b>Owner</b> name</span>
+    <span><b>Ref</b> TICKET-123</span>
+  </div>
+
+  <!-- SUMMARY / TL;DR -->
+  <div class="summary">
+    <span class="tag">Summary</span>
+    <p>The single most important takeaway, stated plainly in 1–2 sentences.</p>
+    <p>Optional second paragraph: the fix or the conclusion.</p>
+  </div>
+
+  <!-- NUMBERED SECTION -->
+  <section>
+    <span class="num">01</span>
+    <h2>Section heading</h2>
+    <p>Body paragraph. Use <code>inline code</code>, <b>bold</b>, and links sparingly.</p>
+    <pre><code><span class="c-dim"># a comment</span>
+some --command <span class="c-blu">--flag</span>
+<span class="c-grn">success line</span>
+<span class="c-red">error: something failed</span></code></pre>
+    <div class="note">
+      <span class="tag">Note</span>
+      <p>A short callout that adds a key insight or caveat. Use <code>.note.warn</code> or <code>.note.good</code> for tone.</p>
+    </div>
+  </section>
+
+  <!-- FLOW: a causal/mechanism chain -->
+  <section>
+    <span class="num">02</span>
+    <h2>How it works (flow)</h2>
+    <ol class="flow">
+      <li><span class="h">First step</span><span class="s">What happens here.</span></li>
+      <li><span class="h">Second step</span><span class="s">What happens next.</span></li>
+      <li><span class="h">Outcome</span><span class="s c-red">The failure / result.</span></li>
+    </ol>
+  </section>
+
+  <!-- TABLE + STEPS -->
+  <section>
+    <span class="num">03</span>
+    <h2>Comparison & actions</h2>
+    <table>
+      <thead><tr><th>Thing</th><th>Result</th><th>Why</th></tr></thead>
+      <tbody>
+        <tr><td><b>Option A</b></td><td class="x">failed</td><td>Reason it didn't work.</td></tr>
+        <tr><td><b>Option B</b></td><td class="yes">works</td><td>Reason it works.</td></tr>
+      </tbody>
+    </table>
+    <ol class="steps">
+      <li><b>Do this first.</b> Explanation of the step.</li>
+      <li><b>Then this.</b> Explanation, optionally with a code block.</li>
+    </ol>
+  </section>
+
+  <footer>
+    <span class="k">key:</span> value · <span class="k">key:</span> value<br>
+    Footer line — source / ticket / date.
+  </footer>
+
+</div>
+</body>
+</html>

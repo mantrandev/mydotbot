@@ -100,6 +100,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - Every generated HTML file must be written under `~/.agent/artifacts/` (absolute: `/Users/maybe/.agent/artifacts/`), never the cwd, Desktop, or a project dir.
 - Create the directory if missing, then open or report the absolute path.
 - Applies to all standalone HTML output (courses, dashboards, diagrams, slides, reports) unless the user names a different destination.
+- Before writing any standalone HTML, follow the `html-template` skill: start from its `template.html`, reuse its component blocks and design tokens, and do not invent ad-hoc theming. Pick `data-theme="light"` (default) or `data-theme="dark"` (dashboards/diagrams).
 
 ## Review Style
 
