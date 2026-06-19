@@ -52,7 +52,6 @@ These are not on Homebrew — install once on a new device:
 | TestFlight | [Mac App Store](https://apps.apple.com/app/testflight/id899247664) |
 | Keynote | [Mac App Store](https://apps.apple.com/app/keynote/id409183694) |
 | RocketSim | [Mac App Store](https://apps.apple.com/app/rocketsim-for-xcode-simulator/id1504940162) |
-| Perplexity | [Mac App Store](https://apps.apple.com/app/perplexity-ask-anything/id1668000334) |
 | Zalo | [zalo.me](https://zalo.me/pc) |
 | SF Symbols | [developer.apple.com](https://developer.apple.com/sf-symbols/) |
 
