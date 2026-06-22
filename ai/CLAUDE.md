@@ -117,6 +117,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - Avoid speculative explanations.
 - Surface blockers early and narrowly.
 - No inline comments in code — code must read clearly line by line without explanation.
+- Never add comments to code (inline, block, or doc comments) unless the user explicitly permits it. Code must read clearly on its own; put explanations in chat, not in the code.
 
 ## Verification
 
