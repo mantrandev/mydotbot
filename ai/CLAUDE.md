@@ -34,6 +34,7 @@ When editing existing code:
 - Don't refactor things that aren't broken.
 - Match existing style, even if you'd do it differently.
 - If you notice unrelated dead code, mention it - don't delete it.
+- Never convert a whitespace-only line (spaces/tabs) to an empty line or vice versa. Preserve blank line content exactly as found.
 
 When your changes create orphans:
 - Remove imports/variables/functions that YOUR changes made unused.
@@ -116,7 +117,19 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - Separate hard constraints from heuristics.
 - Avoid speculative explanations.
 - Surface blockers early and narrowly.
-- No inline comments in code — code must read clearly line by line without explanation.
+
+### NO COMMENTS IN CODE — HARD RULE
+
+**Zero comments of any kind in code you write or edit:**
+- No `//` inline comments
+- No `///` or `/** */` docstrings
+- No multi-line `/* */` blocks
+- No `# comment` lines (Python/shell)
+- No `<!-- -->` (HTML/XML)
+
+**Check yourself before every file write:** "Did I write any comment?" If yes, delete it.
+
+The only exception: the user explicitly asks for a comment. Absent that instruction, write zero comments — always.
 
 ## Verification
 
