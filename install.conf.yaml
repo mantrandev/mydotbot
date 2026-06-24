@@ -82,6 +82,7 @@
     ~/.codex/skills/debugging-ios: ai/skills/debugging-ios
     ~/.codex/skills/diagnostics-agent: ai/skills/diagnostics-agent
     ~/.codex/skills/find-skills: ai/skills/find-skills
+    ~/.codex/skills/html-template: ai/skills/html-template
     ~/.codex/skills/jira-acli: ai/skills/jira-acli
     ~/.codex/skills/liquid-glass-ios: ai/skills/liquid-glass-ios
     ~/.codex/skills/mr-pipeline: ai/skills/mr-pipeline
