@@ -21,6 +21,8 @@ if git_branch=$(git -C "$cwd" symbolic-ref --short HEAD 2>/dev/null); then
   fi
 fi
 
+effort=$(echo "$input" | jq -r '.effort.level // ""')
+
 model_full=$(echo "$input" | jq -r '.model.display_name // ""')
 model_short=$(echo "$model_full" | sed 's/Claude //g' | awk '{print $1 " " $2}' | xargs)
 
@@ -100,6 +102,9 @@ fi
 line1="\033[0;33m[${model_short}]\033[0m  \033[0;35m${account}\033[0m"
 if [ -n "$branch" ]; then
   line1="${line1}  |  🌿  \033[0;32m${branch}${dirty}\033[0m"
+  if [ -n "$effort" ]; then
+    line1="${line1}  \033[0;36m⚡ ${effort}\033[0m"
+  fi
 fi
 
 # Line 2: wide progress bar + stats (20 blocks)
