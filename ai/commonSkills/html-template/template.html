@@ -1,170 +1,231 @@
 <!DOCTYPE html>
 <!--
   ╔══════════════════════════════════════════════════════════════════╗
-  ║  EDITORIAL HTML TEMPLATE  ·  html-template skill                    ║
+  ║  BLUEPRINT HTML TEMPLATE  ·  html-template skill                   ║
   ║                                                                    ║
   ║  HOW TO USE                                                        ║
   ║  1. Copy this file. Keep the <style> block and the :root tokens    ║
   ║     EXACTLY — do not invent new colors/fonts.                      ║
-  ║  2. Pick theme on <html>:  data-theme="light"  (default)           ║
-  ║                            data-theme="dark"   (dashboards/diagrams)║
-  ║  3. Replace the content inside <body> with your own, reusing the    ║
-  ║     component blocks below (hero / section / note / table / pre /   ║
-  ║     ol.flow / ol.steps / footer). Delete blocks you don't need.     ║
-  ║  4. Self-contained only: no external fonts/scripts/images.          ║
-  ║  5. Write the final file under ~/.agent/artifacts/ , then open it.  ║
+  ║  2. Replace the content inside .sheet with your own, reusing the   ║
+  ║     component blocks below. Delete blocks you don't need.          ║
+  ║  3. Single look, no dark variant. Mono type, square corners,       ║
+  ║     hard 3px offset shadows, one rust accent.                      ║
+  ║  4. Self-contained only: no external fonts/scripts/images.         ║
+  ║  5. Write the final file under ~/.agent/artifacts/ , then open it. ║
   ╚══════════════════════════════════════════════════════════════════╝
 -->
-<html lang="en" data-theme="light">
+<html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TITLE — replace me</title>
 <style>
   /* ============ DESIGN TOKENS — do not edit values, only reuse ============ */
   :root{
-    --paper:#faf8f4; --ink:#1b1a17; --mut:#6f6a61; --faint:#9a948a;
-    --rule:#e7e2d9; --rule2:#efeae1; --card:#ffffff;
-    --accent:#b4451f; --accent-soft:#f4e7df;
-    --code-bg:#f4f1ea; --code-ink:#3b3630;
-    --good:#3f7d4f; --warn:#9a6a1f; --bad:#c0392b; --blue:#2b6cb0;
-    --serif:"Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,serif;
-    --sans:-apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,"Helvetica Neue",Helvetica,Arial,sans-serif;
+    --paper:#EDF0F4; --grid:#C9D2DC; --ink:#1B2A41; --ink-soft:#4A5A6E;
+    --rust:#C1440E; --rust-soft:#FBE9E0; --peach:#F4B08C; --white:#FFF;
+    --mut:#E7EAEF; --panel:#F4F6F8; --steel:#9AA6B4;
+    --good:#2E7D5B; --warn:#9A6A1F;
     --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
   }
-  html[data-theme="dark"]{
-    --paper:#15130f; --ink:#ece7df; --mut:#a59d90; --faint:#7c7468;
-    --rule:#2c2823; --rule2:#231f1a; --card:#1a1712;
-    --accent:#e0794a; --accent-soft:#2a1d15;
-    --code-bg:#1c1915; --code-ink:#d8cfc2;
-    --good:#6fc187; --warn:#d9a85a; --bad:#e8806b; --blue:#7fb2e6;
+  /* ============ BASE — blueprint grid ============ */
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    font-family:var(--mono);background:var(--paper);color:var(--ink);padding:16px;
+    background-image:linear-gradient(var(--grid) .5px,transparent .5px),linear-gradient(90deg,var(--grid) .5px,transparent .5px);
+    background-size:24px 24px;
   }
-  /* ============ BASE ============ */
-  *{box-sizing:border-box}
-  html{-webkit-text-size-adjust:100%}
-  body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);
-       font-size:18px;line-height:1.72;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility}
-  .wrap{max-width:680px;margin:0 auto;padding:72px 24px 120px}
+  .sheet{max-width:1040px;margin:0 auto;border:1.5px solid var(--ink);outline:.5px solid var(--ink);
+         outline-offset:5px;padding:22px;background:rgba(237,240,244,.6)}
   /* ============ MASTHEAD ============ */
-  .eyebrow{font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
-           color:var(--accent);margin-bottom:22px}
-  h1{font-weight:600;font-size:36px;line-height:1.2;letter-spacing:-.01em;margin:0 0 18px}
-  h1 .code{font-family:var(--mono);font-size:.62em;font-weight:500;background:var(--code-bg);
-           border:1px solid var(--rule);border-radius:5px;padding:2px 7px;vertical-align:middle}
-  .lede{font-size:19px;color:var(--mut);margin:0 0 26px}
-  .meta{font-family:var(--mono);font-size:12px;color:var(--faint);letter-spacing:.02em;
-        border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);padding:14px 0;
-        display:flex;flex-wrap:wrap;gap:6px 18px}
-  .meta b{color:var(--mut);font-weight:600}
-  .meta .ok{color:var(--good)} .meta .hot{color:var(--bad)}
-  /* ============ SUMMARY ============ */
-  .summary{margin:34px 0 8px;padding-left:20px;border-left:2px solid var(--accent)}
-  .summary .tag{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;
-                color:var(--accent);display:block;margin-bottom:6px}
-  .summary p{margin:0 0 12px;font-size:18px} .summary p:last-child{margin-bottom:0}
+  h1{font-size:clamp(17px,3.4vw,24px);letter-spacing:.5px}
+  .sub{font-size:12px;color:var(--rust);font-weight:700;margin:4px 0 14px}
+  .meta{display:flex;flex-wrap:wrap;gap:5px 18px;font-size:10.5px;color:var(--ink-soft);
+        border-top:1px solid var(--grid);border-bottom:1px solid var(--grid);padding:9px 0;margin-bottom:16px}
+  .meta b{color:var(--ink);font-weight:700;letter-spacing:1px}
+  .meta .ok{color:var(--good)} .meta .hot{color:var(--rust)}
   /* ============ SECTIONS ============ */
-  section{margin-top:58px}
-  .num{font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--accent);display:block;margin-bottom:6px}
-  h2{font-weight:600;font-size:25px;line-height:1.25;letter-spacing:-.01em;margin:0 0 14px}
-  h3{font-weight:600;font-size:18px;margin:26px 0 8px}
-  p{margin:14px 0;color:var(--ink)} strong,b{font-weight:600}
-  a{color:var(--accent);text-underline-offset:3px}
-  /* ============ CODE ============ */
-  pre{background:var(--code-bg);border:1px solid var(--rule);border-radius:8px;
-      padding:15px 17px;overflow-x:auto;margin:18px 0;line-height:1.6}
-  code{font-family:var(--mono);font-size:13px}
-  pre code{color:var(--code-ink);font-size:12.5px}
-  p code,li code,td code{font-family:var(--mono);font-size:13.5px;background:var(--code-bg);
-       border:1px solid var(--rule);border-radius:4px;padding:1px 5px;color:var(--code-ink)}
-  .c-red{color:var(--bad)} .c-grn{color:var(--good)} .c-amb{color:var(--warn)}
-  .c-blu{color:var(--blue)} .c-dim{color:var(--faint)}
-  /* ============ FLOW (linked steps) ============ */
-  ol.flow{list-style:none;counter-reset:f;padding:0;margin:22px 0}
-  ol.flow li{counter-increment:f;position:relative;padding:0 0 18px 44px;margin:0}
-  ol.flow li:not(:last-child){border-left:1px solid var(--rule);margin-left:13px;padding-left:31px}
-  ol.flow li::before{content:counter(f);position:absolute;left:0;top:0;width:27px;height:27px;border-radius:50%;
-       background:var(--paper);border:1.5px solid var(--accent);color:var(--accent);
-       font-family:var(--mono);font-size:12.5px;font-weight:600;display:flex;align-items:center;justify-content:center}
-  ol.flow li .h{font-weight:600;display:block;margin-bottom:1px}
-  ol.flow li .s{font-size:16px;color:var(--mut)}
-  /* ============ STEPS (numbered prose) ============ */
-  ol.steps{list-style:none;counter-reset:s;padding:0;margin:20px 0}
-  ol.steps li{counter-increment:s;position:relative;padding-left:38px;margin:0 0 18px}
-  ol.steps li::before{content:counter(s,decimal-leading-zero);position:absolute;left:0;top:2px;
-       font-family:var(--mono);font-size:13px;font-weight:600;color:var(--accent)}
-  ol.steps li b{display:block;margin-bottom:2px}
+  section{margin-top:22px}
+  h2{font-size:14px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:9px;
+     padding-bottom:6px;border-bottom:1.2px solid var(--ink)}
+  h3{font-size:13.5px;margin:14px 0 7px}
+  p{font-size:12px;line-height:1.7;color:var(--ink-soft);margin:9px 0}
+  p b,li b,td b{color:var(--ink);font-weight:700}
+  a{color:var(--rust)}
+  .k{font-size:10px;font-weight:700;letter-spacing:2px;color:var(--ink-soft)}
+  /* ============ TABS ============ */
+  .tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+  .tab{font-family:var(--mono);font-size:11.5px;padding:8px 12px;cursor:pointer;
+       background:var(--white);border:1.2px solid var(--ink);color:var(--ink);transition:all .15s}
+  .tab:hover{box-shadow:3px 3px 0 var(--ink);transform:translateY(-2px)}
+  .tab.active{background:var(--ink);color:var(--white)}
+  .tab.active .n{color:var(--peach)}
+  .tab .n{font-weight:700;margin-right:6px}
+  /* ============ STAGE — canvas for SVG / chart / diagram ============ */
+  .stage-wrap{border:1.2px solid var(--ink);background:var(--white);position:relative}
+  .stage-wrap svg{display:block;width:100%;height:auto}
+  .lanehdr{font-size:13px;font-weight:700;letter-spacing:1px}
+  .divider{stroke:var(--grid);stroke-width:1.2;stroke-dasharray:4 4}
+  .node rect{fill:var(--white);stroke:var(--ink);stroke-width:1.2;transition:all .3s}
+  .node .lbl{font-size:12px;font-weight:700;fill:var(--ink)}
+  .node .sub2{font-size:9.5px;fill:var(--ink-soft)}
+  .node.active rect{fill:var(--rust-soft);stroke:var(--rust);stroke-width:2}
+  .node.active .lbl{fill:var(--rust)}
+  .edge{stroke:var(--ink-soft);stroke-width:1.2;fill:none}
+  /* ============ PANEL — paired commentary ============ */
+  .panel{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
+  .desc,.mind{border:1.2px solid var(--ink);background:var(--white);padding:14px;min-height:120px}
+  .desc{border-color:var(--ink-soft)}
+  .mind{border-color:var(--rust)}
+  .mind .k{color:var(--rust)}
+  .desc h3,.mind h3{font-size:13.5px;margin:6px 0 8px}
+  .desc p{color:var(--ink-soft)} .mind p{color:var(--ink)}
+  .cost{margin-top:10px;font-size:11px;font-weight:700}
+  .desc .cost{color:var(--ink)} .mind .cost{color:var(--rust)}
+  /* ============ CALLOUT — dashed flag ============ */
+  .flag{margin-top:8px;font-size:11px;line-height:1.65;font-weight:700;padding:7px 10px;border:1px dashed;
+        color:var(--ink);border-color:var(--steel);background:var(--panel)}
+  .flag.hot{color:var(--rust);border-color:var(--rust);background:var(--rust-soft)}
+  .flag.ok{color:var(--good);border-color:var(--good);background:var(--white)}
+  /* ============ STAT TILES ============ */
+  .tiles{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
+  .tile{flex:1 1 150px;border:1.2px solid var(--ink);background:var(--white);padding:11px 13px}
+  .tile .k{display:block;margin-bottom:4px}
+  .tile .v{font-size:21px;font-weight:700;color:var(--ink);line-height:1.2}
+  .tile .u{font-size:10.5px;color:var(--ink-soft)}
+  .tile.hot{border-color:var(--rust)} .tile.hot .v{color:var(--rust)}
+  /* ============ BARS ============ */
+  .bar{margin-bottom:13px}
+  .bar .lbl{display:flex;justify-content:space-between;gap:12px;font-size:11.5px;margin-bottom:4px}
+  .bar .val{font-weight:700}
+  .bar .track{height:13px;background:var(--mut);border:1px solid var(--grid)}
+  .bar .fill{height:100%;background:var(--ink);transition:width .2s}
+  .bar.hot .fill{background:var(--rust)}
   /* ============ TABLE ============ */
-  table{width:100%;border-collapse:collapse;margin:20px 0;font-size:15.5px;font-family:var(--sans)}
-  thead th{font-family:var(--mono);font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);
-           text-align:left;font-weight:600;padding:0 14px 9px 0;border-bottom:1px solid var(--ink)}
-  tbody td{padding:13px 14px 13px 0;border-bottom:1px solid var(--rule);vertical-align:top;color:var(--ink)}
-  tbody td:last-child,thead th:last-child{padding-right:0}
-  td b{color:var(--ink)}
-  .x{color:var(--bad);font-weight:600} .yes{color:var(--good);font-weight:600}
-  /* ============ CALLOUT ============ */
-  .note{margin:20px 0;padding:15px 18px;background:var(--card);border:1px solid var(--rule);
-        border-left:2px solid var(--accent);border-radius:0 7px 7px 0}
-  .note .tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;
-             color:var(--accent);font-weight:600;display:block;margin-bottom:5px}
-  .note p{margin:0;font-size:16.5px;color:var(--ink)}
-  .note.warn{border-left-color:var(--warn)} .note.warn .tag{color:var(--warn)}
-  .note.good{border-left-color:var(--good)} .note.good .tag{color:var(--good)}
-  /* ============ FOOTER ============ */
-  footer{margin-top:70px;padding-top:22px;border-top:1px solid var(--rule);
-         font-family:var(--mono);font-size:12px;color:var(--faint);line-height:1.9}
-  footer .k{color:var(--mut)}
+  table{width:100%;border-collapse:collapse;margin:12px 0;font-size:11.5px}
+  thead th{text-align:left;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-soft);
+           font-weight:700;padding:0 12px 7px 0;border-bottom:1.2px solid var(--ink)}
+  tbody td{padding:9px 12px 9px 0;border-bottom:1px solid var(--grid);vertical-align:top;color:var(--ink-soft)}
+  tbody tr:hover td{background:var(--white);color:var(--ink)}
+  thead th:last-child,tbody td:last-child{padding-right:0}
+  .x{color:var(--rust);font-weight:700} .yes{color:var(--good);font-weight:700}
+  /* ============ CODE ============ */
+  pre{background:var(--white);border:1.2px solid var(--ink-soft);padding:12px 14px;overflow-x:auto;margin:12px 0}
+  code{font-family:var(--mono);font-size:11.5px}
+  pre code{color:var(--ink);line-height:1.65}
+  p code,li code,td code{background:var(--white);border:1px solid var(--grid);padding:1px 5px;font-size:11px}
+  .c-red{color:var(--rust)} .c-grn{color:var(--good)} .c-amb{color:var(--warn)}
+  .c-blu{color:var(--ink-soft)} .c-dim{color:var(--steel)}
+  /* ============ NUMBERED STEPS ============ */
+  ol.steps{list-style:none;counter-reset:s;margin:12px 0}
+  ol.steps li{counter-increment:s;position:relative;padding-left:26px;margin-bottom:10px;
+              font-size:11.5px;line-height:1.65;color:var(--ink-soft)}
+  ol.steps li::before{content:counter(s);position:absolute;left:0;top:1px;width:17px;height:17px;line-height:17px;
+       text-align:center;border-radius:50%;background:var(--ink);color:var(--white);font-size:10px;font-weight:700}
+  ol.steps li b{display:block;color:var(--ink)}
+  /* ============ LEGEND ============ */
+  .legend{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+  .lg{border:1.2px solid var(--steel);padding:12px}
+  .lg.hot{border-color:var(--rust)}
+  .lg h4{font-size:12px;letter-spacing:1px;margin-bottom:8px;color:var(--ink-soft)}
+  .lg.hot h4{color:var(--rust)}
+  .lg .item{font-size:11.5px;line-height:1.55;margin-bottom:7px;padding-left:22px;position:relative;color:var(--ink-soft)}
+  .lg .item b{position:absolute;left:0;top:0;width:16px;height:16px;line-height:16px;text-align:center;
+              border-radius:50%;font-size:10px;color:var(--white);background:var(--steel)}
+  .lg.hot .item b{background:var(--peach);color:var(--ink)}
+  .lg .item.on{color:var(--ink);font-weight:600}
+  .lg .item.on b{background:var(--rust);color:var(--white)}
+  /* ============ CONTROLS ============ */
+  .controls{display:flex;align-items:center;gap:10px;margin-top:14px;flex-wrap:wrap}
+  button{font-family:var(--mono);font-size:12px;padding:8px 16px;cursor:pointer;
+         background:var(--ink);color:var(--white);border:none;transition:all .15s}
+  button:hover{background:var(--rust)}
+  button.ghost{background:var(--white);color:var(--ink);border:1.2px solid var(--ink)}
+  button.ghost:hover{box-shadow:3px 3px 0 var(--ink)}
+  .dots{display:flex;gap:5px;margin-left:auto}
+  .dot{width:9px;height:9px;border:1px solid var(--ink);background:var(--white);cursor:pointer}
+  .dot.on{background:var(--rust);border-color:var(--rust)}
+  .dot.past{background:var(--ink-soft);border-color:var(--ink-soft)}
+  /* ============ FOOT ============ */
+  .foot{font-size:10px;color:var(--ink-soft);margin-top:16px;line-height:1.7;
+        border-top:1px solid var(--grid);padding-top:10px}
+  @media(max-width:660px){.panel,.legend{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
-<div class="wrap">
+<div class="sheet">
 
   <!-- MASTHEAD -->
-  <div class="eyebrow">Section · Kicker label</div>
-  <h1>Document title, optionally with <span class="code">inline-code</span></h1>
-  <p class="lede">One-sentence summary of what this page is about. Keep it calm and informative.</p>
+  <h1>Document title</h1>
+  <div class="sub">One line stating what this sheet shows and how to read it.</div>
   <div class="meta">
-    <span><b>Status</b> <span class="ok">resolved</span></span>
-    <span><b>Owner</b> name</span>
-    <span><b>Ref</b> TICKET-123</span>
+    <span><b>STATUS</b> <span class="ok">verified</span></span>
+    <span><b>SOURCE</b> path/to/file.ext</span>
+    <span><b>REF</b> TICKET-123</span>
   </div>
 
-  <!-- SUMMARY / TL;DR -->
-  <div class="summary">
-    <span class="tag">Summary</span>
-    <p>The single most important takeaway, stated plainly in 1–2 sentences.</p>
-    <p>Optional second paragraph: the fix or the conclusion.</p>
+  <!-- TABS (delete if single view) -->
+  <div class="tabs" id="tabs">
+    <div class="tab active"><span class="n">1·</span>First view</div>
+    <div class="tab"><span class="n">2·</span>Second view</div>
   </div>
 
-  <!-- NUMBERED SECTION -->
-  <section>
-    <span class="num">01</span>
-    <h2>Section heading</h2>
-    <p>Body paragraph. Use <code>inline code</code>, <b>bold</b>, and links sparingly.</p>
-    <pre><code><span class="c-dim"># a comment</span>
-some --command <span class="c-blu">--flag</span>
-<span class="c-grn">success line</span>
-<span class="c-red">error: something failed</span></code></pre>
-    <div class="note">
-      <span class="tag">Note</span>
-      <p>A short callout that adds a key insight or caveat. Use <code>.note.warn</code> or <code>.note.good</code> for tone.</p>
+  <!-- STAGE: inline SVG diagram / chart canvas -->
+  <div class="stage-wrap">
+    <svg viewBox="0 0 880 200" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <marker id="ar" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+          <path d="M0 0L10 5L0 10z" fill="#4A5A6E"/>
+        </marker>
+      </defs>
+      <g class="node"><rect x="60" y="60" width="210" height="56" rx="2"/>
+        <text class="lbl" x="74" y="85">FIRST NODE</text>
+        <text class="sub2" x="74" y="103">short qualifier</text></g>
+      <path class="edge" d="M270 88 L360 88" marker-end="url(#ar)"/>
+      <g class="node active"><rect x="360" y="60" width="210" height="56" rx="2"/>
+        <text class="lbl" x="374" y="85">ACTIVE NODE</text>
+        <text class="sub2" x="374" y="103">rust = current focus</text></g>
+    </svg>
+  </div>
+
+  <!-- STAT TILES -->
+  <div class="tiles">
+    <div class="tile"><span class="k">METRIC</span><span class="v">1.14 MB</span> <span class="u">before</span></div>
+    <div class="tile hot"><span class="k">METRIC</span><span class="v">19.7 KB</span> <span class="u">after</span></div>
+  </div>
+
+  <!-- PAIRED PANEL -->
+  <div class="panel">
+    <div class="desc">
+      <div class="k">◉ LEFT SIDE</div>
+      <h3>Heading</h3>
+      <p>Neutral commentary sits on the left in ink-soft.</p>
+      <div class="cost">LABEL · qualifier</div>
+      <div class="flag">A dashed flag for a caveat worth pausing on.</div>
     </div>
-  </section>
+    <div class="mind">
+      <div class="k">▣ RIGHT SIDE</div>
+      <h3>Heading</h3>
+      <p>The rust-bordered panel carries the consequential half.</p>
+      <div class="cost">LABEL · qualifier</div>
+      <div class="flag hot">Use .flag.hot when the point is the risk.</div>
+    </div>
+  </div>
 
-  <!-- FLOW: a causal/mechanism chain -->
+  <!-- SECTION: prose, bars, table, code, steps -->
   <section>
-    <span class="num">02</span>
-    <h2>How it works (flow)</h2>
-    <ol class="flow">
-      <li><span class="h">First step</span><span class="s">What happens here.</span></li>
-      <li><span class="h">Second step</span><span class="s">What happens next.</span></li>
-      <li><span class="h">Outcome</span><span class="s c-red">The failure / result.</span></li>
-    </ol>
-  </section>
+    <h2>Section heading</h2>
+    <p>Body copy. Use <code>inline code</code> and <b>bold</b> sparingly.</p>
 
-  <!-- TABLE + STEPS -->
-  <section>
-    <span class="num">03</span>
-    <h2>Comparison & actions</h2>
+    <div class="bar hot">
+      <div class="lbl"><span>Largest contributor</span><span class="val">1.08 MB · 94.6%</span></div>
+      <div class="track"><div class="fill" style="width:94.6%"></div></div>
+    </div>
+    <div class="bar">
+      <div class="lbl"><span>Second contributor</span><span class="val">19.0 KB · 1.6%</span></div>
+      <div class="track"><div class="fill" style="width:1.6%"></div></div>
+    </div>
+
     <table>
       <thead><tr><th>Thing</th><th>Result</th><th>Why</th></tr></thead>
       <tbody>
@@ -172,16 +233,39 @@ some --command <span class="c-blu">--flag</span>
         <tr><td><b>Option B</b></td><td class="yes">works</td><td>Reason it works.</td></tr>
       </tbody>
     </table>
+
+    <pre><code><span class="c-dim"># a comment</span>
+some --command <span class="c-blu">--flag</span>
+<span class="c-grn">success line</span>
+<span class="c-red">error: something failed</span></code></pre>
+
     <ol class="steps">
       <li><b>Do this first.</b> Explanation of the step.</li>
-      <li><b>Then this.</b> Explanation, optionally with a code block.</li>
+      <li><b>Then this.</b> Explanation of the next step.</li>
     </ol>
   </section>
 
-  <footer>
-    <span class="k">key:</span> value · <span class="k">key:</span> value<br>
-    Footer line — source / ticket / date.
-  </footer>
+  <!-- CONTROLS (delete if static) -->
+  <div class="controls">
+    <button class="ghost">◀ Prev</button>
+    <button>▶ Auto</button>
+    <button class="ghost">Next ▶</button>
+    <div class="dots"><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
+  </div>
+
+  <!-- LEGEND -->
+  <div class="legend">
+    <div class="lg"><h4>NEUTRAL SET</h4>
+      <div class="item"><b>1</b>Numbered explanation tied to a mark in the stage above.</div>
+    </div>
+    <div class="lg hot"><h4>ACCENT SET</h4>
+      <div class="item on"><b>1</b>Highlighted when its mark is active.</div>
+    </div>
+  </div>
+
+  <div class="foot">
+    Source / ticket / verification note. State what was measured and what was not.
+  </div>
 
 </div>
 </body>

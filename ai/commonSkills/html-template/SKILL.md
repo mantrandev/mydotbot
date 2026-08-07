@@ -1,14 +1,11 @@
 ---
 name: html-template
-description: "Standard editorial template for any standalone HTML output (reports, RCAs, dashboards, diagrams, slides, recaps). Use EVERY time you generate an HTML file so output follows one consistent house style instead of ad-hoc theming."
-args: [theme]
+description: "Standard blueprint template for any standalone HTML output (reports, RCAs, dashboards, diagrams, slides, recaps). Use EVERY time you generate an HTML file so output follows one consistent house style instead of ad-hoc theming."
 ---
 
 # HTML Template
 
-House style for all standalone HTML. Light editorial by default, dark variant for dashboards/diagrams. Self-contained, no external assets.
-
-**`theme`** — `light` (default) or `dark`.
+House style for all standalone HTML: technical-drawing blueprint. Monospace throughout, grid paper background, double-ruled sheet frame, square corners, one rust accent. Single look — no light/dark variants. Self-contained, no external assets.
 
 ## Steps
 
@@ -18,29 +15,34 @@ House style for all standalone HTML. Light editorial by default, dark variant fo
    ```
    Read it once to see the available component blocks.
 
-2. Set the theme on `<html>`:
-   - `data-theme="light"` — reports, RCAs, write-ups (default)
-   - `data-theme="dark"` — dashboards, diagrams, data-heavy pages
+2. Build the page by **reusing the existing blocks** — do not invent new styling:
+   - `.sheet` — the double-ruled frame everything lives in
+   - `h1` + `.sub` + `.meta` — masthead
+   - `.tabs` / `.tab` — switching between views
+   - `.stage-wrap` + inline `<svg>` — diagram or chart canvas (`.node`, `.edge`, `.divider`, `.lanehdr`)
+   - `.tiles` / `.tile` (`.hot`) — stat tiles
+   - `.panel` → `.desc` + `.mind` — paired commentary, neutral left / rust right
+   - `.k` kicker, `.cost` metric line, `.flag` (`.hot` / `.ok`) — dashed callout
+   - `.bar` (`.hot`) — horizontal magnitude bars
+   - `table`, `pre`/`code`, `ol.steps` — content blocks
+   - `.legend` → `.lg` (`.hot`) with numbered `.item b` badges
+   - `.controls` + `button` (`.ghost`) + `.dots` — stepper
+   - `.foot`
 
-3. Build the page by **reusing the existing blocks** — do not invent new styling:
-   - `.eyebrow` + `h1` + `.lede` + `.meta` — masthead
-   - `.summary` — TL;DR
-   - `section` + `.num` + `h2` — numbered sections
-   - `.note` (`.warn` / `.good`) — callouts
-   - `table`, `pre`/`code`, `ol.flow`, `ol.steps` — content blocks
-   - `footer`
-
-4. Hard rules:
-   - **Never change the `:root` / `[data-theme="dark"]` token values.** Only consume them.
+3. Hard rules:
+   - **Never change the `:root` token values.** Only consume them.
    - Keep the `<style>` block intact; add classes only if a token-based pattern is missing.
+   - Square corners. No `border-radius` except badge circles and SVG `rx="2"`.
+   - Hover lift is `box-shadow:3px 3px 0 var(--ink)` + `translateY(-2px)` — never a soft blur.
    - Everything inline — no CDN fonts, scripts, or remote images.
-   - Syntax-highlight code with the `.c-red/.c-grn/.c-amb/.c-blu/.c-dim` spans (they adapt per theme).
+   - Mermaid needs a ~3 MB bundle; draw diagrams as inline SVG using `.node`/`.edge` instead.
+   - Syntax-highlight code with the `.c-red/.c-grn/.c-amb/.c-blu/.c-dim` spans.
 
-5. Write the final file under `~/.agent/artifacts/` (per global Artifacts rule), then open it:
+4. Write the final file under `~/.agent/artifacts/` (per global Artifacts rule), then open it:
    ```bash
    open ~/.agent/artifacts/<name>.html
    ```
 
 ## Design intent
 
-Editorial, not dashboard: warm paper background, serif body, narrow single column, generous whitespace, one accent color, hierarchy via size + space — never via loud color. The page should read like a printed brief.
+An engineering drawing, not a document: cool blue-grey grid paper, navy ink, burnt-rust accent used only for the consequential half. Everything monospace and small; hierarchy comes from rules, borders and letter-spacing rather than type size. Ink = neutral state, rust = what matters right now. Interactive pages get a stepper and hard-shadow hover so the sheet feels mechanical rather than soft.
