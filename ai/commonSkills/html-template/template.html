@@ -30,15 +30,15 @@
   }
   /* ============ BASE — blueprint grid ============ */
   *{box-sizing:border-box;margin:0;padding:0}
+  html,body{width:100%;min-height:100%}
   body{
     font-family:var(--mono);background:var(--paper);color:var(--ink);padding:16px;
     background-image:linear-gradient(var(--grid) .5px,transparent .5px),linear-gradient(90deg,var(--grid) .5px,transparent .5px);
     background-size:24px 24px;
   }
-  .sheet{width:100%;max-width:calc(100vw - 32px);margin:0 auto;border:1.5px solid var(--ink);outline:.5px solid var(--ink);
-         outline-offset:5px;padding:22px;background:rgba(237,240,244,.6);transition:max-width .22s cubic-bezier(.4,0,.2,1)}
-  .sheet.compact{max-width:1040px}
-  .sheet.wide{max-width:1600px}
+  .sheet{width:100%;max-width:none;margin:0;border:1.5px solid var(--ink);outline:.5px solid var(--ink);
+         outline-offset:5px;padding:22px;background:rgba(237,240,244,.6)}
+  .content{width:100%;max-width:none;min-width:0}
   /* ============ MASTHEAD ============ */
   h1{font-size:clamp(17px,3.4vw,24px);letter-spacing:.5px}
   .sub{font-size:12px;color:var(--rust);font-weight:700;margin:4px 0 14px}
@@ -151,11 +151,12 @@
   /* ============ FOOT ============ */
   .foot{font-size:10px;color:var(--ink-soft);margin-top:16px;line-height:1.7;
         border-top:1px solid var(--grid);padding-top:10px}
-  @media(max-width:660px){.panel,.legend{grid-template-columns:1fr}}
+  @media(max-width:660px){body{padding:8px}.sheet{padding:14px}.panel,.legend{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <div class="sheet">
+<main class="content">
 
   <!-- MASTHEAD -->
   <h1>Document title</h1>
@@ -269,6 +270,7 @@ some --command <span class="c-blu">--flag</span>
     Source / ticket / verification note. State what was measured and what was not.
   </div>
 
+</main>
 </div>
 </body>
 </html>

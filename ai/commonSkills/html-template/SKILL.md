@@ -16,7 +16,8 @@ House style for all standalone HTML: technical-drawing blueprint. Monospace thro
    Read it once to see the available component blocks.
 
 2. Build the page by **reusing the existing blocks** — do not invent new styling:
-   - `.sheet` — the double-ruled frame that fills the viewport minus the `16px` body padding; add `.compact` for reports capped at `1040px` or `.wide` for layouts capped at `1600px`
+   - `.sheet` — the double-ruled frame; always keep `width:100%;max-width:none`
+   - `.content` — the root content surface inside `.sheet`; always keep `width:100%;max-width:none;min-width:0`
    - `h1` + `.sub` + `.meta` — masthead
    - `.tabs` / `.tab` — switching between views
    - `.stage-wrap` + inline `<svg>` — diagram or chart canvas (`.node`, `.edge`, `.divider`, `.lanehdr`)
@@ -35,7 +36,8 @@ House style for all standalone HTML: technical-drawing blueprint. Monospace thro
    - Square corners. No `border-radius` except badge circles and SVG `rx="2"`.
    - Hover lift is `box-shadow:3px 3px 0 var(--ink)` + `translateY(-2px)` — never a soft blur.
    - For collapsible app navigation, keep the shell full-width in both states, keep the sidebar width fixed, and animate only `transform:translateX(...)`; never animate the sidebar width because menu rows will reflow.
-   - Let the primary content grid use `width:100%;max-width:none` so collapsing navigation releases real space. Cap only prose measures or compact reports, never the root content surface.
+   - Never add `max-width` to `.sheet` or `.content`. Cap only inner prose measures when necessary; dashboards, grids and app surfaces must consume all available width.
+   - Keep desktop padding at `16px` for `body` and `22px` for `.sheet`; reduce them at mobile breakpoints without changing either root width.
    - Everything inline — no CDN fonts, scripts, or remote images.
    - Mermaid needs a ~3 MB bundle; draw diagrams as inline SVG using `.node`/`.edge` instead.
    - Syntax-highlight code with the `.c-red/.c-grn/.c-amb/.c-blu/.c-dim` spans.
