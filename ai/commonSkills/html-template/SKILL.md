@@ -35,7 +35,7 @@ House style for all standalone HTML: technical-drawing blueprint. Monospace thro
    - Square corners. No `border-radius` except badge circles and SVG `rx="2"`.
    - Hover lift is `box-shadow:3px 3px 0 var(--ink)` + `translateY(-2px)` — never a soft blur.
    - For collapsible app navigation, keep the shell full-width in both states, keep the sidebar width fixed, and animate only `transform:translateX(...)`; never animate the sidebar width because menu rows will reflow.
-   - Keep the primary reading surface capped near `1600px` even when the shell fills the viewport.
+   - Let the primary content grid use `width:100%;max-width:none` so collapsing navigation releases real space. Cap only prose measures or compact reports, never the root content surface.
    - Everything inline — no CDN fonts, scripts, or remote images.
    - Mermaid needs a ~3 MB bundle; draw diagrams as inline SVG using `.node`/`.edge` instead.
    - Syntax-highlight code with the `.c-red/.c-grn/.c-amb/.c-blu/.c-dim` spans.
