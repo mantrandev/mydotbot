@@ -26,6 +26,8 @@ House style for all standalone HTML: technical-drawing blueprint. Monospace thro
    - `.k` kicker, `.cost` metric line, `.flag` (`.hot` / `.ok`) — dashed callout
    - `.bar` (`.hot`) — horizontal magnitude bars
    - `table`, `pre`/`code`, `ol.steps` — content blocks
+   - `.filter-field` + `.interactive-table tr[data-interactive]` (`.selected`) — searchable row directory with stable hover/selected states
+   - `.inline-detail-row` (`.open`) → `.detail-reveal` + `.detail-reveal-inner` — content that expands directly below its selected row
    - `.legend` → `.lg` (`.hot`) with numbered `.item b` badges
    - `.controls` + `button` (`.ghost`) + `.dots` — stepper
    - `.foot`
@@ -35,6 +37,11 @@ House style for all standalone HTML: technical-drawing blueprint. Monospace thro
    - Keep the `<style>` block intact; add classes only if a token-based pattern is missing.
    - Square corners. No `border-radius` except badge circles and SVG `rx="2"`.
    - Hover lift is `box-shadow:3px 3px 0 var(--ink)` + `translateY(-2px)` — never a soft blur.
+   - Keep `18px` between a filter field and the table below it. Interactive rows use `14px 16px` cell padding and `8px` row spacing so hover outlines never collide with adjacent content.
+   - Lift only unselected interactive rows. A selected row stays still, uses `var(--rust-soft)` with a `var(--rust)` border, and must not inherit the hover transform or shadow.
+   - Expand row content immediately after the selected row, never in a shared panel at the bottom and never by auto-scrolling the viewport. Move the single detail row after the selected row before opening it.
+   - Animate `.detail-reveal` with `grid-template-rows:0fr` to `1fr`, opacity and a `4px` translate. Do not animate table-row height. Remove or detach the closed detail row after the transition so it leaves no phantom spacing.
+   - Respect `prefers-reduced-motion` for every hover and reveal transition.
    - For collapsible app navigation, keep the shell full-width in both states, keep the sidebar width fixed, and animate only `transform:translateX(...)`; never animate the sidebar width because menu rows will reflow.
    - Never add `max-width` to `.sheet` or `.content`. Cap only inner prose measures when necessary; dashboards, grids and app surfaces must consume all available width.
    - Keep desktop padding at `16px` for `body` and `22px` for `.sheet`; reduce them at mobile breakpoints without changing either root width.
