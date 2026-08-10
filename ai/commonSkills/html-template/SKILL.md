@@ -40,7 +40,7 @@ House style for all standalone HTML: technical-drawing blueprint. Monospace thro
    - Keep `18px` between a filter field and the table below it. Interactive rows use `14px 16px` cell padding and `8px` row spacing so hover outlines never collide with adjacent content.
    - Lift only unselected interactive rows. A selected row stays still, uses `var(--rust-soft)` with a `var(--rust)` border, and must not inherit the hover transform or shadow.
    - Expand row content immediately after the selected row, never in a shared panel at the bottom and never by auto-scrolling the viewport. Move the single detail row after the selected row before opening it.
-   - Animate `.detail-reveal` with `grid-template-rows:0fr` to `1fr`, opacity and a `4px` translate. Do not animate table-row height. Remove or detach the closed detail row after the transition so it leaves no phantom spacing.
+   - Animate `.detail-reveal` with `grid-template-rows:0fr` to `1fr`, opacity and a `4px` translate. Do not animate table-row height or detach the detail row. Hide it after the close transition, cancel any pending close timer before reopening, then force one layout read before adding `.open` so an old close cannot hide new content.
    - Respect `prefers-reduced-motion` for every hover and reveal transition.
    - For collapsible app navigation, keep the shell full-width in both states, keep the sidebar width fixed, and animate only `transform:translateX(...)`; never animate the sidebar width because menu rows will reflow.
    - Never add `max-width` to `.sheet` or `.content`. Cap only inner prose measures when necessary; dashboards, grids and app surfaces must consume all available width.
