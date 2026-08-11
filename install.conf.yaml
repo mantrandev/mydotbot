@@ -103,6 +103,6 @@
     - command: scripts/install-claude-plugins.sh
       description: Synchronize Claude Code plugins across accounts
       stdout: true
-    - command: scripts/install-codex-skills.sh
-      description: Synchronize Matt Pocock skills for Codex
+    - command: scripts/install-codex-plugins.sh
+      description: Synchronize Matt Pocock plugin for Codex
       stdout: true

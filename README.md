@@ -95,7 +95,7 @@ Active shared skills are merged from three sources:
 
 `sync-agent-config.sh` merges all three into `ai/skills/` and propagates them to Claude, Codex, and `~/.agents_common/` (Pi receives only the shared rules file, not skills). Skills in `~/.localskills/` are never committed to this repo.
 
-Matt Pocock skills are managed separately for each agent so their upstream update mechanisms remain intact. Claude uses the official plugin. Codex uses `scripts/install-codex-skills.sh`, which installs the same 25 stable skills through `npx skills`, verifies them under `~/.codex/skills/`, and runs the shared sync script.
+Matt Pocock skills are managed separately for each agent. Claude uses the official plugin. Codex uses `scripts/install-codex-plugins.sh`, which refreshes the `mantrandev/mattpocock-skills` marketplace, installs the native plugin, removes superseded `npx skills` copies, and runs the shared sync script. The fork is synchronized manually from `mattpocock/skills` and packages the same 25 promoted skills for Codex.
 
 See each `skill.md` for details.
 
@@ -126,6 +126,21 @@ warp@claude-code-warp
 ```
 
 The script registers the shared marketplaces, installs missing plugins, updates installed plugins, enables the declared set, and removes the superseded standalone `code-review` plugin while preserving its data. Project-scope and local-scope plugins are not changed. Add or remove user-scope plugins by editing the arrays in the script.
+
+`scripts/install-codex-plugins.sh` registers `mantrandev/mattpocock-skills` as a Codex marketplace, upgrades its snapshot, installs `mattpocock-skills@mantrandev-mattpocock`, and removes the old standalone Matt Pocock installation from `~/.agents/skills`.
+
+Install the Codex plugin without this dotfiles repo:
+
+```bash
+codex plugin marketplace add mantrandev/mattpocock-skills --ref main
+codex plugin add mattpocock-skills@mantrandev-mattpocock
+```
+
+When `mattpocock/skills` releases an update, refresh the fork manually and then run `./install.sh`:
+
+```bash
+gh workflow run sync-upstream.yml --repo mantrandev/mattpocock-skills
+```
 
 ## Submodules
 
