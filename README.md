@@ -85,7 +85,7 @@ Creates symlinks for:
 
 ## Skills
 
-Active skills are merged from three sources:
+Active shared skills are merged from three sources:
 
 | Source | Committed to git | Purpose |
 |---|---|---|
@@ -94,6 +94,8 @@ Active skills are merged from three sources:
 | `~/.localskills/` | No (device-only) | Private skills with sensitive data (tokens, user IDs, internal channels) |
 
 `sync-agent-config.sh` merges all three into `ai/skills/` and propagates them to Claude, Codex, and `~/.agents_common/` (Pi receives only the shared rules file, not skills). Skills in `~/.localskills/` are never committed to this repo.
+
+Matt Pocock skills are managed separately for each agent so their upstream update mechanisms remain intact. Claude uses the official plugin. Codex uses `scripts/install-codex-skills.sh`, which installs the same 25 stable skills through `npx skills`, verifies them under `~/.codex/skills/`, and runs the shared sync script.
 
 See each `skill.md` for details.
 
@@ -110,14 +112,20 @@ See each `skill.md` for details.
 
 ## Plugins
 
-`visual-explainer` is a Claude Code plugin (no longer a skill). `scripts/install-claude-plugins.sh` runs on `./install.sh` and, for every Claude config dir (`~/.claude` + `~/.claude-account1..5`), registers the marketplace and installs the plugin:
+`scripts/install-claude-plugins.sh` is the source of truth for user-scope Claude Code plugins. It runs on `./install.sh` and synchronizes every Claude config dir (`~/.claude` + `~/.claude-account1..5`) to the same plugin set:
 
 ```bash
-claude plugin marketplace add nicobailon/visual-explainer
-claude plugin install visual-explainer@visual-explainer-marketplace
+clangd-lsp@claude-plugins-official
+frontend-design@claude-plugins-official
+mattpocock-skills@claude-plugins-official
+posthog@claude-plugins-official
+rust-analyzer-lsp@claude-plugins-official
+swift-lsp@claude-plugins-official
+visual-explainer@visual-explainer-marketplace
+warp@claude-code-warp
 ```
 
-The script is idempotent — it skips any config dir that already has the marketplace and plugin. Update to the latest upstream with `claude plugin update visual-explainer`. Add more plugins by appending to the script.
+The script registers the shared marketplaces, installs missing plugins, updates installed plugins, enables the declared set, and removes the superseded standalone `code-review` plugin while preserving its data. Project-scope and local-scope plugins are not changed. Add or remove user-scope plugins by editing the arrays in the script.
 
 ## Submodules
 
