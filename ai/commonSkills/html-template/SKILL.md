@@ -13,7 +13,7 @@ House style for all standalone HTML: technical-drawing blueprint. Monospace thro
    ```bash
    TPL=~/dotfiles/ai/commonSkills/html-template/template.html
    ```
-   Read it once to see the available component blocks.
+   Read it once to see the available component blocks. Replace `<title>` and customize the inline SVG favicon in `<head>` for the page subject before building the content.
 
 2. Build the page by **reusing the existing blocks** — do not invent new styling:
    - `.sheet` — the double-ruled frame; always keep `width:100%;max-width:none`
@@ -45,6 +45,7 @@ House style for all standalone HTML: technical-drawing blueprint. Monospace thro
    - For collapsible app navigation, keep the shell full-width in both states, keep the sidebar width fixed, and animate only `transform:translateX(...)`; never animate the sidebar width because menu rows will reflow.
    - Never add `max-width` to `.sheet` or `.content`. Cap only inner prose measures when necessary; dashboards, grids and app surfaces must consume all available width.
    - Keep desktop padding at `16px` for `body` and `22px` for `.sheet`; reduce them at mobile breakpoints without changing either root width.
+   - Every page must include a topic-relevant SVG favicon through `<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,...">` in `<head>`. Draw it with the existing palette, keep it legible at `16×16`, percent-encode reserved characters such as `#` as `%23`, and do not use emoji, text, external files or base64 blobs.
    - Everything inline — no CDN fonts, scripts, or remote images.
    - Mermaid needs a ~3 MB bundle; draw diagrams as inline SVG using `.node`/`.edge` instead.
    - Syntax-highlight code with the `.c-red/.c-grn/.c-amb/.c-blu/.c-dim` spans.
