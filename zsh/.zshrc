@@ -11,6 +11,15 @@ alias claude-t='CLAUDE_CONFIG_DIR=~/.claude-account4 claude'
 alias claude-crossian='CLAUDE_CONFIG_DIR=~/.claude-account2 claude'
 alias claude-xiaomi='CLAUDE_CONFIG_DIR=~/.claude-account5 claude'
 alias mccs='bash $HOME/dotfiles/zsh/claude-chain.sh'
+codex-mine() {
+  bash "$HOME/dotfiles/scripts/sync-codex-accounts.sh" || return
+  CODEX_HOME="$HOME/.codex" codex "$@"
+}
+
+codex-1() {
+  bash "$HOME/dotfiles/scripts/sync-codex-accounts.sh" || return
+  CODEX_HOME="$HOME/.codex-1" codex "$@"
+}
 
 function claude-dashboard() {
   if ! lsof -ti:4242 >/dev/null 2>&1; then
@@ -62,3 +71,4 @@ source ~/Desktop/projects/confluence-cli/Scripts/confluence.zsh
 
 # opencode
 export PATH=/Users/maybe/.opencode/bin:$PATH
+eval "$(atuin init zsh)"

@@ -27,6 +27,8 @@ Rebuild `ai/skills/` from sources and re-apply symlinks:
 
 **Memory** — `ai/memory/` is the persistent memory store, symlinked to `~/.claude/memory`, `~/.claude-account1/memory`, `~/.claude-account2/memory`, `~/.claude-account3/memory`. Shared across all Claude accounts.
 
+**Codex accounts** — `scripts/sync-codex-accounts.sh` merges account data into `~/.local/share/codex` and symlinks conversation history, sessions, memories, goals, attachments, and generated artifacts from every `~/.codex*` home. Authentication, config, cache, logs, queues, and installation IDs remain account-local. Skills are linked from `ai/skills/`; native plugins are synchronized per account by `scripts/install-codex-plugins.sh`.
+
 **Shell** — `zsh/` contains `.zshrc`, `.zprofile`, `jira.zsh`, and `statusline-command.sh`. Symlinked to `~/.zshrc`, `~/.zprofile`, `~/.zsh/jira.zsh`, and `~/.claude/statusline-command.sh` respectively.
 
 **App install** — `Brewfile` manages all casks and formulae. `scripts/install-vscode-extensions.sh` and `scripts/install-npm-globals.sh` handle VS Code extensions and npm globals; `scripts/install-claude-plugins.sh` synchronizes the shared user-scope Claude Code plugin set across every config dir; `scripts/install-codex-plugins.sh` installs and updates the native Matt Pocock plugin for Codex. All run automatically via the `shell:` blocks in `install.conf.yaml`.

@@ -145,6 +145,14 @@ The only exception: the user explicitly asks for a comment. Absent that instruct
 - Keep commits focused on the actual change.
 - When invoking the commit subagent, always pass: explicit change type (with note if diff could be misread), one-sentence root cause or intent, and a suggested commit message.
 
+### Commit Identity — HARD RULE
+
+- **GitHub** (any repo whose remote is github.com): commit and push as `mantrandev <mantrandev@gmail.com>`.
+- **GitLab** only: `man.minhtran.crossian <man.minhtran@crossian.com>`.
+- Before the first commit in a repo, verify with `git remote -v` and `git config user.email`. Never assume the global default is right — the global default is the GitLab identity.
+- `~/.gitconfig` picks the identity automatically through `includeIf "hasconfig:remote.*.url:..."` which loads `~/.gitconfig-github`. That match only fires once a remote exists, so a fresh `git init` with no remote still falls back to the GitLab identity — add the remote before the first commit.
+- If commits already landed under the wrong identity, fix with `git filter-repo --mailmap` then force-push. On GitHub the old SHAs stay reachable as dangling commits, so the wrong email remains visible at the old commit URL.
+
 ## Skills
 
 - Trigger a relevant skill when the task clearly matches it.

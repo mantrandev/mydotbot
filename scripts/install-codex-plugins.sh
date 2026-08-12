@@ -37,20 +37,28 @@ if ! command -v codex >/dev/null 2>&1; then
   exit 0
 fi
 
-if codex plugin marketplace list | awk -v name="$marketplace_name" '$1 == name { found = 1 } END { exit !found }'; then
-  codex plugin marketplace upgrade "$marketplace_name"
-else
-  codex plugin marketplace add "$marketplace_source" --ref main
-fi
+codex_dirs=("$HOME/.codex")
+for codex_dir in "$HOME"/.codex-*; do
+  [ -d "$codex_dir" ] && codex_dirs+=("$codex_dir")
+done
 
-codex plugin add "$plugin_selector"
+for codex_dir in "${codex_dirs[@]}"; do
+  if CODEX_HOME="$codex_dir" codex plugin marketplace list | awk -v name="$marketplace_name" '$1 == name { found = 1 } END { exit !found }'; then
+    CODEX_HOME="$codex_dir" codex plugin marketplace upgrade "$marketplace_name"
+  else
+    CODEX_HOME="$codex_dir" codex plugin marketplace add "$marketplace_source" --ref main
+  fi
+  CODEX_HOME="$codex_dir" codex plugin add "$plugin_selector"
+done
 
 for skill in "${skills[@]}"; do
   canonical="$HOME/.agents/skills/$skill"
-  target="$HOME/.codex/skills/$skill"
-  if [ -L "$target" ] && [ "$(readlink "$target")" = "$canonical" ]; then
-    rm -f "$target"
-  fi
+  for codex_dir in "${codex_dirs[@]}"; do
+    target="$codex_dir/skills/$skill"
+    if [ -L "$target" ] && [ "$(readlink "$target")" = "$canonical" ]; then
+      rm -f "$target"
+    fi
+  done
   if [ -e "$canonical" ] || [ -L "$canonical" ]; then
     rm -rf "$canonical"
   fi
@@ -66,10 +74,12 @@ fi
 repo_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 "$repo_dir/ai/sync-agent-config.sh"
 
-if ! codex plugin list | awk -v selector="$plugin_selector" '$1 == selector && $2 == "installed," && $3 == "enabled" { found = 1 } END { exit !found }'; then
-  echo "Codex plugin is not installed and enabled: $plugin_selector" >&2
-  exit 1
-fi
+for codex_dir in "${codex_dirs[@]}"; do
+  if ! CODEX_HOME="$codex_dir" codex plugin list | awk -v selector="$plugin_selector" '$1 == selector && $2 == "installed," && $3 == "enabled" { found = 1 } END { exit !found }'; then
+    echo "Codex plugin is not installed and enabled in $codex_dir: $plugin_selector" >&2
+    exit 1
+  fi
+done
 
 for skill in "${skills[@]}"; do
   if [ -e "$HOME/.agents/skills/$skill" ] || [ -L "$HOME/.agents/skills/$skill" ]; then

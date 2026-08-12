@@ -36,15 +36,18 @@ dotfiles = home / 'dotfiles'
 ai = dotfiles / 'ai'
 active = ai / 'skills'
 active_skill_names = sorted(p.name for p in active.iterdir() if p.is_dir() and not p.name.startswith('.'))
+codex_dirs = [home / '.codex'] + sorted(p for p in home.glob('.codex-*') if p.is_dir())
 
 shared_targets = {
     home / '.claude' / 'CLAUDE.md': ai / 'CLAUDE.md',
     home / '.claude' / 'skills': active,
-    home / '.codex' / 'AGENTS.md': ai / 'CLAUDE.md',
     home / '.pi' / 'agent' / 'AGENTS.md': ai / 'CLAUDE.md',
     home / '.agents_common' / 'AGENTS.md': ai / 'CLAUDE.md',
     home / '.agents_common' / 'skills': active,
 }
+
+for codex_dir in codex_dirs:
+    shared_targets[codex_dir / 'AGENTS.md'] = ai / 'CLAUDE.md'
 
 for dest, src in shared_targets.items():
     dest.parent.mkdir(parents=True, exist_ok=True)
@@ -90,8 +93,6 @@ if agents_src.is_dir():
                 dest.unlink()
             dest.symlink_to(agent_file)
 
-codex_skills_dir = home / '.codex' / 'skills'
-codex_skills_dir.mkdir(parents=True, exist_ok=True)
 managed_prefixes = [
     str((ai / 'skills').resolve()),
     str((ai / 'commonSkills').resolve()),
@@ -99,24 +100,25 @@ managed_prefixes = [
     str((ai / 'web').resolve()),
     str((home / '.localskills').resolve()),
 ]
-for child in codex_skills_dir.iterdir():
-    if not child.is_symlink():
-        continue
-    target = str(child.resolve())
-    if any(target == prefix or target.startswith(prefix + '/') for prefix in managed_prefixes):
-        child.unlink()
+for codex_dir in codex_dirs:
+    codex_skills_dir = codex_dir / 'skills'
+    codex_skills_dir.mkdir(parents=True, exist_ok=True)
+    for child in codex_skills_dir.iterdir():
+        if not child.is_symlink():
+            continue
+        target = str(child.resolve())
+        if any(target == prefix or target.startswith(prefix + '/') for prefix in managed_prefixes):
+            child.unlink()
 
-for name in active_skill_names:
-    # Resolve to the real source dir (commonSkills or iOS) so edits propagate
-    # to Codex immediately without needing another sync run.
-    resolved = (active / name).resolve()
-    link = codex_skills_dir / name
-    if link.exists() or link.is_symlink():
-        if link.is_dir() and not link.is_symlink():
-            shutil.rmtree(link)
-        else:
-            link.unlink()
-    link.symlink_to(resolved)
+    for name in active_skill_names:
+        resolved = (active / name).resolve()
+        link = codex_skills_dir / name
+        if link.exists() or link.is_symlink():
+            if link.is_dir() and not link.is_symlink():
+                shutil.rmtree(link)
+            else:
+                link.unlink()
+        link.symlink_to(resolved)
 
 print(f'commonSkills={len([p for p in (ai / "commonSkills").iterdir() if p.is_dir() and not p.name.startswith(".")])}')
 print(f'iOS={len([p for p in (ai / "iOS").iterdir() if p.is_dir() and not p.name.startswith(".")])}')
