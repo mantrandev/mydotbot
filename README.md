@@ -71,7 +71,7 @@ Creates symlinks for:
 
 **Multi-account chaining** — `mccs` runs Claude starting from account1 and auto-advances to the next account when the 5h or 7d rate limit hits 90%, resuming the conversation with `-c`. History is shared across all accounts via symlinks so context is never lost.
 
-**Codex multi-account data** — `codex-mine` and `codex-1` keep separate login credentials and config while sharing conversation history, active and archived sessions, session index, memories, goals, attachments, generated images, and thread state through `~/.local/share/codex`. The first migration runs only when all Codex processes are closed and stores the previous account data under `~/.local/share/codex-account-backups/`.
+**Codex multi-account data** — `codex-mine` and `codex-1` keep separate login credentials and config while sharing conversation history, active and archived sessions, session index, memories, goals, attachments, generated images, and thread state through `~/.local/share/codex`. The symlinks are declared in `install.conf.yaml` and applied by `install.sh`, so no Codex process needs to be closed.
 
 **Agents**
 - `~/.claude/` — Claude Code

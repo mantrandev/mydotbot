@@ -27,6 +27,17 @@
     - ~/.codex/skills
     - ~/.codex-1
     - ~/.codex-1/skills
+    - ~/.local/share/codex/sessions
+    - ~/.local/share/codex/archived_sessions
+    - ~/.local/share/codex/shell_snapshots
+    - ~/.local/share/codex/thread-writer-locks
+    - ~/.local/share/codex/memories
+    - ~/.local/share/codex/attachments
+    - ~/.local/share/codex/generated_images
+    - ~/.local/share/codex/visualizations
+    - ~/.local/share/codex/dictation-history
+    - ~/.local/share/codex/ambient-suggestions
+    - ~/.local/share/codex/pets
     - ~/.pi/agent
     - ~/.agents_common
     - ~/.zsh
@@ -71,6 +82,128 @@
     ~/.codex-1/AGENTS.md: ai/CLAUDE.md
     ~/.codex-1/rules:
       path: ~/.codex/rules
+    ~/.codex/sessions:
+      path: ~/.local/share/codex/sessions
+      force: false
+    ~/.codex-1/sessions:
+      path: ~/.local/share/codex/sessions
+      force: false
+    ~/.codex/archived_sessions:
+      path: ~/.local/share/codex/archived_sessions
+      force: false
+    ~/.codex-1/archived_sessions:
+      path: ~/.local/share/codex/archived_sessions
+      force: false
+    ~/.codex/shell_snapshots:
+      path: ~/.local/share/codex/shell_snapshots
+      force: false
+    ~/.codex-1/shell_snapshots:
+      path: ~/.local/share/codex/shell_snapshots
+      force: false
+    ~/.codex/thread-writer-locks:
+      path: ~/.local/share/codex/thread-writer-locks
+      force: false
+    ~/.codex-1/thread-writer-locks:
+      path: ~/.local/share/codex/thread-writer-locks
+      force: false
+    ~/.codex/memories:
+      path: ~/.local/share/codex/memories
+      force: false
+    ~/.codex-1/memories:
+      path: ~/.local/share/codex/memories
+      force: false
+    ~/.codex/attachments:
+      path: ~/.local/share/codex/attachments
+      force: false
+    ~/.codex-1/attachments:
+      path: ~/.local/share/codex/attachments
+      force: false
+    ~/.codex/generated_images:
+      path: ~/.local/share/codex/generated_images
+      force: false
+    ~/.codex-1/generated_images:
+      path: ~/.local/share/codex/generated_images
+      force: false
+    ~/.codex/visualizations:
+      path: ~/.local/share/codex/visualizations
+      force: false
+    ~/.codex-1/visualizations:
+      path: ~/.local/share/codex/visualizations
+      force: false
+    ~/.codex/dictation-history:
+      path: ~/.local/share/codex/dictation-history
+      force: false
+    ~/.codex-1/dictation-history:
+      path: ~/.local/share/codex/dictation-history
+      force: false
+    ~/.codex/ambient-suggestions:
+      path: ~/.local/share/codex/ambient-suggestions
+      force: false
+    ~/.codex-1/ambient-suggestions:
+      path: ~/.local/share/codex/ambient-suggestions
+      force: false
+    ~/.codex/pets:
+      path: ~/.local/share/codex/pets
+      force: false
+    ~/.codex-1/pets:
+      path: ~/.local/share/codex/pets
+      force: false
+    ~/.codex/history.jsonl:
+      path: ~/.local/share/codex/history.jsonl
+      force: false
+      ignore-missing: true
+    ~/.codex-1/history.jsonl:
+      path: ~/.local/share/codex/history.jsonl
+      force: false
+      ignore-missing: true
+    ~/.codex/session_index.jsonl:
+      path: ~/.local/share/codex/session_index.jsonl
+      force: false
+      ignore-missing: true
+    ~/.codex-1/session_index.jsonl:
+      path: ~/.local/share/codex/session_index.jsonl
+      force: false
+      ignore-missing: true
+    ~/.codex/transcription-history.jsonl:
+      path: ~/.local/share/codex/transcription-history.jsonl
+      force: false
+      ignore-missing: true
+    ~/.codex-1/transcription-history.jsonl:
+      path: ~/.local/share/codex/transcription-history.jsonl
+      force: false
+      ignore-missing: true
+    ~/.codex/state_5.sqlite:
+      path: ~/.local/share/codex/state_5.sqlite
+      force: false
+      ignore-missing: true
+    ~/.codex-1/state_5.sqlite:
+      path: ~/.local/share/codex/state_5.sqlite
+      force: false
+      ignore-missing: true
+    ~/.codex/thread_history_1.sqlite:
+      path: ~/.local/share/codex/thread_history_1.sqlite
+      force: false
+      ignore-missing: true
+    ~/.codex-1/thread_history_1.sqlite:
+      path: ~/.local/share/codex/thread_history_1.sqlite
+      force: false
+      ignore-missing: true
+    ~/.codex/goals_1.sqlite:
+      path: ~/.local/share/codex/goals_1.sqlite
+      force: false
+      ignore-missing: true
+    ~/.codex-1/goals_1.sqlite:
+      path: ~/.local/share/codex/goals_1.sqlite
+      force: false
+      ignore-missing: true
+    ~/.codex/memories_1.sqlite:
+      path: ~/.local/share/codex/memories_1.sqlite
+      force: false
+      ignore-missing: true
+    ~/.codex-1/memories_1.sqlite:
+      path: ~/.local/share/codex/memories_1.sqlite
+      force: false
+      ignore-missing: true
     ~/.codex/skills/analyzing-source-code: ai/skills/analyzing-source-code
     ~/.codex/skills/analyzing-video: ai/skills/analyzing-video
     ~/.codex/skills/architecture-validator: ai/skills/architecture-validator
@@ -105,9 +238,6 @@
     ~/.agents_common/skills: ai/skills
 
 - shell:
-    - command: bash scripts/sync-codex-accounts.sh
-      description: Synchronize Codex data across accounts
-      stdout: true
     - command: scripts/install-claude-plugins.sh
       description: Synchronize Claude Code plugins across accounts
       stdout: true

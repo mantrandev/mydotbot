@@ -27,7 +27,7 @@ Rebuild `ai/skills/` from sources and re-apply symlinks:
 
 **Memory** — `ai/memory/` is the persistent memory store, symlinked to `~/.claude/memory`, `~/.claude-account1/memory`, `~/.claude-account2/memory`, `~/.claude-account3/memory`. Shared across all Claude accounts.
 
-**Codex accounts** — `scripts/sync-codex-accounts.sh` merges account data into `~/.local/share/codex` and symlinks conversation history, sessions, memories, goals, attachments, and generated artifacts from every `~/.codex*` home. Authentication, config, cache, logs, queues, and installation IDs remain account-local. Skills are linked from `ai/skills/`; native plugins are synchronized per account by `scripts/install-codex-plugins.sh`.
+**Codex accounts** — `install.conf.yaml` symlinks conversation history, sessions, memories, goals, attachments, and generated artifacts from `~/.codex` and `~/.codex-1` into `~/.local/share/codex`. Authentication, config, cache, logs, queues, and installation IDs remain account-local. Adding an account means adding its link entries to `install.conf.yaml`. Skills are linked from `ai/skills/`; native plugins are synchronized per account by `scripts/install-codex-plugins.sh`.
 
 **Shell** — `zsh/` contains `.zshrc`, `.zprofile`, `jira.zsh`, and `statusline-command.sh`. Symlinked to `~/.zshrc`, `~/.zprofile`, `~/.zsh/jira.zsh`, and `~/.claude/statusline-command.sh` respectively.
 
