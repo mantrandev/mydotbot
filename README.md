@@ -76,7 +76,7 @@ Creates symlinks for:
 **Agents**
 - `~/.claude/` — Claude Code
 - `~/.codex/` — Codex
-- `~/.pi/agent/` — Pi (shared rules only, no skills)
+- `~/.pi/agent/` — Pi (shared rules and the `html-template` skill)
 - `~/.agents_common/` — shared
 
 **Memory** (shared across all Claude accounts)
@@ -95,7 +95,7 @@ Active shared skills are merged from three sources:
 | `ai/iOS/` | Yes | iOS-specific skills |
 | `~/.localskills/` | No (device-only) | Private skills with sensitive data (tokens, user IDs, internal channels) |
 
-`sync-agent-config.sh` merges all three into `ai/skills/` and propagates them to Claude, Codex, and `~/.agents_common/` (Pi receives only the shared rules file, not skills). Skills in `~/.localskills/` are never committed to this repo.
+`sync-agent-config.sh` merges all three into `ai/skills/` and propagates them to Claude, Codex, and `~/.agents_common/`. Pi receives the shared rules file and the `html-template` skill through Dotbot. Skills in `~/.localskills/` are never committed to this repo.
 
 Matt Pocock skills are managed separately for each agent. Claude uses the official plugin. Codex uses `scripts/install-codex-plugins.sh`, which refreshes the `mantrandev/mattpocock-skills` marketplace, installs the native plugin, removes superseded `npx skills` copies, and runs the shared sync script. The fork is synchronized manually from `mattpocock/skills` and packages the same 25 promoted skills for Codex.
 

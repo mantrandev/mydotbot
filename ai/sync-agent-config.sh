@@ -27,12 +27,13 @@ for SKILL_DIR in "$LOCAL_DIR"/*/; do
   ln -s "$SKILL_DIR" "$ACTIVE_DIR/$SKILL_NAME"
 done
 
-python3 - <<'PY'
+DOTFILES_DIR="$DOTFILES_DIR" python3 - <<'PY'
+import os
 from pathlib import Path
 import shutil
 
 home = Path.home()
-dotfiles = home / 'dotfiles'
+dotfiles = Path(os.environ['DOTFILES_DIR'])
 ai = dotfiles / 'ai'
 active = ai / 'skills'
 active_skill_names = sorted(p.name for p in active.iterdir() if p.is_dir() and not p.name.startswith('.'))
