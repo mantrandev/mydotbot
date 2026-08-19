@@ -185,16 +185,3 @@ The only exception: the user explicitly asks for a comment. Absent that instruct
 - "Wrong. Fixed in [file]."
 
 Never explain why you were wrong unless explicitly asked.
-
-## RTK
-
-- If `rtk --version` works, prefer prefixing shell commands with `rtk`.
-- Use direct `rtk` meta commands when needed:
-  - `rtk gain`
-  - `rtk gain --history`
-  - `rtk discover`
-  - `rtk proxy <cmd>`
-- Verify RTK when behavior looks wrong:
-  - `rtk --version`
-  - `rtk gain`
-  - `which rtk`
