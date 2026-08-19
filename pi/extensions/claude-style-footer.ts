@@ -30,7 +30,7 @@ export default function (pi: ExtensionAPI) {
 						separator +
 						`${bar} ${theme.fg(contextColor, contextLabel)}` +
 						separator +
-						`${theme.fg("success", "🌿")} ${theme.fg("success", branch)}`;
+						`${theme.fg("success", "🌱")} ${theme.fg("success", branch)}`;
 
 					return [truncateToWidth(line, width, "")];
 				},
