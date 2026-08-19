@@ -234,6 +234,8 @@
     ~/.codex/skills/usage-dashboard: ai/skills/usage-dashboard
     ~/.codex/skills/writing-unit-tests: ai/skills/writing-unit-tests
     ~/.pi/agent/AGENTS.md: ai/CLAUDE.md
+    ~/.pi/agent/themes/claude-code-dark.json: pi/themes/claude-code-dark.json
+    ~/.pi/agent/extensions/claude-style-footer.ts: pi/extensions/claude-style-footer.ts
     ~/.agents_common/AGENTS.md: ai/CLAUDE.md
     ~/.agents_common/skills: ai/skills
 
