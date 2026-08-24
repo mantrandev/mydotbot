@@ -62,17 +62,17 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 
 ## Source of Truth
 
-- `~/dotfiles/ai/CLAUDE.md` is the shared global rules source.
-- `~/dotfiles/ai/commonSkills/` stores shared common skills and is default-loaded globally.
-- `~/dotfiles/ai/iOS/` stores shared iOS skills and is default-loaded globally.
-- `~/dotfiles/ai/web/` stores parked web skills that are not default-loaded globally.
-- `~/dotfiles/ai/skills/` is the generated active global skills root built from `commonSkills` and `iOS`.
-- Edit the dotfiles source, not mirrored agent files.
-- When adding, editing, moving, or deleting a shared skill, change `~/dotfiles/ai/commonSkills/`, `~/dotfiles/ai/iOS/`, or `~/dotfiles/ai/web/` only.
-- Do not edit `~/dotfiles/ai/skills/` directly.
-- When updating shared global rules, change `~/dotfiles/ai/CLAUDE.md` only.
-- **MANDATORY: After ANY skill add, edit, move, or delete — run `~/dotfiles/ai/sync-agent-config.sh` immediately. This propagates changes to Claude, Codex, and Pi. Never skip this step.**
-- If a mirrored agent path differs from dotfiles, dotfiles wins.
+- `~/Desktop/projects/mydotbot/ai/CLAUDE.md` is the shared global rules source.
+- `~/Desktop/projects/mydotbot/ai/commonSkills/` stores shared common skills and is default-loaded globally.
+- `~/Desktop/projects/mydotbot/ai/iOS/` stores shared iOS skills and is default-loaded globally.
+- `~/Desktop/projects/mydotbot/ai/web/` stores parked web skills that are not default-loaded globally.
+- `~/Desktop/projects/mydotbot/ai/skills/` is the generated active global skills root built from `commonSkills` and `iOS`.
+- Edit the mydotbot source, not mirrored agent files.
+- When adding, editing, moving, or deleting a shared skill, change `~/Desktop/projects/mydotbot/ai/commonSkills/`, `~/Desktop/projects/mydotbot/ai/iOS/`, or `~/Desktop/projects/mydotbot/ai/web/` only.
+- Do not edit `~/Desktop/projects/mydotbot/ai/skills/` directly.
+- When updating shared global rules, change `~/Desktop/projects/mydotbot/ai/CLAUDE.md` only.
+- **MANDATORY: After ANY skill add, edit, move, or delete — run `~/Desktop/projects/mydotbot/ai/sync-agent-config.sh` immediately. This propagates changes to Claude, Codex, and Pi. Never skip this step.**
+- If a mirrored agent path differs from the mydotbot source, the mydotbot source wins.
 
 ## Startup
 
@@ -157,9 +157,9 @@ The only exception: the user explicitly asks for a comment. Absent that instruct
 
 - Trigger a relevant skill when the task clearly matches it.
 - Prefer reusable skill workflows and scripts over ad-hoc repetition.
-- Keep default-loaded shared skills under `~/dotfiles/ai/commonSkills` or `~/dotfiles/ai/iOS`.
-- Keep parked web skills under `~/dotfiles/ai/web` until they are needed in a project.
-- **After creating, editing, moving, or deleting any skill file or directory, always run `~/dotfiles/ai/sync-agent-config.sh` as the final step. This is non-optional.**
+- Keep default-loaded shared skills under `~/Desktop/projects/mydotbot/ai/commonSkills` or `~/Desktop/projects/mydotbot/ai/iOS`.
+- Keep parked web skills under `~/Desktop/projects/mydotbot/ai/web` until they are needed in a project.
+- **After creating, editing, moving, or deleting any skill file or directory, always run `~/Desktop/projects/mydotbot/ai/sync-agent-config.sh` as the final step. This is non-optional.**
 
 ## Tone & Communication
 
