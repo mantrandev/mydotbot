@@ -12,12 +12,16 @@ alias claude-crossian='CLAUDE_CONFIG_DIR=~/.claude-account2 claude'
 alias claude-xiaomi='CLAUDE_CONFIG_DIR=~/.claude-account5 claude'
 alias mccs='bash $HOME/dotfiles/zsh/claude-chain.sh'
 codex-mine() {
-  bash "$HOME/dotfiles/scripts/sync-codex-accounts.sh" || return
+  if [ -x "$HOME/dotfiles/scripts/sync-codex-accounts.sh" ]; then
+    bash "$HOME/dotfiles/scripts/sync-codex-accounts.sh" || return
+  fi
   CODEX_HOME="$HOME/.codex" codex "$@"
 }
 
 codex-1() {
-  bash "$HOME/dotfiles/scripts/sync-codex-accounts.sh" || return
+  if [ -x "$HOME/dotfiles/scripts/sync-codex-accounts.sh" ]; then
+    bash "$HOME/dotfiles/scripts/sync-codex-accounts.sh" || return
+  fi
   CODEX_HOME="$HOME/.codex-1" codex "$@"
 }
 
