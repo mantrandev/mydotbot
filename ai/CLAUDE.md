@@ -103,6 +103,20 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - Applies to all standalone HTML output (courses, dashboards, diagrams, slides, reports) unless the user names a different destination.
 - Before writing any standalone HTML, follow the `html-template` skill: start from its `template.html`, reuse its component blocks and design tokens, and do not invent ad-hoc theming. Pick `data-theme="light"` (default) or `data-theme="dark"` (dashboards/diagrams).
 
+## Writing Documentation
+
+Applies to all docs: README, plans, reports, RCA, skill files, MR/PR
+descriptions, ticket comments.
+
+- Lead with the answer. Details after.
+- Use plain words. If a shorter word works, use it.
+- One idea per sentence. Cut filler and long intros.
+- Explain a term the first time you use it, or drop the term.
+- Draw any flow that has steps, branches, or states. Use Mermaid where it
+  renders, ASCII where it does not. Do not describe in prose what a diagram
+  shows better.
+- Keep diagrams small: only the boxes the reader needs.
+
 ## Review Style
 
 - Present findings first.
