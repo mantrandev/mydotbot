@@ -1,19 +1,4 @@
 <!DOCTYPE html>
-<!--
-  ╔══════════════════════════════════════════════════════════════════╗
-  ║  BLUEPRINT HTML TEMPLATE  ·  html-template skill                   ║
-  ║                                                                    ║
-  ║  HOW TO USE                                                        ║
-  ║  1. Copy this file. Keep the <style> block and the :root tokens    ║
-  ║     EXACTLY — do not invent new colors/fonts.                      ║
-  ║  2. Replace the content inside .sheet with your own, reusing the   ║
-  ║     component blocks below. Delete blocks you don't need.          ║
-  ║  3. Single look, no dark variant. Mono type, square corners,       ║
-  ║     hard 3px offset shadows, one rust accent.                      ║
-  ║  4. Self-contained only: no external fonts/scripts/images.         ║
-  ║  5. Write the final file under ~/.agent/artifacts/ , then open it. ║
-  ╚══════════════════════════════════════════════════════════════════╝
--->
 <html lang="en">
 <head>
 <meta charset="UTF-8">
@@ -21,7 +6,6 @@
 <title>TITLE — replace me</title>
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' fill='%23EDF0F4'/%3E%3Cpath d='M8 8h48v48H8z' fill='none' stroke='%231B2A41' stroke-width='4'/%3E%3Cpath d='M18 42 32 18l14 24z' fill='%23FBE9E0' stroke='%23C1440E' stroke-width='4'/%3E%3C/svg%3E">
 <style>
-  /* ============ DESIGN TOKENS — do not edit values, only reuse ============ */
   :root{
     --paper:#EDF0F4; --grid:#C9D2DC; --ink:#1B2A41; --ink-soft:#4A5A6E;
     --rust:#C1440E; --rust-soft:#FBE9E0; --peach:#F4B08C; --white:#FFF;
@@ -29,7 +13,6 @@
     --good:#2E7D5B; --warn:#9A6A1F;
     --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
   }
-  /* ============ BASE — blueprint grid ============ */
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{width:100%;min-height:100%}
   body{
@@ -40,14 +23,12 @@
   .sheet{width:100%;max-width:none;margin:0;border:1.5px solid var(--ink);outline:.5px solid var(--ink);
          outline-offset:5px;padding:22px;background:rgba(237,240,244,.6)}
   .content{width:100%;max-width:none;min-width:0}
-  /* ============ MASTHEAD ============ */
   h1{font-size:clamp(17px,3.4vw,24px);letter-spacing:.5px}
   .sub{font-size:12px;color:var(--rust);font-weight:700;margin:4px 0 14px}
   .meta{display:flex;flex-wrap:wrap;gap:5px 18px;font-size:10.5px;color:var(--ink-soft);
         border-top:1px solid var(--grid);border-bottom:1px solid var(--grid);padding:9px 0;margin-bottom:16px}
   .meta b{color:var(--ink);font-weight:700;letter-spacing:1px}
   .meta .ok{color:var(--good)} .meta .hot{color:var(--rust)}
-  /* ============ SECTIONS ============ */
   section{margin-top:22px}
   h2{font-size:14px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:9px;
      padding-bottom:6px;border-bottom:1.2px solid var(--ink)}
@@ -56,7 +37,6 @@
   p b,li b,td b{color:var(--ink);font-weight:700}
   a{color:var(--rust)}
   .k{font-size:10px;font-weight:700;letter-spacing:2px;color:var(--ink-soft)}
-  /* ============ TABS ============ */
   .tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
   .tab{font-family:var(--mono);font-size:11.5px;padding:8px 12px;cursor:pointer;
        background:var(--white);border:1.2px solid var(--ink);color:var(--ink);transition:all .15s}
@@ -64,7 +44,6 @@
   .tab.active{background:var(--ink);color:var(--white)}
   .tab.active .n{color:var(--peach)}
   .tab .n{font-weight:700;margin-right:6px}
-  /* ============ STAGE — canvas for SVG / chart / diagram ============ */
   .stage-wrap{border:1.2px solid var(--ink);background:var(--white);position:relative}
   .stage-wrap svg{display:block;width:100%;height:auto}
   .lanehdr{font-size:13px;font-weight:700;letter-spacing:1px}
@@ -75,7 +54,6 @@
   .node.active rect{fill:var(--rust-soft);stroke:var(--rust);stroke-width:2}
   .node.active .lbl{fill:var(--rust)}
   .edge{stroke:var(--ink-soft);stroke-width:1.2;fill:none}
-  /* ============ PANEL — paired commentary ============ */
   .panel{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:14px}
   .desc,.mind{border:1.2px solid var(--ink);background:var(--white);padding:14px;min-height:120px}
   .desc{border-color:var(--ink-soft)}
@@ -85,26 +63,22 @@
   .desc p{color:var(--ink-soft)} .mind p{color:var(--ink)}
   .cost{margin-top:10px;font-size:11px;font-weight:700}
   .desc .cost{color:var(--ink)} .mind .cost{color:var(--rust)}
-  /* ============ CALLOUT — dashed flag ============ */
   .flag{margin-top:8px;font-size:11px;line-height:1.65;font-weight:700;padding:7px 10px;border:1px dashed;
         color:var(--ink);border-color:var(--steel);background:var(--panel)}
   .flag.hot{color:var(--rust);border-color:var(--rust);background:var(--rust-soft)}
   .flag.ok{color:var(--good);border-color:var(--good);background:var(--white)}
-  /* ============ STAT TILES ============ */
   .tiles{display:flex;flex-wrap:wrap;gap:10px;margin:14px 0}
   .tile{flex:1 1 150px;border:1.2px solid var(--ink);background:var(--white);padding:11px 13px}
   .tile .k{display:block;margin-bottom:4px}
   .tile .v{font-size:21px;font-weight:700;color:var(--ink);line-height:1.2}
   .tile .u{font-size:10.5px;color:var(--ink-soft)}
   .tile.hot{border-color:var(--rust)} .tile.hot .v{color:var(--rust)}
-  /* ============ BARS ============ */
   .bar{margin-bottom:13px}
   .bar .lbl{display:flex;justify-content:space-between;gap:12px;font-size:11.5px;margin-bottom:4px}
   .bar .val{font-weight:700}
   .bar .track{height:13px;background:var(--mut);border:1px solid var(--grid)}
   .bar .fill{height:100%;background:var(--ink);transition:width .2s}
   .bar.hot .fill{background:var(--rust)}
-  /* ============ TABLE ============ */
   table{width:100%;border-collapse:collapse;margin:12px 0;font-size:11.5px}
   thead th{text-align:left;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-soft);
            font-weight:700;padding:0 12px 7px 0;border-bottom:1.2px solid var(--ink)}
@@ -134,21 +108,18 @@
   .detail-reveal-inner{min-height:0;overflow:hidden}
   .inline-detail-row.open .detail-reveal{grid-template-rows:1fr;opacity:1;transform:translateY(0)}
   [hidden]{display:none!important}
-  /* ============ CODE ============ */
   pre{background:var(--white);border:1.2px solid var(--ink-soft);padding:12px 14px;overflow-x:auto;margin:12px 0}
   code{font-family:var(--mono);font-size:11.5px}
   pre code{color:var(--ink);line-height:1.65}
   p code,li code,td code{background:var(--white);border:1px solid var(--grid);padding:1px 5px;font-size:11px}
   .c-red{color:var(--rust)} .c-grn{color:var(--good)} .c-amb{color:var(--warn)}
   .c-blu{color:var(--ink-soft)} .c-dim{color:var(--steel)}
-  /* ============ NUMBERED STEPS ============ */
   ol.steps{list-style:none;counter-reset:s;margin:12px 0}
   ol.steps li{counter-increment:s;position:relative;padding-left:26px;margin-bottom:10px;
               font-size:11.5px;line-height:1.65;color:var(--ink-soft)}
   ol.steps li::before{content:counter(s);position:absolute;left:0;top:1px;width:17px;height:17px;line-height:17px;
        text-align:center;border-radius:50%;background:var(--ink);color:var(--white);font-size:10px;font-weight:700}
   ol.steps li b{display:block;color:var(--ink)}
-  /* ============ LEGEND ============ */
   .legend{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
   .lg{border:1.2px solid var(--steel);padding:12px}
   .lg.hot{border-color:var(--rust)}
@@ -160,7 +131,6 @@
   .lg.hot .item b{background:var(--peach);color:var(--ink)}
   .lg .item.on{color:var(--ink);font-weight:600}
   .lg .item.on b{background:var(--rust);color:var(--white)}
-  /* ============ CONTROLS ============ */
   .controls{display:flex;align-items:center;gap:10px;margin-top:14px;flex-wrap:wrap}
   button{font-family:var(--mono);font-size:12px;padding:8px 16px;cursor:pointer;
          background:var(--ink);color:var(--white);border:none;transition:all .15s}
@@ -171,7 +141,6 @@
   .dot{width:9px;height:9px;border:1px solid var(--ink);background:var(--white);cursor:pointer}
   .dot.on{background:var(--rust);border-color:var(--rust)}
   .dot.past{background:var(--ink-soft);border-color:var(--ink-soft)}
-  /* ============ FOOT ============ */
   .foot{font-size:10px;color:var(--ink-soft);margin-top:16px;line-height:1.7;
         border-top:1px solid var(--grid);padding-top:10px}
   @media(max-width:660px){body{padding:8px}.sheet{padding:14px}.panel,.legend{grid-template-columns:1fr}
@@ -189,7 +158,6 @@
 <div class="sheet">
 <main class="content">
 
-  <!-- MASTHEAD -->
   <h1>Document title</h1>
   <div class="sub">One line stating what this sheet shows and how to read it.</div>
   <div class="meta">
@@ -198,13 +166,11 @@
     <span><b>REF</b> TICKET-123</span>
   </div>
 
-  <!-- TABS (delete if single view) -->
   <div class="tabs" id="tabs">
     <div class="tab active"><span class="n">1·</span>First view</div>
     <div class="tab"><span class="n">2·</span>Second view</div>
   </div>
 
-  <!-- STAGE: inline SVG diagram / chart canvas -->
   <div class="stage-wrap">
     <svg viewBox="0 0 880 200" xmlns="http://www.w3.org/2000/svg">
       <defs>
@@ -222,13 +188,11 @@
     </svg>
   </div>
 
-  <!-- STAT TILES -->
   <div class="tiles">
     <div class="tile"><span class="k">METRIC</span><span class="v">1.14 MB</span> <span class="u">before</span></div>
     <div class="tile hot"><span class="k">METRIC</span><span class="v">19.7 KB</span> <span class="u">after</span></div>
   </div>
 
-  <!-- PAIRED PANEL -->
   <div class="panel">
     <div class="desc">
       <div class="k">◉ LEFT SIDE</div>
@@ -246,7 +210,6 @@
     </div>
   </div>
 
-  <!-- SECTION: prose, bars, table, code, steps -->
   <section>
     <h2>Section heading</h2>
     <p>Body copy. Use <code>inline code</code> and <b>bold</b> sparingly.</p>
@@ -268,8 +231,7 @@
       </tbody>
     </table>
 
-    <pre><code><span class="c-dim"># a comment</span>
-some --command <span class="c-blu">--flag</span>
+    <pre><code>some --command <span class="c-blu">--flag</span>
 <span class="c-grn">success line</span>
 <span class="c-red">error: something failed</span></code></pre>
 
@@ -279,7 +241,6 @@ some --command <span class="c-blu">--flag</span>
     </ol>
   </section>
 
-  <!-- CONTROLS (delete if static) -->
   <div class="controls">
     <button class="ghost">◀ Prev</button>
     <button>▶ Auto</button>
@@ -287,7 +248,6 @@ some --command <span class="c-blu">--flag</span>
     <div class="dots"><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
   </div>
 
-  <!-- LEGEND -->
   <div class="legend">
     <div class="lg"><h4>NEUTRAL SET</h4>
       <div class="item"><b>1</b>Numbered explanation tied to a mark in the stage above.</div>
