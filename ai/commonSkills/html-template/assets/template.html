@@ -143,6 +143,67 @@
   .dot.past{background:var(--ink-soft);border-color:var(--ink-soft)}
   .foot{font-size:10px;color:var(--ink-soft);margin-top:16px;line-height:1.7;
         border-top:1px solid var(--grid);padding-top:10px}
+  .app-shell{display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:start;width:100%;min-width:0}
+  .sidebar-slot{width:320px;min-width:0;transition:width .22s cubic-bezier(.2,.8,.2,1)}
+  .sidebar{width:320px;max-height:calc(100vh - 54px);position:sticky;top:16px;overflow-y:auto;
+           background:var(--white);border:1.2px solid var(--ink);padding:10px;transform:translateX(0);
+           transition:transform .22s cubic-bezier(.2,.8,.2,1)}
+  .app-shell.nav-collapsed{gap:0}
+  .app-shell.nav-collapsed .sidebar-slot{width:0}
+  .app-shell.nav-collapsed .sidebar{transform:translateX(calc(-100% - 18px))}
+  .app-main{width:100%;min-width:0}
+  .sidebar-top,.nav-progress-head,.nav-topline{display:flex;align-items:center;gap:10px}
+  .sidebar-top{justify-content:space-between;border-bottom:1.2px solid var(--ink);padding-bottom:8px;margin-bottom:10px}
+  .sidebar-close{padding:5px 9px;line-height:1}
+  .nav-progress{border:1px solid var(--grid);background:var(--panel);padding:10px;margin-bottom:10px}
+  .nav-progress-head{justify-content:space-between;font-size:11px;margin-bottom:7px}
+  .nav-progress-head strong{color:var(--rust)}
+  .nav-progress-track{height:9px;background:var(--mut);border:1px solid var(--grid)}
+  .nav-progress-fill{height:100%;width:var(--progress);background:var(--rust)}
+  .nav-section{border-bottom:1.2px solid var(--ink);padding:6px 0;margin:10px 0 8px}
+  .nav-item{display:flex;align-items:center;gap:8px;text-align:left;width:100%;padding:9px 10px;margin-bottom:6px;
+            background:var(--white);border:1.2px solid var(--grid);color:var(--ink)}
+  .nav-item:hover{background:var(--white);border-color:var(--ink);color:var(--ink)}
+  .nav-item.active{background:var(--ink);border-color:var(--ink);color:var(--white)}
+  .nav-item .ic{color:var(--rust)}
+  .nav-item.active .ic{color:var(--peach)}
+  .nav-group{border:1px solid var(--grid);background:var(--white);margin-bottom:6px}
+  .nav-group.open{border-color:var(--ink)}
+  .nav-group-toggle{display:flex;align-items:flex-start;gap:8px;text-align:left;width:100%;padding:16px 12px;
+                    background:transparent;border:0;color:var(--ink)}
+  .nav-group-toggle:hover{background:var(--panel);color:var(--ink)}
+  .nav-arrow{color:var(--rust);font-size:10px;line-height:1.6}
+  .nav-copy{min-width:0;flex:1}
+  .nav-name{display:block;color:var(--ink);font-size:12.5px;font-weight:700;line-height:1.4}
+  .nav-group.done .nav-name{color:var(--good)}
+  .nav-sub{display:block;color:var(--ink-soft);font-size:10.5px;font-weight:400;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .nav-count{color:var(--steel);font-size:11px;font-weight:700;white-space:nowrap}
+  .nav-count.hot{color:var(--rust)}
+  .nav-count.ok{color:var(--good)}
+  .nav-children{display:none;border-top:1px solid var(--grid);padding:8px}
+  .nav-group.open .nav-children{display:block}
+  .nav-child{display:grid;grid-template-columns:12px auto minmax(0,1fr);align-items:baseline;gap:6px;text-align:left;
+             width:100%;padding:16px 12px;background:transparent;border:0;color:var(--ink-soft);line-height:1.6}
+  .nav-child:hover{background:var(--mut);color:var(--ink)}
+  .nav-child.active{background:var(--rust-soft);color:var(--ink)}
+  .nav-mark{color:var(--steel)}
+  .nav-child.done .nav-mark{color:var(--good)}
+  .nav-order{color:var(--ink);font-weight:700;white-space:nowrap}
+  .nav-child.active .nav-order{color:var(--rust)}
+  .nav-title{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .nav-topline{margin-bottom:12px}
+  .pill{border:1px solid var(--grid);background:var(--white);padding:6px 9px;font-size:10.5px;color:var(--ink-soft)}
+  .nav-scrim{display:none}
+  body.nav-lock{overflow:hidden}
+  @media(max-width:900px){
+    .app-shell{display:block}
+    .sidebar-slot{width:0}
+    .sidebar{position:fixed;z-index:60;top:0;bottom:0;left:0;width:min(320px,calc(100vw - 40px));max-height:none;
+             transform:translateX(-100%)}
+    .app-shell.nav-collapsed .sidebar{transform:translateX(-100%)}
+    .app-shell.nav-open .sidebar{transform:translateX(0)}
+    .nav-scrim{display:block;position:fixed;z-index:55;inset:0;background:rgba(27,42,65,.45)}
+  }
   @media(max-width:660px){body{padding:8px}.sheet{padding:14px}.panel,.legend{grid-template-columns:1fr}
     .interactive-table,.interactive-table tbody,.interactive-table tr,.interactive-table td{display:block;width:100%}
     .interactive-table thead{display:none}
@@ -151,12 +212,56 @@
     .interactive-table tbody tr[data-interactive] td{border:0!important;padding:6px 0;background:transparent!important}
     .interactive-table tbody tr.inline-detail-row{border:0;background:transparent;padding:0;margin:0}
     .interactive-table tbody tr.inline-detail-row.open{margin-bottom:16px}}
-  @media(prefers-reduced-motion:reduce){.tab,button,.filter-field,.interactive-table tbody tr[data-interactive],.detail-reveal{transition:none}}
+  @media(prefers-reduced-motion:reduce){.tab,button,.filter-field,.interactive-table tbody tr[data-interactive],.detail-reveal,.sidebar-slot,.sidebar{transition:none}}
 </style>
 </head>
 <body>
 <div class="sheet">
-<main class="content">
+<div class="app-shell" id="appShell">
+<div class="sidebar-slot">
+  <aside class="sidebar" id="sidebar" aria-label="Course navigation">
+    <div class="sidebar-top">
+      <span class="k">COURSE NAVIGATION</span>
+      <button class="ghost sidebar-close" id="navClose" type="button" aria-label="Close navigation">×</button>
+    </div>
+    <div class="nav-progress">
+      <div class="nav-progress-head"><span>COURSE PROGRESS</span><strong>2/10</strong></div>
+      <div class="nav-progress-track"><div class="nav-progress-fill" style="--progress:20%"></div></div>
+    </div>
+    <button class="nav-item active" type="button"><span class="ic">◇</span>Course overview</button>
+    <button class="nav-item" type="button"><span class="ic">⇅</span>Progress sync</button>
+    <div class="nav-section"><span class="k">MODULES · 10 LESSONS</span></div>
+    <div class="nav-group open">
+      <button class="nav-group-toggle" type="button" data-nav-group-toggle aria-expanded="true" aria-controls="moduleOne">
+        <span class="nav-arrow">▾</span>
+        <span class="nav-copy"><span class="nav-name">Module 01</span><span class="nav-sub">Lesson 01–05 · Foundation</span></span>
+        <span class="nav-count hot">2/5</span>
+      </button>
+      <div class="nav-children" id="moduleOne">
+        <button class="nav-child done" type="button"><span class="nav-mark">✓</span><span class="nav-order">Lesson 01</span><span class="nav-title">First completed lesson</span></button>
+        <button class="nav-child active done" type="button"><span class="nav-mark">✓</span><span class="nav-order">Lesson 02</span><span class="nav-title">Current lesson title</span></button>
+        <button class="nav-child" type="button"><span class="nav-mark">·</span><span class="nav-order">Lesson 03</span><span class="nav-title">Upcoming lesson title</span></button>
+      </div>
+    </div>
+    <div class="nav-group">
+      <button class="nav-group-toggle" type="button" data-nav-group-toggle aria-expanded="false" aria-controls="moduleTwo">
+        <span class="nav-arrow">▸</span>
+        <span class="nav-copy"><span class="nav-name">Module 02</span><span class="nav-sub">Lesson 06–10 · Application</span></span>
+        <span class="nav-count">0/5</span>
+      </button>
+      <div class="nav-children" id="moduleTwo">
+        <button class="nav-child" type="button"><span class="nav-mark">·</span><span class="nav-order">Lesson 06</span><span class="nav-title">Next module lesson</span></button>
+      </div>
+    </div>
+  </aside>
+</div>
+<div class="nav-scrim" id="navScrim" hidden></div>
+<main class="content app-main">
+
+  <div class="nav-topline">
+    <button class="ghost" id="navToggle" type="button" aria-controls="sidebar" aria-expanded="true">☰ COURSE MENU</button>
+    <span class="pill">Lesson 02</span>
+  </div>
 
   <h1>Document title</h1>
   <div class="sub">One line stating what this sheet shows and how to read it.</div>
@@ -164,11 +269,6 @@
     <span><b>STATUS</b> <span class="ok">verified</span></span>
     <span><b>SOURCE</b> path/to/file.ext</span>
     <span><b>REF</b> TICKET-123</span>
-  </div>
-
-  <div class="tabs" id="tabs">
-    <div class="tab active"><span class="n">1·</span>First view</div>
-    <div class="tab"><span class="n">2·</span>Second view</div>
   </div>
 
   <div class="stage-wrap">
@@ -263,5 +363,52 @@
 
 </main>
 </div>
+</div>
+<script>
+(() => {
+  const shell = document.getElementById('appShell')
+  const sidebar = document.getElementById('sidebar')
+  const toggle = document.getElementById('navToggle')
+  const close = document.getElementById('navClose')
+  const scrim = document.getElementById('navScrim')
+  const mobile = window.matchMedia('(max-width: 900px)')
+  if (!shell || !sidebar || !toggle || !close || !scrim) return
+
+  const isOpen = () => mobile.matches ? shell.classList.contains('nav-open') : !shell.classList.contains('nav-collapsed')
+  const setOpen = open => {
+    shell.classList.toggle('nav-open', open && mobile.matches)
+    shell.classList.toggle('nav-collapsed', !open && !mobile.matches)
+    toggle.setAttribute('aria-expanded', String(open))
+    sidebar.setAttribute('aria-hidden', String(!open))
+    sidebar.inert = !open
+    scrim.hidden = !open || !mobile.matches
+    document.body.classList.toggle('nav-lock', open && mobile.matches)
+  }
+
+  toggle.addEventListener('click', () => setOpen(!isOpen()))
+  close.addEventListener('click', () => setOpen(false))
+  scrim.addEventListener('click', () => setOpen(false))
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && isOpen()) setOpen(false)
+  })
+  mobile.addEventListener('change', () => setOpen(!mobile.matches))
+  sidebar.querySelectorAll('.nav-item,.nav-child').forEach(item => {
+    item.addEventListener('click', () => {
+      if (mobile.matches) setOpen(false)
+    })
+  })
+  sidebar.querySelectorAll('[data-nav-group-toggle]').forEach(button => {
+    button.addEventListener('click', () => {
+      const group = button.closest('.nav-group')
+      if (!group) return
+      const open = group.classList.toggle('open')
+      button.setAttribute('aria-expanded', String(open))
+      const arrow = button.querySelector('.nav-arrow')
+      if (arrow) arrow.textContent = open ? '▾' : '▸'
+    })
+  })
+  setOpen(!mobile.matches)
+})()
+</script>
 </body>
 </html>

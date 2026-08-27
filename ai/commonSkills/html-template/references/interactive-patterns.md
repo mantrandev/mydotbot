@@ -1,6 +1,6 @@
 # Interactive Patterns
 
-Read this reference only when a page uses a searchable table, inline detail reveal or collapsible navigation.
+Read this reference only when a page uses a searchable table or inline detail reveal.
 
 ## Searchable tables
 
@@ -13,11 +13,6 @@ Read this reference only when a page uses a searchable table, inline detail reve
 - Place the single detail row immediately after the selected row. Never use a shared panel at the bottom or auto-scroll the viewport.
 - Animate `.detail-reveal` from `grid-template-rows:0fr` to `1fr`, with opacity and a `4px` translate. Never animate table-row height or detach the detail row.
 - Hide the row after the close transition. Cancel any pending close timer before reopening, then force one layout read before adding `.open` so an old close cannot hide new content.
-
-## Collapsible navigation
-
-- Keep the shell full-width and the sidebar width fixed in both states.
-- Animate only `transform:translateX(...)`; never animate sidebar width because menu rows will reflow.
 
 ## Motion
 

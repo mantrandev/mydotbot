@@ -14,8 +14,12 @@ House style for all standalone HTML: technical-drawing blueprint. Monospace thro
 2. Build the page by reusing the existing blocks. Add a token-based class only when no existing pattern fits:
    - `.sheet` — the double-ruled frame; always keep `width:100%;max-width:none`
    - `.content` — the root content surface inside `.sheet`; always keep `width:100%;max-width:none;min-width:0`
+   - `.app-shell` + `.sidebar-slot` + `.sidebar` + `.app-main` — collapsible application shell
+   - `.nav-progress` — overall course progress inside the sidebar
+   - `.nav-group` + `.nav-group-toggle` + `.nav-children` + `.nav-child` — expandable course hierarchy
+   - `.nav-topline` + `.nav-scrim` — desktop toggle and mobile drawer controls
    - `h1` + `.sub` + `.meta` — masthead
-   - `.tabs` / `.tab` — switching between views
+   - `.tabs` / `.tab` — secondary switching inside the current view, never primary navigation
    - `.stage-wrap` + inline `<svg>` — diagram or chart canvas (`.node`, `.edge`, `.divider`, `.lanehdr`)
    - `.tiles` / `.tile` (`.hot`) — stat tiles
    - `.panel` → `.desc` + `.mind` — paired commentary, neutral left / rust right
@@ -28,12 +32,14 @@ House style for all standalone HTML: technical-drawing blueprint. Monospace thro
    - `.controls` + `button` (`.ghost`) + `.dots` — stepper
    - `.foot`
 
-   When using a searchable table, inline detail reveal or collapsible navigation, read [Interactive Patterns](references/interactive-patterns.md).
+   For courses and any page with primary navigation, read [Course Sidebar](references/course-sidebar.md). When using a searchable table or inline detail reveal, read [Interactive Patterns](references/interactive-patterns.md).
 
 3. Hard rules:
    - **Never change the `:root` token values.** Only consume them.
    - Square corners. No `border-radius` except badge circles and SVG `rx="2"`.
    - Hover lift is `box-shadow:3px 3px 0 var(--ink)` + `translateY(-2px)` — never a soft blur.
+   - Courses and pages with primary navigation must use the collapsible sidebar. Never use a top menubar as primary navigation. Keep overall progress and group counts in the sidebar.
+   - Keep the sidebar open and collapsible on desktop. At `900px` and below, turn it into a closed-by-default drawer with a scrim. Both modes must preserve the same navigation hierarchy and active/completed states.
    - Never add `max-width` to `.sheet` or `.content`. Cap only inner prose measures when necessary; dashboards, grids and app surfaces must consume all available width.
    - Keep desktop padding at `16px` for `body` and `22px` for `.sheet`; reduce them at mobile breakpoints without changing either root width.
    - Every page must include a topic-relevant SVG favicon through `<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,...">` in `<head>`. Draw it with the existing palette, keep it legible at `16×16`, percent-encode reserved characters such as `#` as `%23`, and do not use emoji, text, external files or base64 blobs.
