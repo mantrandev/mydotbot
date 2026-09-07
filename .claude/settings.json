@@ -49,5 +49,10 @@
   "editorMode": "normal",
   "preferredNotifChannel": "auto",
   "autoCompactEnabled": false,
-  "skipAutoPermissionPrompt": true
+  "skipAutoPermissionPrompt": true,
+  "includeCoAuthoredBy": false,
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  }
 }
