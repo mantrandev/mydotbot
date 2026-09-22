@@ -178,17 +178,12 @@
       ignore-missing: true
     ~/.codex/skills/analyzing-source-code: ai/skills/analyzing-source-code
     ~/.codex/skills/analyzing-video: ai/skills/analyzing-video
-    ~/.codex/skills/architecture-validator: ai/skills/architecture-validator
     ~/.codex/skills/build-adhoc-dev: ai/skills/build-adhoc-dev
     ~/.codex/skills/clean-claude-sessions: ai/skills/clean-claude-sessions
     ~/.codex/skills/commit: ai/skills/commit
     ~/.codex/skills/create-desc-mr: ai/skills/create-desc-mr
     ~/.codex/skills/create-gitlab-mr: ai/skills/create-gitlab-mr
     ~/.codex/skills/create-slack-message-mr: ai/skills/create-slack-message-mr
-    ~/.codex/skills/creating-repository: ai/skills/creating-repository
-    ~/.codex/skills/creating-screen: ai/skills/creating-screen
-    ~/.codex/skills/creating-usecase: ai/skills/creating-usecase
-    ~/.codex/skills/creating-viewmodel: ai/skills/creating-viewmodel
     ~/.codex/skills/debugging-ios: ai/skills/debugging-ios
     ~/.codex/skills/diagnostics-agent: ai/skills/diagnostics-agent
     ~/.codex/skills/find-skills: ai/skills/find-skills
@@ -197,7 +192,6 @@
     ~/.codex/skills/liquid-glass-ios: ai/skills/liquid-glass-ios
     ~/.codex/skills/mr-pipeline: ai/skills/mr-pipeline
     ~/.codex/skills/planning-feature: ai/skills/planning-feature
-    ~/.codex/skills/registering-dependency: ai/skills/registering-dependency
     ~/.codex/skills/review-agent: ai/skills/review-agent
     ~/.codex/skills/reviewing-code: ai/skills/reviewing-code
     ~/.codex/skills/shophelp-test-failure-triage: ai/skills/shophelp-test-failure-triage

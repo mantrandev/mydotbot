@@ -6,10 +6,12 @@ marketplaces=(
   "anthropics/skills|anthropic-agent-skills"
   "warpdotdev/claude-code-warp|claude-code-warp"
   "nicobailon/visual-explainer|visual-explainer-marketplace"
+  "mantrandev/clean-architecture-ios|clean-architecture-ios"
 )
 
 plugins=(
   "clangd-lsp@claude-plugins-official"
+  "clean-architecture-ios@clean-architecture-ios"
   "frontend-design@claude-plugins-official"
   "mattpocock-skills@claude-plugins-official"
   "posthog@claude-plugins-official"
