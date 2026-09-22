@@ -5,12 +5,7 @@ source $ZSH/oh-my-zsh.sh
 
 # aliases
 alias claude-mine='CLAUDE_CONFIG_DIR=~/.claude claude'
-alias claude-g='CLAUDE_CONFIG_DIR=~/.claude-account1 claude'
-alias claude-h='CLAUDE_CONFIG_DIR=~/.claude-account3 claude'
-alias claude-t='CLAUDE_CONFIG_DIR=~/.claude-account4 claude'
-alias claude-crossian='CLAUDE_CONFIG_DIR=~/.claude-account2 claude'
-alias claude-xiaomi='CLAUDE_CONFIG_DIR=~/.claude-account5 claude'
-alias mccs='bash $HOME/dotfiles/zsh/claude-chain.sh'
+alias claude-company='CLAUDE_CONFIG_DIR=~/.claude-company claude'
 codex-mine() {
   if [ -x "$HOME/dotfiles/scripts/sync-codex-accounts.sh" ]; then
     bash "$HOME/dotfiles/scripts/sync-codex-accounts.sh" || return
