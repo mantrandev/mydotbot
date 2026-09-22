@@ -5,17 +5,13 @@ Clean stale Claude Code session data when the HOME directory starts ballooning.
 ## The problem
 
 Claude Code stores every conversation as a `.jsonl` file under
-`~/.local/share/claude/projects/<encoded-project-path>/`. These files are **never auto-purged** — running Claude for a while accumulates anywhere from tens to hundreds of MB.
+`<profile>/projects/<encoded-project-path>/`. These files are **never auto-purged** — running Claude for a while accumulates anywhere from tens to hundreds of MB.
 
-There are 6 account dirs in HOME: `~/.claude`, `~/.claude-account1..5`. **All of them symlink their `projects/` directory to the same backing store** at `~/.local/share/claude/projects`, so cleaning runs once for every account — no duplication.
+There are 2 Claude profiles in HOME: `~/.claude` (Personal) and `~/.claude-company` (Company). **Each keeps its own `projects/` store** — nothing is shared — so cleaning runs once per profile.
 
 ```
-~/.claude/projects           ─┐
-~/.claude-account1/projects  ─┤
-~/.claude-account2/projects  ─┼─►  ~/.local/share/claude/projects  ← clean here
-~/.claude-account3/projects  ─┤
-~/.claude-account4/projects  ─┤
-~/.claude-account5/projects  ─┘
+~/.claude/projects            ← clean here (default)
+~/.claude-company/projects   ← clean here (pass as 3rd arg)
 ```
 
 ## Project dir layout
@@ -45,6 +41,7 @@ Or invoke the script directly:
 bash ~/dotfiles/ai/commonSkills/clean-claude-sessions/scripts/clean.sh 3 scan
 bash ~/dotfiles/ai/commonSkills/clean-claude-sessions/scripts/clean.sh 3 clean
 bash ~/dotfiles/ai/commonSkills/clean-claude-sessions/scripts/clean.sh 3 deep
+bash ~/dotfiles/ai/commonSkills/clean-claude-sessions/scripts/clean.sh 3 clean ~/.claude-company
 ```
 
 ## Modes
@@ -60,7 +57,7 @@ bash ~/dotfiles/ai/commonSkills/clean-claude-sessions/scripts/clean.sh 3 deep
 - Project dirs whose source folder still exists on disk and has recent sessions
 - `~/.claude*/plugins/` (plugin code, not session data)
 - `~/.claude*/agents/`, `memory/`, `settings*.json`, `CLAUDE.md`, `.claude.json`
-- Anything outside `~/.local/share/claude/projects` (except in `deep` mode, which also touches telemetry + file-history)
+- Anything outside `<profile>/projects` (except in `deep` mode, which also touches telemetry + file-history)
 
 ## Reference — first-run yield
 
@@ -71,7 +68,7 @@ bash ~/dotfiles/ai/commonSkills/clean-claude-sessions/scripts/clean.sh 3 deep
 
 ## When to run
 
-- When `du -sh ~/.local/share/claude/projects` exceeds 100M
+- When `du -sh ~/.claude/projects` exceeds 100M
 - Before backing up or syncing HOME
 - Monthly cleanup
 

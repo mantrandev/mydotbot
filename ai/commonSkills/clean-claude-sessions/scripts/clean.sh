@@ -3,7 +3,8 @@ set -euo pipefail
 
 DAYS="${1:-3}"
 MODE="${2:-scan}"
-ROOT="$HOME/.local/share/claude/projects"
+PROFILE="${3:-$HOME/.claude}"
+ROOT="$PROFILE/projects"
 
 if [ ! -d "$ROOT" ]; then
   echo "Session store not found: $ROOT"
@@ -86,14 +87,14 @@ find "$ROOT" -type d -empty -delete 2>/dev/null || true
 if [ "$MODE" = "deep" ]; then
   echo
   echo "=== Deep cleanup ==="
-  if [ -d "$HOME/.claude/telemetry" ]; then
-    tel_before=$(bytes_of "$HOME/.claude/telemetry")
-    rm -rf "$HOME/.claude/telemetry"/* 2>/dev/null || true
+  if [ -d "$PROFILE/telemetry" ]; then
+    tel_before=$(bytes_of "$PROFILE/telemetry")
+    rm -rf "$PROFILE/telemetry"/* 2>/dev/null || true
     echo "telemetry: $(human "$tel_before") → 0"
   fi
   fh_before=0
   fh_after=0
-  for fh in "$HOME"/.claude/file-history "$HOME"/.claude-account*/file-history; do
+  for fh in "$PROFILE"/file-history; do
     [ -d "$fh" ] || continue
     b=$(bytes_of "$fh"); fh_before=$((fh_before+b))
     find "$fh" -type f -mtime +14 -delete 2>/dev/null || true
