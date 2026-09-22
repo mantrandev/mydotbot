@@ -77,7 +77,7 @@ Creates symlinks for:
 - `~/.claude/` — Claude Code, personal profile
 - `~/.claude-company/` — Claude Code, company work profile
 - `~/.codex/` — Codex
-- `~/.pi/agent/` — Pi (shared rules and the `html-template` skill)
+- `~/.pi/agent/` — Pi (shared rules and the `blueprint-html` skill)
 - `~/.agents_common/` — shared
 
 **Memory** (one store per Claude profile, never shared)
@@ -106,7 +106,7 @@ ai/iOS/          ─┼─► ai/skills/          ─► Codex, ~/.agents_common
                          └─► ai/skills-company/  (23) ─► ~/.claude-company/skills
 ```
 
-A skill may appear in both profiles; generic ones (commit, html-template, find-skills, planning-feature, analyzing-source-code, architecture-validator, diagnostics-agent) do. Pi receives the shared rules file and the `html-template` skill through Dotbot. Skills in `~/.localskills/` are never committed to this repo.
+A skill may appear in both profiles; generic ones (commit, blueprint-html, find-skills, planning-feature, analyzing-source-code) do. Pi receives the shared rules file and the `blueprint-html` skill through Dotbot. Skills in `~/.localskills/` are never committed to this repo.
 
 Matt Pocock skills are managed separately for each agent. Claude uses the official plugin. Codex uses `scripts/install-codex-plugins.sh`, which refreshes the `mantrandev/mattpocock-skills` marketplace, installs the native plugin, removes superseded `npx skills` copies, and runs the shared sync script. The fork is synchronized manually from `mattpocock/skills` and packages the same 25 promoted skills for Codex.
 

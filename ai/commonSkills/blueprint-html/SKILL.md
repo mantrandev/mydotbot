@@ -1,6 +1,6 @@
 ---
-name: html-template
-description: "Standard blueprint template for any standalone HTML output (reports, RCAs, dashboards, diagrams, slides, recaps). Use EVERY time you generate an HTML file so output follows one consistent house style instead of ad-hoc theming."
+name: blueprint-html
+description: "The blueprint house style for standalone HTML output — reports, RCAs, dashboards, diagrams, slides, recaps. Start from the bundled assets/template.html and reuse its component blocks and design tokens. Use every time an HTML file is generated, so output stays on one consistent theme instead of ad-hoc styling."
 ---
 
 # HTML Template
