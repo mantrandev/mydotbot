@@ -185,7 +185,6 @@
     ~/.codex/skills/create-gitlab-mr: ai/skills/create-gitlab-mr
     ~/.codex/skills/create-slack-message-mr: ai/skills/create-slack-message-mr
     ~/.codex/skills/debugging-ios: ai/skills/debugging-ios
-    ~/.codex/skills/diagnostics-agent: ai/skills/diagnostics-agent
     ~/.codex/skills/find-skills: ai/skills/find-skills
     ~/.codex/skills/html-template: ai/skills/html-template
     ~/.codex/skills/jira-acli: ai/skills/jira-acli
