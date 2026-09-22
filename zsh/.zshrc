@@ -64,6 +64,7 @@ export PATH="$HOME/.local/bin:$PATH"
 export PATH="/Users/maybe/.antigravity/antigravity/bin:$PATH"
 export PATH="/opt/homebrew/opt/ruby/bin:$PATH"
 export PATH="$HOME/Library/Python/3.14/bin:$PATH"
+export PATH="$HOME/go/bin:$PATH"
 
 # Confluence CLI
 source ~/Desktop/projects/confluence-cli/Scripts/confluence.zsh

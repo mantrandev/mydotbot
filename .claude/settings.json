@@ -1,4 +1,9 @@
 {
+  "attribution": {
+    "commit": "",
+    "pr": ""
+  },
+  "includeCoAuthoredBy": false,
   "permissions": {
     "deny": [
       "mcp__computer-use__*"
@@ -16,7 +21,6 @@
     "warp@claude-code-warp": true,
     "rust-analyzer-lsp@claude-plugins-official": true,
     "visual-explainer@visual-explainer-marketplace": true,
-    "posthog@claude-plugins-official": true,
     "mattpocock-skills@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
@@ -49,10 +53,5 @@
   "editorMode": "normal",
   "preferredNotifChannel": "auto",
   "autoCompactEnabled": false,
-  "skipAutoPermissionPrompt": true,
-  "includeCoAuthoredBy": false,
-  "attribution": {
-    "commit": "",
-    "pr": ""
-  }
+  "skipAutoPermissionPrompt": true
 }

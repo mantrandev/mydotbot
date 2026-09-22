@@ -1,6 +1,7 @@
 # Taps
 tap "homebrew/bundle"
 tap "mantrandev/tap"
+tap "jetbrains/utils"
 
 # AI
 cask "claude"
@@ -48,8 +49,9 @@ brew "fastlane"
 brew "ffmpeg"
 brew "gitlab-ci-local"
 brew "gitlab-runner"
+brew "go"
+brew "kotlin-lsp"
 brew "node"
-brew "opencode"
 brew "python@3.14"
 brew "ripgrep"
 brew "ruby"
