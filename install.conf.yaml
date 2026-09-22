@@ -190,6 +190,7 @@
     ~/.codex/skills/jira-acli: ai/skills/jira-acli
     ~/.codex/skills/liquid-glass-ios: ai/skills/liquid-glass-ios
     ~/.codex/skills/mr-pipeline: ai/skills/mr-pipeline
+    ~/.codex/skills/orca-cli: ai/skills/orca-cli
     ~/.codex/skills/planning-feature: ai/skills/planning-feature
     ~/.codex/skills/ios-test-failure-triage: ai/skills/ios-test-failure-triage
     ~/.codex/skills/sim-validation-flow: ai/skills/sim-validation-flow
