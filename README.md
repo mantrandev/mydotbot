@@ -120,13 +120,25 @@ differs by consumer:
 | Consumer | Gets | Declared in |
 |---|---|---|
 | `~/.agents_common/` | all 21, whole directory | `sync-agent-config.sh` |
-| Codex | one entry per skill, hand-maintained | `install.conf.yaml` |
+| Codex, every account | all 21 minus `[codex-exclude]` | `skill-profiles.conf` |
 | Pi | `blueprint-html` only | `install.conf.yaml` |
-| Claude, per profile | what `skill-profiles.conf` lists | `install.conf.yaml` |
+| Claude, per profile | what `skill-profiles.conf` lists | `skill-profiles.conf` |
 
-The Codex and Pi entries are hand-maintained, so they drift. Adding a skill means
-adding its line; deleting one means removing it, or `install.sh` tries to link a
-source that is gone.
+`sync-agent-config.sh` links the Codex skills itself, for `~/.codex` and every
+`~/.codex-*`. To keep one out, list it under `[codex-exclude]`:
+
+```
+[codex-exclude]
+tracking-events
+```
+
+That section is not a profile — it builds no `ai/skills-*` root, and an unknown
+name in it fails the sync the same way an unknown name in a profile does.
+
+`install.conf.yaml` still carries a `~/.codex/skills/<name>` line per skill. Those
+are redundant with the sync script, but a line pointing at a deleted skill makes
+`install.sh` try to link a source that is gone — so remove the line when you
+remove the skill.
 
 Matt Pocock skills are handled per agent: Claude uses the official plugin, Codex
 uses `scripts/install-codex-plugins.sh` against the `mantrandev/mattpocock-skills`

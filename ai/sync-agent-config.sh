@@ -69,6 +69,8 @@ for line in (ai / 'skill-profiles.conf').read_text().splitlines():
     else:
         profile_skills[current].append(line)
 
+codex_excluded = set(profile_skills.pop('codex-exclude', []))
+
 source_of = {}
 for source_name in ('commonSkills', 'iOS'):
     source_dir = ai / source_name
@@ -77,6 +79,10 @@ for source_name in ('commonSkills', 'iOS'):
     for skill_dir in source_dir.iterdir():
         if skill_dir.is_dir() and not skill_dir.name.startswith('.'):
             source_of[skill_dir.name] = f'../{source_name}/{skill_dir.name}'
+
+for name in sorted(codex_excluded):
+    if name not in active_skill_names:
+        raise SystemExit(f'skill-profiles.conf: unknown skill {name!r} in [codex-exclude]')
 
 for profile, names in profile_skills.items():
     root = ai / f'skills-{profile}'
@@ -149,6 +155,8 @@ for codex_dir in codex_dirs:
             child.unlink()
 
     for name in active_skill_names:
+        if name in codex_excluded:
+            continue
         resolved = (active / name).resolve()
         link = codex_skills_dir / name
         if link.exists() or link.is_symlink():
@@ -162,6 +170,7 @@ print(f'commonSkills={len([p for p in (ai / "commonSkills").iterdir() if p.is_di
 print(f'iOS={len([p for p in (ai / "iOS").iterdir() if p.is_dir() and not p.name.startswith(".")])}')
 print(f'web={len([p for p in (ai / "web").iterdir() if p.is_dir() and not p.name.startswith(".")])}')
 print(f'active={len(active_skill_names)}')
+print(f'codex={len(active_skill_names) - len(codex_excluded)}')
 for profile, names in profile_skills.items():
     print(f'{profile}={len(names)}')
 agents_count = len(list(agents_src.glob('*.md'))) if agents_src.is_dir() else 0
