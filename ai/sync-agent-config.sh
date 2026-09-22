@@ -40,8 +40,6 @@ active_skill_names = sorted(p.name for p in active.iterdir() if p.is_dir() and n
 codex_dirs = [home / '.codex'] + sorted(p for p in home.glob('.codex-*') if p.is_dir())
 
 shared_targets = {
-    home / '.claude' / 'CLAUDE.md': ai / 'CLAUDE.md',
-    home / '.claude' / 'skills': active,
     home / '.pi' / 'agent' / 'AGENTS.md': ai / 'CLAUDE.md',
     home / '.agents_common' / 'AGENTS.md': ai / 'CLAUDE.md',
     home / '.agents_common' / 'skills': active,
@@ -59,25 +57,64 @@ for dest, src in shared_targets.items():
             dest.unlink()
     dest.symlink_to(src)
 
-claude_dirs = [home / '.claude'] + sorted(home.glob('.claude-account*'))
+profile_skills = {}
+current = None
+for line in (ai / 'skill-profiles.conf').read_text().splitlines():
+    line = line.strip()
+    if not line:
+        continue
+    if line.startswith('[') and line.endswith(']'):
+        current = line[1:-1]
+        profile_skills[current] = []
+    else:
+        profile_skills[current].append(line)
 
-claude_md_src = ai / 'CLAUDE.md'
-for claude_dir in claude_dirs:
+source_of = {}
+for source_name in ('commonSkills', 'iOS'):
+    source_dir = ai / source_name
+    if not source_dir.is_dir():
+        continue
+    for skill_dir in source_dir.iterdir():
+        if skill_dir.is_dir() and not skill_dir.name.startswith('.'):
+            source_of[skill_dir.name] = f'../{source_name}/{skill_dir.name}'
+
+for profile, names in profile_skills.items():
+    root = ai / f'skills-{profile}'
+    if root.is_symlink():
+        root.unlink()
+    elif root.is_dir():
+        shutil.rmtree(root)
+    root.mkdir(parents=True)
+    for name in names:
+        if name not in active_skill_names:
+            raise SystemExit(f'skill-profiles.conf: unknown skill {name!r} in [{profile}]')
+        (root / name).symlink_to(source_of.get(name) or str((active / name).resolve()))
+
+claude_profiles = {
+    home / '.claude': (ai / 'claude' / 'CLAUDE.md', ai / 'skills-claude'),
+    home / '.claude-company': (ai / 'claude-company' / 'CLAUDE.md', ai / 'skills-company'),
+}
+claude_dirs = list(claude_profiles)
+
+built_roots = {ai / f'skills-{profile}' for profile in profile_skills}
+for _, skills_src in claude_profiles.values():
+    if skills_src not in built_roots:
+        raise SystemExit(f'skill-profiles.conf: no section builds {skills_src.name}')
+
+for claude_dir, (rules_src, skills_src) in claude_profiles.items():
     claude_dir.mkdir(parents=True, exist_ok=True)
-    claude_md_dest = claude_dir / 'CLAUDE.md'
-    if claude_md_dest.is_symlink() or claude_md_dest.exists():
-        claude_md_dest.unlink()
-    claude_md_dest.symlink_to(claude_md_src)
+    rules_dest = claude_dir / 'CLAUDE.md'
+    if rules_dest.is_symlink() or rules_dest.exists():
+        rules_dest.unlink()
+    rules_dest.symlink_to(rules_src)
 
-for claude_dir in claude_dirs:
     skills_dest = claude_dir / 'skills'
-    skills_dest.parent.mkdir(parents=True, exist_ok=True)
     if skills_dest.is_symlink() or (skills_dest.exists() and not skills_dest.is_dir()):
         skills_dest.unlink()
     elif skills_dest.is_dir() and not skills_dest.is_symlink():
         shutil.rmtree(skills_dest)
     if not skills_dest.exists():
-        skills_dest.symlink_to(active)
+        skills_dest.symlink_to(skills_src)
 
 agents_src = ai / 'agents'
 if agents_src.is_dir():
@@ -125,6 +162,8 @@ print(f'commonSkills={len([p for p in (ai / "commonSkills").iterdir() if p.is_di
 print(f'iOS={len([p for p in (ai / "iOS").iterdir() if p.is_dir() and not p.name.startswith(".")])}')
 print(f'web={len([p for p in (ai / "web").iterdir() if p.is_dir() and not p.name.startswith(".")])}')
 print(f'active={len(active_skill_names)}')
+for profile, names in profile_skills.items():
+    print(f'{profile}={len(names)}')
 agents_count = len(list(agents_src.glob('*.md'))) if agents_src.is_dir() else 0
 print(f'agents={agents_count}')
 PY

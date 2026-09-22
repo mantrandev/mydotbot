@@ -30,11 +30,7 @@ fi
 
 config_dirs=(
   "$HOME/.claude"
-  "$HOME/.claude-account1"
-  "$HOME/.claude-account2"
-  "$HOME/.claude-account3"
-  "$HOME/.claude-account4"
-  "$HOME/.claude-account5"
+  "$HOME/.claude-company"
 )
 
 for dir in "${config_dirs[@]}"; do
