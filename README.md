@@ -74,16 +74,15 @@ Creates symlinks for:
 **Codex multi-account data** — `codex-mine` and `codex-1` keep separate login credentials and config while sharing conversation history, active and archived sessions, session index, memories, goals, attachments, generated images, and thread state through `~/.local/share/codex`. The symlinks are declared in `install.conf.yaml` and applied by `install.sh`, so no Codex process needs to be closed.
 
 **Agents**
-- `~/.claude/` — Claude Code
+- `~/.claude/` — Claude Code, personal profile
+- `~/.claude-company/` — Claude Code, company work profile
 - `~/.codex/` — Codex
 - `~/.pi/agent/` — Pi (shared rules and the `html-template` skill)
 - `~/.agents_common/` — shared
 
-**Memory** (shared across all Claude accounts)
+**Memory** (one store per Claude profile, never shared)
 - `~/.claude/memory` → `ai/memory`
-- `~/.claude-account1/memory` → `ai/memory`
-- `~/.claude-account2/memory` → `ai/memory`
-- `~/.claude-account3/memory` → `ai/memory`
+- `~/.claude-company/memory` → `ai/memory-company`
 
 ## Skills
 
@@ -95,7 +94,19 @@ Active shared skills are merged from three sources:
 | `ai/iOS/` | Yes | iOS-specific skills |
 | `~/.localskills/` | No (device-only) | Private skills with sensitive data (tokens, user IDs, internal channels) |
 
-`sync-agent-config.sh` merges all three into `ai/skills/` and propagates them to Claude, Codex, and `~/.agents_common/`. Pi receives the shared rules file and the `html-template` skill through Dotbot. Skills in `~/.localskills/` are never committed to this repo.
+`sync-agent-config.sh` merges all three into `ai/skills/` and propagates them to Codex and `~/.agents_common/`.
+
+The two Claude profiles do not share that root. `ai/skill-profiles.conf` lists which skills each profile gets, and the sync script builds one root per profile:
+
+```
+ai/commonSkills/ ─┐
+ai/iOS/          ─┼─► ai/skills/          ─► Codex, ~/.agents_common/
+~/.localskills/  ─┘      │
+                         ├─► ai/skills-claude/    (11) ─► ~/.claude/skills
+                         └─► ai/skills-company/  (23) ─► ~/.claude-company/skills
+```
+
+A skill may appear in both profiles; generic ones (commit, html-template, find-skills, planning-feature, analyzing-source-code, architecture-validator, diagnostics-agent) do. Pi receives the shared rules file and the `html-template` skill through Dotbot. Skills in `~/.localskills/` are never committed to this repo.
 
 Matt Pocock skills are managed separately for each agent. Claude uses the official plugin. Codex uses `scripts/install-codex-plugins.sh`, which refreshes the `mantrandev/mattpocock-skills` marketplace, installs the native plugin, removes superseded `npx skills` copies, and runs the shared sync script. The fork is synchronized manually from `mattpocock/skills` and packages the same 25 promoted skills for Codex.
 
@@ -114,7 +125,7 @@ See each `skill.md` for details.
 
 ## Plugins
 
-`scripts/install-claude-plugins.sh` is the source of truth for user-scope Claude Code plugins. It runs on `./install.sh` and synchronizes every Claude config dir (`~/.claude` + `~/.claude-account1..5`) to the same plugin set:
+`scripts/install-claude-plugins.sh` is the source of truth for user-scope Claude Code plugins. It runs on `./install.sh` and synchronizes both Claude config dirs (`~/.claude` + `~/.claude-company`) to the same plugin set:
 
 ```bash
 clangd-lsp@claude-plugins-official

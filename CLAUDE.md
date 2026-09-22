@@ -19,26 +19,39 @@ Rebuild `ai/skills/` from sources and re-apply symlinks:
 
 **Symlink management** — `install.conf.yaml` + `dotbot/` wires repo files into `~`. Run `./install.sh` to re-apply. Dotbot is a git submodule at `dotbot/`.
 
-**Skills pipeline** — `ai/skills/` is generated; never edit it directly. It is built by `sync-agent-config.sh` which symlinks every directory from `ai/commonSkills/` and `ai/iOS/` into `ai/skills/`. `ai/web/` is parked and not included.
+**Skills pipeline** — `ai/skills/`, `ai/skills-claude/`, and `ai/skills-company/` are generated; never edit them directly. `sync-agent-config.sh` symlinks every directory from `ai/commonSkills/` and `ai/iOS/` into `ai/skills/` (consumed by Codex and `~/.agents_common/`), then builds one root per Claude profile from `ai/skill-profiles.conf`. `ai/web/` is parked and not included.
 
-**Agent targets** — `ai/CLAUDE.md` is the canonical source of truth (Claude is root). `install.conf.yaml` symlinks `ai/skills/` and `ai/CLAUDE.md` into all four agent homes: `~/.claude/CLAUDE.md`, `~/.codex/AGENTS.md`, `~/.pi/agent/AGENTS.md`, `~/.agents_common/AGENTS.md` (each home keeps its own expected filename; all point to `ai/CLAUDE.md`).
+**Agent targets** — `ai/CLAUDE.md` is the source for the non-Claude agents: `install.conf.yaml` symlinks it to `~/.codex/AGENTS.md`, `~/.pi/agent/AGENTS.md`, and `~/.agents_common/AGENTS.md`.
 
-**Subagents** — `ai/agents/` contains Claude Code subagent definitions (`.md` files with frontmatter). Lightweight/mechanical tasks use `model: haiku`. Symlinked to `~/.claude/agents/`. Never edit `~/.claude/agents/` directly — edit source in `ai/agents/`.
+**Claude profiles** — two, fully separate, nothing shared between them:
 
-**Memory** — `ai/memory/` is the persistent memory store, symlinked to `~/.claude/memory`, `~/.claude-account1/memory`, `~/.claude-account2/memory`, `~/.claude-account3/memory`. Shared across all Claude accounts.
+| | `~/.claude` (Personal) | `~/.claude-company` (Company) |
+|---|---|---|
+| rules | `ai/claude/CLAUDE.md` | `ai/claude-company/CLAUDE.md` |
+| skills | `ai/skills-claude` (11) | `ai/skills-company` (23) |
+| memory | `ai/memory` | `ai/memory-company` |
+| history, projects | own, local | own, local |
+| alias | `claude-mine` | `claude-company` |
+
+`ai/agents/` is still symlinked into both.
+
+**Subagents** — `ai/agents/` contains Claude Code subagent definitions (`.md` files with frontmatter). Lightweight/mechanical tasks use `model: haiku`. Symlinked into both profiles' `agents/`. Never edit those directly — edit source in `ai/agents/`.
+
+**Memory** — one store per profile: `ai/memory/` → `~/.claude/memory`, `ai/memory-company/` → `~/.claude-company/memory`. Never shared.
 
 **Codex accounts** — `install.conf.yaml` symlinks conversation history, sessions, memories, goals, attachments, and generated artifacts from `~/.codex` and `~/.codex-1` into `~/.local/share/codex`. Authentication, config, cache, logs, queues, and installation IDs remain account-local. Adding an account means adding its link entries to `install.conf.yaml`. Skills are linked from `ai/skills/`; native plugins are synchronized per account by `scripts/install-codex-plugins.sh`.
 
-**Shell** — `zsh/` contains `.zshrc`, `.zprofile`, `jira.zsh`, and `statusline-command.sh`. Symlinked to `~/.zshrc`, `~/.zprofile`, `~/.zsh/jira.zsh`, and `~/.claude/statusline-command.sh` respectively.
+**Shell** — `zsh/` contains `.zshrc`, `.zprofile`, `jira.zsh`, and `statusline-command.sh`. Symlinked to `~/.zshrc`, `~/.zprofile`, `~/.zsh/jira.zsh`, and both profiles' `statusline-command.sh` respectively. The statusline labels the profile `Personal` or `Company`.
 
 **App install** — `Brewfile` manages all casks and formulae. `scripts/install-vscode-extensions.sh` and `scripts/install-npm-globals.sh` handle VS Code extensions and npm globals; `scripts/install-claude-plugins.sh` synchronizes the shared user-scope Claude Code plugin set across every config dir; `scripts/install-codex-plugins.sh` installs and updates the native Matt Pocock plugin for Codex. All run automatically via the `shell:` blocks in `install.conf.yaml`.
 
 ## Adding a skill
 
 1. Create the skill directory under `ai/commonSkills/` (cross-agent) or `ai/iOS/` (iOS-only).
-2. Run `./ai/sync-agent-config.sh && ./install.sh`.
-3. Add the new `~/.codex/skills/<name>` entry to `install.conf.yaml` if the sync script didn't update it.
-4. Commit the new skill directory and its `ai/skills/<name>` symlink.
+2. Add its name to `ai/skill-profiles.conf` under `[claude]`, `[company]`, or both. A skill missing from both roots reaches Codex only.
+3. Run `./ai/sync-agent-config.sh && ./install.sh`.
+4. Add the new `~/.codex/skills/<name>` entry to `install.conf.yaml` if the sync script didn't update it.
+5. Commit the new skill directory and its `ai/skills/<name>`, `ai/skills-claude/<name>`, `ai/skills-company/<name>` symlinks.
 
 ## Adding a subagent
 
