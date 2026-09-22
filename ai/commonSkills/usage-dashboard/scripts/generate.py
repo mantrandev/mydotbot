@@ -294,7 +294,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ShopHelp Claude — Usage Dashboard</title>
+  <title>Claude Code — Usage Dashboard</title>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4/dist/chart.umd.min.js"></script>
   <style>
@@ -405,7 +405,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 
   <header class="header">
     <div class="header-left">
-      <span class="header-eyebrow">Claude Code · shophelp-claude</span>
+      <span class="header-eyebrow">Claude Code</span>
       <h1>Usage Dashboard</h1>
       <div class="header-sub">
         <span class="range">{{DATE_RANGE}}</span>
@@ -514,7 +514,7 @@ function fmt(n) {
 function fmtFull(n) { return n.toLocaleString(); }
 function dateStr(ts) { return ts ? ts.slice(0,10) : '—'; }
 function shortBranch(b) {
-  return b.replace('feature/', '').replace('infra/', '📦 ').replace('SHOPHELP-', '#');
+  return b.replace('feature/', '').replace('infra/', '📦 ').replace(/^[A-Z][A-Z0-9]+-/, '#');
 }
 
 document.getElementById('updated').textContent =
@@ -655,7 +655,7 @@ def print_stats(cache: OrderedDict, range_str: str):
     lines = []
     lines.append("")
     lines.append("  ┌─────────────────────────────────────────────────────────────────┐")
-    lines.append("  │  Claude Code · shophelp-claude · Usage Summary (from cache)     │")
+    lines.append("  │  Claude Code · Usage Summary (from cache)                       │")
     lines.append("  ├──────────┬────────────┬─────────────┬──────────────┬────────────┤")
     lines.append("  │  Range   │  Sessions  │  Output     │  Cache Read  │  Cache Wrt │")
     lines.append("  ├──────────┼────────────┼─────────────┼──────────────┼────────────┤")

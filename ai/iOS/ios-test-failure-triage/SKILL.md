@@ -1,11 +1,11 @@
 ---
-name: shophelp-test-failure-triage
-description: Triage ShopHelp XCTest/Swift Testing failures before proposing fixes.
+name: ios-test-failure-triage
+description: Triage an iOS XCTest or Swift Testing failure before proposing a fix — classify regression versus flake versus environment versus bad test, with evidence. Use when the user shares a failing test, asks whether a test is flaky, or wants the failure explained rather than patched green.
 ---
 
-# ShopHelp Test Failure Triage
+# iOS test failure triage
 
-Use this skill when the main question is why a ShopHelp test failed.
+Use this skill when the main question is why a test failed, not how to make it pass.
 
 ## Use When
 - The user shares a failing test name, assertion, stack trace, or screenshot.
@@ -13,9 +13,9 @@ Use this skill when the main question is why a ShopHelp test failed.
 - The user wants explanation first and does not want a “make it green” patch.
 
 ## Do Not Use When
-- The user wants a whole diff or branch reviewed. Use `$review-agent`.
-- The primary evidence is trace / telemetry output rather than a failing test. Use `$shophelp-perftrace-triage`.
-- The issue spans multiple runtime symptoms, logs, and recent code changes. Use `$diagnostics-agent`.
+- The user wants a whole diff or branch reviewed. Use `/code-review`.
+- The primary evidence is trace or telemetry output rather than a failing test. Read the trace first; this skill has nothing to classify without a failing assertion.
+- The issue spans multiple runtime symptoms, logs, and recent code changes. Use `mattpocock-skills:diagnosing-bugs`.
 
 ## Inputs
 - Failing test output.

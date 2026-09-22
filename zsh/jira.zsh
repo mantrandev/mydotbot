@@ -1,9 +1,11 @@
-# Atlassian CLI helpers for Crossian / SHOPHELP
+# Atlassian CLI helpers for Jira work item management using acli
 # source this file in .zshrc to get helper functions for Jira work item management using acli
 # Add this source to .zshrc để tự add vào PATH khi mở terminal
 
-: "${JIRA_SITE:=crossian.atlassian.net}"
-: "${JIRA_PROJECT:=SHOPHELP}"
+[ -f "$HOME/.zsh/jira.local.zsh" ] && source "$HOME/.zsh/jira.local.zsh"
+
+: "${JIRA_SITE:=}"
+: "${JIRA_PROJECT:=}"
 : "${JIRA_TODO_STATUS:=TO DO}"
 : "${JIRA_CACHE_DIR:=${XDG_CACHE_HOME:-$HOME/.cache}/jira-helper}"
 : "${JIRA_STORIES_CACHE_FILE:=${JIRA_CACHE_DIR}/stories.json}"
@@ -24,9 +26,9 @@ if (( ${#JIRA_WORKFLOW_STATUSES[@]} == 0 )); then
 fi
 
 # Normalize input:
-#   3642            -> SHOPHELP-3642
-#   SHOPHELP-3642   -> SHOPHELP-3642
-#   full Jira URL   -> SHOPHELP-3642
+#   3642            -> ${JIRA_PROJECT}-3642
+#   ${JIRA_PROJECT}-3642   -> ${JIRA_PROJECT}-3642
+#   full Jira URL   -> ${JIRA_PROJECT}-3642
 _jira_key() {
   local input="$1"
 

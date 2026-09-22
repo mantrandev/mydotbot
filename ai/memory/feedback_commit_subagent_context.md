@@ -12,7 +12,7 @@ When invoking the commit subagent, always include:
 Example prompt addition:
 > Change type: fix (not refactor — corrects a bug where video was never paused on lock screen)
 > Root cause: wasPlayingBeforeBackground was removed from appDidEnterBackground and is now only set in appWillResignActive
-> Suggested message: [SHOPHELP-3867] fix(video): pause on willResignActive to handle lock during silent push
+> Suggested message: [PROJ-1234] fix(video): pause on willResignActive to handle lock during silent push
 
 **Why:** Without this context, the commit agent only sees the diff and misclassifies the change type — requiring an amend.
 

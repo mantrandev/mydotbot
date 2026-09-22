@@ -193,7 +193,7 @@
     ~/.codex/skills/planning-feature: ai/skills/planning-feature
     ~/.codex/skills/review-agent: ai/skills/review-agent
     ~/.codex/skills/reviewing-code: ai/skills/reviewing-code
-    ~/.codex/skills/shophelp-test-failure-triage: ai/skills/shophelp-test-failure-triage
+    ~/.codex/skills/ios-test-failure-triage: ai/skills/ios-test-failure-triage
     ~/.codex/skills/sim-validation-flow: ai/skills/sim-validation-flow
     ~/.codex/skills/simulate-notification: ai/skills/simulate-notification
     ~/.codex/skills/usage-dashboard: ai/skills/usage-dashboard

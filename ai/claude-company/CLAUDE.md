@@ -161,7 +161,7 @@ The only exception: the user explicitly asks for a comment. Absent that instruct
 
 ### Commit Identity — HARD RULE
 
-- This profile commits as `man.minhtran.crossian <man.minhtran@crossian.com>` on GitLab repos.
+- This profile commits on GitLab repos under the global default identity in `~/.gitconfig`. It is not repeated here.
 - A personal GitHub repo does not belong in this profile — switch to `claude` instead of committing here.
 - Before the first commit in a repo, verify with `git remote -v` and `git config user.email`.
 - `~/.gitconfig` picks the identity automatically through `includeIf "hasconfig:remote.*.url:..."` which loads `~/.gitconfig-github`. That match only fires once a remote exists, so a fresh `git init` with no remote still falls back to the GitLab identity — add the remote before the first commit.

@@ -30,7 +30,7 @@ Examples:
 ```bash
 python3 /path/to/simulate-notification/scripts/simulate_notification.py \
   --kind visible \
-  --bundle-id com.crossian.ShopHelpApp.dev \
+  --bundle-id com.example.MyApp \
   --device booted \
   --output visible-push.apns \
   --send
@@ -39,7 +39,7 @@ python3 /path/to/simulate-notification/scripts/simulate_notification.py \
 ```bash
 python3 /path/to/simulate-notification/scripts/simulate_notification.py \
   --kind silent \
-  --bundle-id com.crossian.ShopHelpApp.dev \
+  --bundle-id com.example.MyApp \
   --device A1FED667-160A-40F3-A6D0-50FF54C6DA9F \
   --output silent-push.apns \
   --send
@@ -48,11 +48,25 @@ python3 /path/to/simulate-notification/scripts/simulate_notification.py \
 ```bash
 python3 /path/to/simulate-notification/scripts/simulate_notification.py \
   --kind mixed \
-  --bundle-id com.crossian.ShopHelpApp.dev \
+  --bundle-id com.example.MyApp \
   --output mixed-content-available-push.apns
 ```
 
 The script prints the generated payload path and exact `xcrun simctl push` command.
+
+`--bundle-id` is required and has no default. Read the real one from the project
+rather than guessing:
+
+```bash
+xcrun simctl listapps booted | grep -i CFBundleIdentifier
+```
+
+```bash
+grep -r PRODUCT_BUNDLE_IDENTIFIER --include='*.pbxproj' --include='*.xcconfig' . | sort -u
+```
+
+A project with a dev and a production scheme has one bundle id per scheme. Push
+to the one that is actually installed on the booted simulator.
 
 ## Payloads
 
@@ -63,7 +77,7 @@ Visible payload:
   "Simulator Target Bundle": "<bundle-id>",
   "aps": {
     "alert": {
-      "title": "ShopHelp test push",
+      "title": "Test push",
       "body": "Visible APNS payload from simctl push"
     },
     "badge": 1,
@@ -90,7 +104,7 @@ Mixed diagnostic payload:
   "Simulator Target Bundle": "<bundle-id>",
   "aps": {
     "alert": {
-      "title": "ShopHelp mixed push",
+      "title": "Mixed push",
       "body": "Alert plus content-available for callback diagnostics"
     },
     "badge": 1,

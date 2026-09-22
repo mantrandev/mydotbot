@@ -1,6 +1,6 @@
 # Test Failure Rubric
 
-Use this reference when deciding how to classify a ShopHelp test failure.
+Use this reference when deciding how to classify a test failure.
 
 ## Classification buckets
 - Regression: implementation behavior changed and the assertion still matches the intended contract.

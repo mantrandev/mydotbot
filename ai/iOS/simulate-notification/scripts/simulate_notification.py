@@ -57,7 +57,7 @@ def main() -> int:
     parser.add_argument("--bundle-id", required=True, help="Target app bundle identifier.")
     parser.add_argument("--device", default="booted", help="Simulator UDID or 'booted'.")
     parser.add_argument("--output", required=True, help="Output .apns file path.")
-    parser.add_argument("--title", default="ShopHelp test push", help="Visible alert title.")
+    parser.add_argument("--title", default="Test push", help="Visible alert title.")
     parser.add_argument(
         "--body",
         default=None,

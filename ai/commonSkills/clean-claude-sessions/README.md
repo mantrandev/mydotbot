@@ -24,7 +24,7 @@ There are 2 Claude profiles in HOME: `~/.claude` (Personal) and `~/.claude-compa
 └── …
 ```
 
-The project name encodes the full filesystem path with both `/` and `-` collapsed into `-`, so the path can't be uniquely decoded (e.g. `Desktop-shophelp-master` could be `Desktop/shophelp-master` or `Desktop/shophelp/master`).
+The project name encodes the full filesystem path with both `/` and `-` collapsed into `-`, so the path can't be uniquely decoded (e.g. `Desktop-my-app-master` could be `Desktop/my-app-master` or `Desktop/my-app/master`).
 
 ## Usage
 
