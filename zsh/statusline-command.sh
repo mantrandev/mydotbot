@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
 input=$(cat)
 
+if [ -x "$HOME/.orca/agent-hooks/claude-statusline.sh" ]; then
+  (printf '%s' "$input" | /bin/sh "$HOME/.orca/agent-hooks/claude-statusline.sh" >/dev/null 2>&1 &)
+fi
+
 cwd=$(echo "$input" | jq -r '.workspace.current_dir // .cwd // ""')
 
 case "${CLAUDE_CONFIG_DIR:-}" in
