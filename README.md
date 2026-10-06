@@ -28,8 +28,11 @@ ai/
 scripts/
 ├── install-claude-plugins.sh   User-scope Claude plugins, both profiles
 ├── install-codex-plugins.sh    Native Codex plugins
+├── install-herdr-integrations.sh  herdr agent hooks + Codex title, all profiles
 ├── install-npm-globals.sh
 └── install-vscode-extensions.sh
+herdr/
+└── config.toml            herdr config, agent sidebar rows
 zsh/
 ├── .zshrc                 Zsh config, oh-my-zsh, nvm, aliases
 ├── .zprofile              Homebrew shellenv

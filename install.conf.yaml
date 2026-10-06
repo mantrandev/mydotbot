@@ -203,6 +203,9 @@
     ~/.pi/agent/extensions/claude-style-footer.ts: pi/extensions/claude-style-footer.ts
     ~/.agents_common/AGENTS.md: ai/CLAUDE.md
     ~/.agents_common/skills: ai/skills
+    ~/.config/herdr/config.toml:
+      path: herdr/config.toml
+      create: true
 
 - shell:
     - command: scripts/install-claude-plugins.sh
@@ -210,4 +213,7 @@
       stdout: true
     - command: scripts/install-codex-plugins.sh
       description: Synchronize Matt Pocock plugin for Codex
+      stdout: true
+    - command: scripts/install-herdr-integrations.sh
+      description: Install herdr agent hooks and Codex title for all profiles
       stdout: true
