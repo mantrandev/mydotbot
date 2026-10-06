@@ -178,6 +178,7 @@
       ignore-missing: true
     ~/.codex/skills/analyzing-source-code: ai/skills/analyzing-source-code
     ~/.codex/skills/analyzing-video: ai/skills/analyzing-video
+    ~/.codex/skills/archify: ai/skills/archify
     ~/.codex/skills/build-adhoc-dev: ai/skills/build-adhoc-dev
     ~/.codex/skills/clean-claude-sessions: ai/skills/clean-claude-sessions
     ~/.codex/skills/commit: ai/skills/commit
