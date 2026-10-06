@@ -12,6 +12,8 @@
     --mut:#E7EAEF; --panel:#F4F6F8; --steel:#9AA6B4;
     --good:#2E7D5B; --warn:#9A6A1F;
     --mono:ui-monospace,"SF Mono",Menlo,Consolas,monospace;
+    /* study pages only: load Patrick Hand and spend it on h1/h3/h4 (see SKILL.md) */
+    --hand:"Patrick Hand",ui-rounded,"Segoe Print",var(--mono);
   }
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{width:100%;min-height:100%}
@@ -143,6 +145,55 @@
   .dot.past{background:var(--ink-soft);border-color:var(--ink-soft)}
   .foot{font-size:10px;color:var(--ink-soft);margin-top:16px;line-height:1.7;
         border-top:1px solid var(--grid);padding-top:10px}
+  /* ---------- study material (revision pages, worked solutions, practice papers) ---------- */
+  .card{border:1.2px solid var(--ink-soft);background:var(--white);padding:16px 18px;margin:14px 0}
+  .card > :last-child{margin-bottom:0}
+  .card-top{display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+  .dang{font-size:10px;font-weight:700;letter-spacing:2px;color:var(--rust);text-transform:uppercase;flex:1;min-width:0;padding-top:4px}
+  .card h3:first-of-type{margin-top:0}
+  .done-btn{font-size:10px;letter-spacing:1px;padding:5px 10px;background:var(--white);color:var(--ink-soft);
+            border:1.2px solid var(--grid);white-space:nowrap}
+  .done-btn:hover{background:var(--white);border-color:var(--ink);color:var(--ink);box-shadow:3px 3px 0 var(--ink);transform:translateY(-2px)}
+  .done-btn.on{background:var(--good);border-color:var(--good);color:var(--white)}
+  .done-btn.on:hover{background:var(--good);box-shadow:3px 3px 0 var(--ink)}
+  pre.mat{font-family:var(--mono);font-size:11.5px;line-height:1.65;color:var(--ink);white-space:pre}
+  .eq{display:block;font-family:var(--mono);font-size:12.5px;text-align:center;color:var(--ink);
+      background:var(--white);border:1.2px solid var(--rust);padding:11px 13px;margin:12px 0;overflow-x:auto;white-space:nowrap}
+  details.ex{border:1.2px solid var(--grid);background:var(--white);margin:12px 0}
+  details.ex[open]{border-color:var(--ink)}
+  details.ex > summary{cursor:pointer;list-style:none;padding:12px 14px;font-size:11.5px;line-height:1.6;
+                       display:flex;gap:10px;align-items:flex-start;color:var(--ink);transition:all .15s}
+  details.ex > summary::-webkit-details-marker{display:none}
+  details.ex > summary:hover{background:var(--panel)}
+  details.ex > summary::after{content:"SHOW SOLUTION";margin-left:auto;flex:none;align-self:center;
+      font-size:10px;letter-spacing:1.5px;color:var(--rust);border:1px solid var(--rust);padding:4px 8px;white-space:nowrap}
+  details.ex[open] > summary::after{content:"HIDE";color:var(--ink-soft);border-color:var(--steel)}
+  .exno{font-size:10px;letter-spacing:1px;color:var(--white);background:var(--ink-soft);padding:3px 6px;flex:none;white-space:nowrap}
+  .sol{padding:2px 14px 14px;border-top:1px solid var(--grid);font-size:11.5px;line-height:1.7;color:var(--ink-soft)}
+  .sol > :last-child{margin-bottom:0}
+  .sol b{color:var(--ink)}
+  .paper{border:1.2px solid var(--ink);background:var(--white);margin:16px 0}
+  .paper-head{padding:14px 16px;border-bottom:1.2px solid var(--ink);background:var(--panel)}
+  .paper-head .sch{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--ink-soft);margin:0 0 5px}
+  .paper-head .ttl{font-family:var(--hand);font-size:19px;letter-spacing:.3px;margin:0;color:var(--ink)}
+  .paper-head .sub{font-size:10.5px;letter-spacing:1px;text-transform:uppercase;color:var(--ink-soft);margin:6px 0 0;font-weight:400}
+  .paper-body{padding:2px 16px 16px}
+  .q{border-top:1px solid var(--grid);padding-top:14px;margin-top:14px}
+  .q:first-child{border-top:none}
+  .q-head{display:flex;gap:12px;align-items:baseline;margin-bottom:7px}
+  .q-no{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--rust);font-weight:700;white-space:nowrap}
+  .q-pt{font-size:10px;color:var(--steel);margin-left:auto;white-space:nowrap}
+  .q-body{font-size:11.5px;line-height:1.7;color:var(--ink-soft)}
+  .q-body > p:first-child{margin-top:0;color:var(--ink)}
+  .ans{margin-top:12px;padding:13px 15px;background:var(--white);border:1.2px solid var(--rust);overflow-x:auto}
+  .ans > :last-child{margin-bottom:0}
+  .ans .lab{display:block;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--rust);font-weight:700;margin-bottom:7px}
+  .ans p{color:var(--ink)}
+  .view{margin-top:4px}
+  .view > h2:first-child{margin-top:0}
+  .view .controls{margin-top:22px;padding-top:14px;border-top:1px solid var(--grid)}
+  .view .controls .pill{margin-left:auto;margin-right:auto;letter-spacing:1px}
+  .view .controls button[disabled]{opacity:.35;cursor:default;box-shadow:none;transform:none}
   .app-shell{display:grid;grid-template-columns:auto minmax(0,1fr);gap:18px;align-items:start;width:100%;min-width:0}
   .sidebar-slot{width:320px;min-width:0;transition:width .22s cubic-bezier(.2,.8,.2,1)}
   .sidebar{width:320px;max-height:calc(100vh - 54px);position:sticky;top:16px;overflow-y:auto;
@@ -205,6 +256,7 @@
     .nav-scrim{display:block;position:fixed;z-index:55;inset:0;background:rgba(27,42,65,.45)}
   }
   @media(max-width:660px){body{padding:8px}.sheet{padding:14px}.panel,.legend{grid-template-columns:1fr}
+    .card{padding:13px 14px}.paper-body{padding:2px 12px 12px}pre.mat{font-size:10.3px}.eq{font-size:11px}
     .interactive-table,.interactive-table tbody,.interactive-table tr,.interactive-table td{display:block;width:100%}
     .interactive-table thead{display:none}
     .interactive-table tbody tr[data-interactive]{border:1.2px solid var(--ink);background:var(--white);margin:10px 0;padding:12px}
@@ -225,32 +277,32 @@
       <button class="ghost sidebar-close" id="navClose" type="button" aria-label="Close navigation">×</button>
     </div>
     <div class="nav-progress">
-      <div class="nav-progress-head"><span>COURSE PROGRESS</span><strong>2/10</strong></div>
-      <div class="nav-progress-track"><div class="nav-progress-fill" style="--progress:20%"></div></div>
+      <div class="nav-progress-head"><span>COURSE PROGRESS</span><strong id="progText">0/0</strong></div>
+      <div class="nav-progress-track"><div class="nav-progress-fill" id="progFill" style="--progress:0%"></div></div>
     </div>
-    <button class="nav-item active" type="button"><span class="ic">◇</span>Course overview</button>
-    <button class="nav-item" type="button"><span class="ic">⇅</span>Progress sync</button>
+    <button class="nav-item" type="button" data-go="overview"><span class="ic">◇</span>Course overview</button>
+    
     <div class="nav-section"><span class="k">MODULES · 10 LESSONS</span></div>
     <div class="nav-group open">
       <button class="nav-group-toggle" type="button" data-nav-group-toggle aria-expanded="true" aria-controls="moduleOne">
         <span class="nav-arrow">▾</span>
         <span class="nav-copy"><span class="nav-name">Module 01</span><span class="nav-sub">Lesson 01–05 · Foundation</span></span>
-        <span class="nav-count hot">2/5</span>
+        <span class="nav-count" data-count="l01,l02,l03">0/3</span>
       </button>
       <div class="nav-children" id="moduleOne">
-        <button class="nav-child done" type="button"><span class="nav-mark">✓</span><span class="nav-order">Lesson 01</span><span class="nav-title">First completed lesson</span></button>
-        <button class="nav-child active done" type="button"><span class="nav-mark">✓</span><span class="nav-order">Lesson 02</span><span class="nav-title">Current lesson title</span></button>
-        <button class="nav-child" type="button"><span class="nav-mark">·</span><span class="nav-order">Lesson 03</span><span class="nav-title">Upcoming lesson title</span></button>
+        <button class="nav-child done" type="button" data-go="l01"><span class="nav-mark">✓</span><span class="nav-order">Lesson 01</span><span class="nav-title">First completed lesson</span></button>
+        <button class="nav-child active done" type="button" data-go="l02"><span class="nav-mark">✓</span><span class="nav-order">Lesson 02</span><span class="nav-title">Current lesson title</span></button>
+        <button class="nav-child" type="button" data-go="l03"><span class="nav-mark">·</span><span class="nav-order">Lesson 03</span><span class="nav-title">Upcoming lesson title</span></button>
       </div>
     </div>
     <div class="nav-group">
       <button class="nav-group-toggle" type="button" data-nav-group-toggle aria-expanded="false" aria-controls="moduleTwo">
         <span class="nav-arrow">▸</span>
         <span class="nav-copy"><span class="nav-name">Module 02</span><span class="nav-sub">Lesson 06–10 · Application</span></span>
-        <span class="nav-count">0/5</span>
+        <span class="nav-count" data-count="l06">0/1</span>
       </button>
       <div class="nav-children" id="moduleTwo">
-        <button class="nav-child" type="button"><span class="nav-mark">·</span><span class="nav-order">Lesson 06</span><span class="nav-title">Next module lesson</span></button>
+        <button class="nav-child" type="button" data-go="l06"><span class="nav-mark">·</span><span class="nav-order">Lesson 06</span><span class="nav-title">Next module lesson</span></button>
       </div>
     </div>
   </aside>
@@ -271,6 +323,10 @@
     <span><b>REF</b> TICKET-123</span>
   </div>
 
+  <!-- One view per sidebar item. The sidebar selects; it never scroll-spies one long page.
+       Contract and rationale: references/course-sidebar.md -->
+
+  <section class="view" data-view="overview" hidden>
   <div class="stage-wrap">
     <svg viewBox="0 0 880 200" xmlns="http://www.w3.org/2000/svg">
       <defs>
@@ -341,13 +397,6 @@
     </ol>
   </section>
 
-  <div class="controls">
-    <button class="ghost">◀ Prev</button>
-    <button>▶ Auto</button>
-    <button class="ghost">Next ▶</button>
-    <div class="dots"><div class="dot on"></div><div class="dot"></div><div class="dot"></div></div>
-  </div>
-
   <div class="legend">
     <div class="lg"><h4>NEUTRAL SET</h4>
       <div class="item"><b>1</b>Numbered explanation tied to a mark in the stage above.</div>
@@ -356,6 +405,106 @@
       <div class="item on"><b>1</b>Highlighted when its mark is active.</div>
     </div>
   </div>
+
+    <div class="controls">
+      <button class="ghost" data-step="-1">◀ Prev</button>
+      <span class="pill" data-pos></span>
+      <button class="ghost" data-step="1">Next ▶</button>
+    </div>
+  </section>
+
+  <section class="view" data-view="l01" hidden>
+    <h2>Lesson 01</h2>
+    <p>One destination per view. Replace this with the lesson body.</p>
+
+    <div class="controls">
+      <button class="ghost" data-step="-1">◀ Prev</button>
+      <span class="pill" data-pos></span>
+      <button class="ghost" data-step="1">Next ▶</button>
+    </div>
+  </section>
+
+  <section class="view" data-view="l02" hidden>
+  <!-- Study material. Delete this whole section for reports and dashboards.
+       Anatomy and progress wiring: references/study-material.md -->
+  <section>
+    <h2>Study blocks</h2>
+
+    <div class="card" id="l02">
+      <div class="card-top">
+        <span class="dang">LESSON 02 — THE PROBLEM TYPE THIS VIEW COVERS</span>
+        <button class="done-btn" type="button" data-done="l02">○ GOT IT</button>
+      </div>
+      <h3>What the reader is asked to do</h3>
+      <p class="flag">How to recognise it: the wording or shape that identifies this type in a question.</p>
+      <ol class="steps">
+        <li><b>First move.</b> The step that decides everything after it.</li>
+        <li><b>Then.</b> The mechanical part.</li>
+      </ol>
+      <h4>Worked example</h4>
+<pre class="mat">⎡ 1   2  -3 │ 0 ⎤  d2 - 2d1   ⎡ 1   2  -3 │ 0 ⎤
+⎢ 2   1   4 │ 0 ⎥ ──────────&gt; ⎢ 0  -3  10 │ 0 ⎥
+⎣ 1  -1   2 │ 0 ⎦             ⎣ 1  -1   2 │ 0 ⎦</pre>
+      <div class="eq">result worth isolating on its own line</div>
+      <div class="flag ok"><span class="lab">Check</span>Substitute the answer back into the original statement — the re-check the reader repeats under exam pressure.</div>
+      <div class="flag hot"><span class="lab">Trap</span>The specific place marks get lost, with the wrong value and the right one.</div>
+
+      <details class="ex">
+        <summary><span class="exno">P 1.1</span><span>The practice question, stated in full so the reader can decide whether to attempt it.</span></summary>
+        <div class="sol">
+          <p>Full solution, same voice as the worked example.</p>
+        </div>
+      </details>
+    </div>
+
+    <div class="paper" id="paperA">
+      <div class="paper-head">
+        <p class="sch">INSTITUTION · DEPARTMENT</p>
+        <p class="ttl">Paper title</p>
+        <p class="sub">TERM · 90 MINUTES · CLOSED BOOK</p>
+      </div>
+      <div class="paper-body">
+        <div class="q">
+          <div class="q-head"><span class="q-no">Question 1.</span><span class="q-pt">2.0 marks</span></div>
+          <div class="q-body">
+            <p>The question exactly as printed on the paper.</p>
+            <div class="ans"><span class="lab">Solution</span>
+              <p>Full working, ending with the re-check.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+    <div class="controls">
+      <button class="ghost" data-step="-1">◀ Prev</button>
+      <span class="pill" data-pos></span>
+      <button class="ghost" data-step="1">Next ▶</button>
+    </div>
+  </section>
+
+  <section class="view" data-view="l03" hidden>
+    <h2>Lesson 03</h2>
+    <p>Upcoming lesson body.</p>
+
+    <div class="controls">
+      <button class="ghost" data-step="-1">◀ Prev</button>
+      <span class="pill" data-pos></span>
+      <button class="ghost" data-step="1">Next ▶</button>
+    </div>
+  </section>
+
+  <section class="view" data-view="l06" hidden>
+    <h2>Lesson 06</h2>
+    <p>Next module lesson body.</p>
+
+    <div class="controls">
+      <button class="ghost" data-step="-1">◀ Prev</button>
+      <span class="pill" data-pos></span>
+      <button class="ghost" data-step="1">Next ▶</button>
+    </div>
+  </section>
 
   <div class="foot">
     Source / ticket / verification note. State what was measured and what was not.
@@ -408,6 +557,99 @@
     })
   })
   setOpen(!mobile.matches)
+
+  // ---- the sidebar selects a view; it does not scroll one long page ----
+  const views = {}
+  document.querySelectorAll('.view[data-view]').forEach(v => { views[v.dataset.view] = v })
+  const ORDER = Object.keys(views)
+  if (ORDER.length) {
+    const label = id => {
+      const b = sidebar.querySelector('[data-go="' + id + '"]')
+      if (!b) return id
+      const o = b.querySelector('.nav-order'), t = b.querySelector('.nav-title')
+      return (o ? o.textContent + ' \u00B7 ' : '') + (t ? t.textContent : b.textContent.trim())
+    }
+    let current = null
+    const show = (id, push) => {
+      if (!views[id]) id = ORDER[0]
+      if (id === current) return
+      current = id
+      for (const k in views) views[k].hidden = k !== id
+      sidebar.querySelectorAll('[data-go]').forEach(btn => {
+        const on = btn.dataset.go === id
+        btn.classList.toggle('active', on)
+        if (!on) return
+        const grp = btn.closest('.nav-group')
+        if (grp && !grp.classList.contains('open')) {
+          grp.classList.add('open')
+          const t = grp.querySelector('[data-nav-group-toggle]')
+          if (t) { t.setAttribute('aria-expanded', 'true'); const ar = t.querySelector('.nav-arrow'); if (ar) ar.textContent = '\u25BE' }
+        }
+      })
+      const i = ORDER.indexOf(id), v = views[id]
+      const prev = v.querySelector('[data-step="-1"]'), next = v.querySelector('[data-step="1"]'), pos = v.querySelector('[data-pos]')
+      if (prev) { prev.disabled = i <= 0; prev.textContent = i > 0 ? '\u25C0 ' + label(ORDER[i - 1]) : '\u25C0 Start' }
+      if (next) { next.disabled = i >= ORDER.length - 1; next.textContent = i < ORDER.length - 1 ? label(ORDER[i + 1]) + ' \u25B6' : 'End \u25B6' }
+      if (pos) pos.textContent = (i + 1) + ' / ' + ORDER.length
+      if (push) { try { history.replaceState(null, '', '#' + id) } catch (e) {} }
+      const main = document.querySelector('.app-main')
+      if (main) main.scrollIntoView({ block: 'start', behavior: 'auto' })
+    }
+    sidebar.querySelectorAll('[data-go]').forEach(btn => {
+      btn.addEventListener('click', () => { show(btn.dataset.go, true); if (mobile.matches) setOpen(false) })
+    })
+    document.querySelectorAll('[data-step]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const i = ORDER.indexOf(current) + parseInt(btn.dataset.step, 10)
+        if (i >= 0 && i < ORDER.length) show(ORDER[i], true)
+      })
+    })
+    window.addEventListener('hashchange', () => show(location.hash.slice(1), false))
+    show(location.hash.slice(1) || ORDER[0], false)
+  }
+})()
+
+;(() => {
+  // Study pages: persist the .done-btn toggles and keep the sidebar honest.
+  // Drop this block on pages with no .done-btn. See references/study-material.md
+  const DONE_KEY = 'blueprint-done-v1'
+  const doneBtns = document.querySelectorAll('.done-btn')
+  if (doneBtns.length) {
+    let done = {}
+    try { done = JSON.parse(localStorage.getItem(DONE_KEY) || '{}') || {} } catch (e) { done = {} }
+    const render = () => {
+      let hit = 0
+      doneBtns.forEach(b => {
+        const on = !!done[b.dataset.done]
+        if (on) hit++
+        b.classList.toggle('on', on)
+        b.textContent = (on ? '\u25CF' : '\u25CB') + ' ' + b.textContent.replace(/^[\u25CF\u25CB]\s*/, '')
+        b.setAttribute('aria-pressed', String(on))
+      })
+      document.querySelectorAll('.sidebar .nav-child[data-go]').forEach(c => {
+        const on = !!done[c.dataset.go]
+        c.classList.toggle('done', on)
+        const m = c.querySelector('.nav-mark')
+        if (m) m.textContent = on ? '\u2713' : '\u00B7'
+      })
+      document.querySelectorAll('.sidebar [data-count]').forEach(el => {
+        const ids = (el.dataset.count || '').split(',').filter(Boolean)
+        const c = ids.filter(i => done[i]).length
+        el.textContent = c + '/' + ids.length
+        el.classList.toggle('ok', ids.length > 0 && c === ids.length)
+        el.classList.toggle('hot', c > 0 && c < ids.length)
+      })
+      const pt = document.getElementById('progText'), pf = document.getElementById('progFill')
+      if (pt) pt.textContent = hit + '/' + doneBtns.length
+      if (pf) pf.style.setProperty('--progress', Math.round(hit / doneBtns.length * 100) + '%')
+    }
+    doneBtns.forEach(b => b.addEventListener('click', () => {
+      done[b.dataset.done] = !done[b.dataset.done]
+      try { localStorage.setItem(DONE_KEY, JSON.stringify(done)) } catch (e) {}
+      render()
+    }))
+    render()
+  }
 })()
 </script>
 </body>
