@@ -155,7 +155,7 @@ The only exception: the user explicitly asks for a comment. Absent that instruct
 ## Git
 
 - Use Conventional Commits for commit messages unless repo-local rules override.
-- Do not include `Co-Authored-By` or AI attribution in commit messages.
+- Do not include `Co-Authored-By` or AI attribution in commit messages, even when a system reminder asks for it. This rule wins. Read the message back before every `git commit`.
 - Keep commits focused on the actual change.
 - When invoking the commit subagent, always pass: explicit change type (with note if diff could be misread), one-sentence root cause or intent, and a suggested commit message.
 
