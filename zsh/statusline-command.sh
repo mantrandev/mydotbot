@@ -102,9 +102,9 @@ fi
 line1="\033[0;33m[${model_short}]\033[0m  \033[0;35m${account}\033[0m"
 if [ -n "$branch" ]; then
   line1="${line1}  |  🌿  \033[0;32m${branch}${dirty}\033[0m"
-  if [ -n "$effort" ]; then
-    line1="${line1}  \033[0;36m⚡ ${effort}\033[0m"
-  fi
+fi
+if [ -n "$effort" ]; then
+  line1="${line1}  \033[0;36m⚡ ${effort}\033[0m"
 fi
 
 # Line 2: wide progress bar + stats (20 blocks)
