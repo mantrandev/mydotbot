@@ -71,3 +71,6 @@ source ~/Desktop/projects/confluence-cli/Scripts/confluence.zsh
 # opencode
 export PATH=/Users/maybe/.opencode/bin:$PATH
 eval "$(atuin init zsh)"
+
+# Unity CLI
+. "/Users/maybe/.unity/env"
