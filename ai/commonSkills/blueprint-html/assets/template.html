@@ -612,7 +612,7 @@
 ;(() => {
   // Study pages: persist the .done-btn toggles and keep the sidebar honest.
   // Drop this block on pages with no .done-btn. See references/study-material.md
-  const DONE_KEY = 'blueprint-done-v1'
+  const DONE_KEY = 'blueprint-done-v1:' + location.pathname
   const doneBtns = document.querySelectorAll('.done-btn')
   if (doneBtns.length) {
     let done = {}

@@ -1,6 +1,13 @@
 # Course Sidebar
 
-Read this reference for every course and every page with primary navigation. Static reports without navigation may remove the sidebar block.
+Read this reference for every page with more than one section: courses, plans, roadmaps, reports, RCAs and multi-area dashboards. Each section becomes one sidebar item and one view. Only a page whose whole content fits a single view may remove the sidebar block; a report with several sections still uses it.
+
+Mapping a document onto the menu:
+
+- Put the summary (answer first, key numbers, the main diagram) in an `overview` view opened by a direct `.nav-item` at the top.
+- Group related sections with `.nav-section` labels and `.nav-group`s, for example "Context" (current state, principles, target) and "Roadmap" (one child per phase).
+- Put one-off reference views such as risks or open questions as direct `.nav-item`s under their own `.nav-section`.
+- For plans, give each phase or work item a `.done-btn` so the sidebar progress tracks the plan. Pages with no completion state drop `.nav-progress` and the group counts, but keep the menu.
 
 ## Layout
 

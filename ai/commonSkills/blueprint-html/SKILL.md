@@ -38,13 +38,15 @@ House style for all standalone HTML: technical-drawing blueprint. Monospace thro
    - `details.ex` + `.exno` + `.sol` — a practice item whose solution stays hidden until asked for
    - `pre.mat` and `.eq` — a derivation slab and a single-line result
 
-   For courses and any page with primary navigation, read [Course Sidebar](references/course-sidebar.md). When using a searchable table or inline detail reveal, read [Interactive Patterns](references/interactive-patterns.md).
+   For every page with more than one section (courses, plans, roadmaps, reports, RCAs, multi-area dashboards), read [Course Sidebar](references/course-sidebar.md). When using a searchable table or inline detail reveal, read [Interactive Patterns](references/interactive-patterns.md).
 
 3. Hard rules:
    - **Never change the `:root` token values.** Only consume them. `--hand` is the one sanctioned addition, and only for the handwriting layer below.
    - Square corners. No `border-radius` except badge circles and SVG `rx="2"`.
    - Hover lift is `box-shadow:3px 3px 0 var(--ink)` + `translateY(-2px)` — never a soft blur.
-   - Courses and pages with primary navigation must use the collapsible sidebar. Never use a top menubar as primary navigation. Keep overall progress and group counts in the sidebar.
+   - **Every page with more than one section uses the collapsible sidebar menu, one view per section.** This covers courses, plans, roadmaps, reports, RCAs and multi-area dashboards, not only courses. Only a page whose whole content fits a single view may delete the sidebar block. Never stack several `h2` sections on one long scrolling page, and never remove the template's sidebar because the page "is just a report". Never use a top menubar as primary navigation.
+   - Keep overall progress and group counts in the sidebar when the page has completion state (study items, or plan phases with a `.done-btn`). A page with no completion state drops the `.nav-progress` block and the group counts, but keeps the menu.
+   - Completion state lives in `localStorage` under a key unique to the page. The template derives it from `location.pathname`; keep that, because every `file://` page shares one storage origin and a fixed key makes pages overwrite each other's progress.
    - **The sidebar selects a view; it does not scroll one long page.** Choosing an item shows that view and hides the rest. A reader who has to scroll past twenty topics to reach the one they came for cannot tell where they are, and the sidebar's active state becomes a guess. One view at a time also makes the back/next stepper meaningful. See [Course Sidebar](references/course-sidebar.md).
    - Keep the sidebar open and collapsible on desktop. At `900px` and below, turn it into a closed-by-default drawer with a scrim. Both modes must preserve the same navigation hierarchy and active/completed states.
    - Never add `max-width` to `.sheet` or `.content`. Cap only inner prose measures when necessary; dashboards, grids and app surfaces must consume all available width.
