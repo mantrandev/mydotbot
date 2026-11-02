@@ -38,65 +38,44 @@ duration_m=$(( duration_s / 60 ))
 duration_rem=$(( duration_s % 60 ))
 duration_fmt="${duration_m}m ${duration_rem}s"
 
-five_h_pct=$(echo "$input" | jq -r '.rate_limits.five_hour.used_percentage // 0')
-five_h_pct_int=$(printf '%.0f' "$five_h_pct")
-five_h_reset=$(echo "$input" | jq -r '.rate_limits.five_hour.resets_at // 0')
-
-seven_d_pct=$(echo "$input" | jq -r '.rate_limits.seven_day.used_percentage // 0')
-seven_d_pct_int=$(printf '%.0f' "$seven_d_pct")
-seven_d_reset=$(echo "$input" | jq -r '.rate_limits.seven_day.resets_at // 0')
-
 _rl_config_dir="${CLAUDE_CONFIG_DIR:-$HOME/.claude}"
 if [ -d "$_rl_config_dir" ]; then
   _rl_now=$(date +%s)
   echo "$input" | jq "{updated_at: $_rl_now, five_hour: .rate_limits.five_hour, seven_day: .rate_limits.seven_day}" > "$_rl_config_dir/rate-limits-cache.json" 2>/dev/null || true
 fi
 
+format_reset() {
+  local left=$(( $1 - $2 ))
+  if [ "$left" -lt 0 ]; then left=0; fi
+  local minutes=$(( left / 60 ))
+  local hours=$(( minutes / 60 ))
+  local days=$(( hours / 24 ))
+  if [ "$days" -gt 0 ]; then
+    printf '%dd %dh' "$days" $(( hours % 24 ))
+  elif [ "$hours" -gt 0 ]; then
+    printf '%dh %dm' "$hours" $(( minutes % 60 ))
+  else
+    printf '%dm' "$minutes"
+  fi
+}
+
 rate_info=""
-if [ "$five_h_reset" -gt 0 ]; then
-  now=$(date +%s)
-  diff_s=$(( five_h_reset - now ))
-  if [ "$diff_s" -lt 0 ]; then diff_s=0; fi
-  diff_m=$(( diff_s / 60 ))
-  diff_h=$(( diff_m / 60 ))
-  diff_rem=$(( diff_m % 60 ))
-  if [ "$diff_h" -gt 0 ]; then
-    reset_in="${diff_h}h ${diff_rem}m"
-  else
-    reset_in="${diff_m}m"
+now=$(date +%s)
+while read -r key pct reset; do
+  [ -z "$key" ] && continue
+  case "$key" in
+    five_hour) label="5h"; color="38;5;208" ;;
+    seven_day) label="7d"; color="38;5;202" ;;
+    *)         label="${key//_/ }"; color="38;5;202" ;;
+  esac
+  pct_int=$(printf '%.0f' "$pct")
+  if [ "$pct_int" -ge 80 ]; then color="0;31"; fi
+  window="${label}: ${pct_int}%"
+  if [ "$reset" -gt 0 ] 2>/dev/null; then
+    window="${window} ↺ $(format_reset "$reset" "$now")"
   fi
-
-  sd_reset_str=""
-  if [ "$seven_d_reset" -gt 0 ]; then
-    sd_diff_s=$(( seven_d_reset - now ))
-    if [ "$sd_diff_s" -lt 0 ]; then sd_diff_s=0; fi
-    sd_diff_m=$(( sd_diff_s / 60 ))
-    sd_diff_h=$(( sd_diff_m / 60 ))
-    sd_diff_rem=$(( sd_diff_m % 60 ))
-    sd_diff_d=$(( sd_diff_h / 24 ))
-    sd_diff_h_rem=$(( sd_diff_h % 24 ))
-    if [ "$sd_diff_d" -gt 0 ]; then
-      sd_reset_str=" ↺ ${sd_diff_d}d ${sd_diff_h_rem}h"
-    elif [ "$sd_diff_h" -gt 0 ]; then
-      sd_reset_str=" ↺ ${sd_diff_h}h ${sd_diff_rem}m"
-    else
-      sd_reset_str=" ↺ ${sd_diff_m}m"
-    fi
-  fi
-
-  if [ "$seven_d_pct_int" -ge 80 ]; then
-    sd_colored="\033[0;31m7d: ${seven_d_pct_int}%${sd_reset_str}\033[0m"
-  else
-    sd_colored="\033[38;5;202m7d: ${seven_d_pct_int}%${sd_reset_str}\033[0m"
-  fi
-
-  if [ "$five_h_pct_int" -ge 80 ]; then
-    fh_colored="\033[0;31m5h: ${five_h_pct_int}% ↺ ${reset_in}\033[0m"
-  else
-    fh_colored="\033[38;5;208m5h: ${five_h_pct_int}% ↺ ${reset_in}\033[0m"
-  fi
-  rate_info="  |  ${fh_colored}  |  ${sd_colored}"
-fi
+  rate_info="${rate_info}  |  \033[${color}m${window}\033[0m"
+done < <(echo "$input" | jq -r '.rate_limits // {} | to_entries[] | select(.value != null and .value.used_percentage != null) | "\(.key) \(.value.used_percentage) \(.value.resets_at // 0 | floor)"')
 
 # Line 1: [Model] account | 🌿 branch
 line1="\033[0;33m[${model_short}]\033[0m  \033[0;35m${account}\033[0m"
