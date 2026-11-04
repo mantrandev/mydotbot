@@ -101,7 +101,9 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 - Every generated HTML file must be written under `~/.agent/artifacts/` (absolute: `/Users/maybe/.agent/artifacts/`), never the cwd, Desktop, or a project dir.
 - Create the directory if missing, then open or report the absolute path.
 - Applies to all standalone HTML output (courses, dashboards, diagrams, slides, reports) unless the user names a different destination.
-- Before writing any standalone HTML, follow the `blueprint-html` skill: start from its bundled `assets/template.html`, reuse its component blocks and design tokens, and keep its single blueprint theme.
+- Analysis pages use `archify`: how a system works, architecture, flows, diagnoses, trade-off analysis.
+- Display pages use `blueprint-html`: lists, review sheets, dashboards, reports, plans to show. Start from its bundled `assets/template.html`, reuse its component blocks and design tokens, and keep its single blueprint theme. Never use `blueprint-html` for analysis, never use `archify` for display.
+- Proactive pages: unasked, make a page when an answer needs a table, steps or several sections, choosing `archify` or `blueprint-html` by the rule above.
 
 ## Writing Documentation
 
