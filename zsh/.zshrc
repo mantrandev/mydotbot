@@ -74,3 +74,6 @@ eval "$(atuin init zsh)"
 
 # Unity CLI
 . "/Users/maybe/.unity/env"
+
+export REA_ANALYSIS_PROVIDER=ghidra
+export GHIDRA_INSTALL_DIR=/opt/homebrew/opt/ghidra/libexec
