@@ -2,6 +2,9 @@ onboarding = false
 [ui]
 agent_panel_sort = "spaces"
 
+[keys]
+clear_pane = "prefix+shift+k"
+
 [[keys.command]]
 key = "prefix+alt+g"
 type = "popup"
