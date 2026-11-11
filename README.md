@@ -56,8 +56,8 @@ script deletes and rebuilds them.
 ```bash
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-git clone https://github.com/mantrandev/mydotbot.git ~/mydotbot
-cd ~/mydotbot
+git clone https://github.com/mantrandev/mydotbot.git ~/Desktop/projects/mydotbot
+cd ~/Desktop/projects/mydotbot
 git submodule update --init --recursive
 ./install.sh
 ```
