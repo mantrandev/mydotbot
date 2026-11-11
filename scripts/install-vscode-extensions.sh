@@ -3,7 +3,8 @@ set -e
 
 extensions=(
   anthropic.claude-code
-  github.copilot-chat
+  davidanson.vscode-markdownlint
+  eamodio.gitlens
   llvm-vs-code-extensions.lldb-dap
   mechatroner.rainbow-csv
   ms-python.debugpy
@@ -15,10 +16,11 @@ extensions=(
   ms-toolsai.jupyter-renderers
   ms-toolsai.vscode-jupyter-cell-tags
   ms-toolsai.vscode-jupyter-slideshow
-  openai.chatgpt
   pkief.material-icon-theme
   redhat.vscode-yaml
   swiftlang.swift-vscode
+  tomoki1207.pdf
+  vadimcn.vscode-lldb
 )
 
 for ext in "${extensions[@]}"; do

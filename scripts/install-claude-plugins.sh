@@ -15,6 +15,7 @@ plugins=(
   "frontend-design@claude-plugins-official"
   "mattpocock-skills@claude-plugins-official"
   "posthog@claude-plugins-official"
+  "pyright-lsp@claude-plugins-official"
   "rust-analyzer-lsp@claude-plugins-official"
   "swift-lsp@claude-plugins-official"
   "visual-explainer@visual-explainer-marketplace"

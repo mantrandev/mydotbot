@@ -4,14 +4,13 @@ set -e
 packages=(
   "@aliou/pi-guardrails"
   "@ifi/pi-plan"
-  "@mariozechner/pi-coding-agent"
+  "@earendil-works/pi-coding-agent"
   "@openai/codex"
   "pnpm"
   "pyright"
-  "yarn"
   "pi-rewind-hook"
   "pi-subagents"
-  "serve-sim"
+  "vercel"
 )
 
 npm install -g "${packages[@]}"
