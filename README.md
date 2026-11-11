@@ -33,9 +33,14 @@ scripts/
 └── install-vscode-extensions.sh
 herdr/
 └── config.toml            herdr config, agent sidebar rows
+git/
+├── .gitconfig             Git config, includes work and GitHub identities
+├── .gitconfig-github      Personal GitHub identity
+└── ignore                 Global gitignore
 zsh/
 ├── .zshrc                 Zsh config, oh-my-zsh, nvm, aliases
 ├── .zprofile              Homebrew shellenv
+├── .zshenv                Cargo env, extra aliases
 ├── jira.zsh               Jira helpers via acli
 └── statusline-command.sh  Claude Code statusline, labels the profile
 pi/
@@ -53,7 +58,7 @@ script deletes and rebuilds them.
 
 git clone https://github.com/mantrandev/mydotbot.git ~/mydotbot
 cd ~/mydotbot
-git submodule update --init
+git submodule update --init --recursive
 ./install.sh
 ```
 
@@ -240,7 +245,7 @@ Not in this repo. Recreate on a new device.
 | `~/.localskills/` | skills with internal identifiers |
 | `~/.localplugins/` | local plugins, e.g. `delivery` |
 | `~/.zsh/jira.local.zsh` | `JIRA_SITE`, `JIRA_PROJECT` |
-| `~/.gitconfig`, `~/.gitconfig-github` | commit identities |
+| `~/.gitconfig-work` | work commit identity, included by `git/.gitconfig` |
 
 `zsh/jira.zsh` sources `~/.zsh/jira.local.zsh` before setting its defaults, so
 the site and project stay out of git:

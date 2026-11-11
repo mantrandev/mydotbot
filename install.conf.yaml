@@ -40,8 +40,14 @@
 
 - link:
     ~/.zshrc: zsh/.zshrc
+    ~/.zshenv: zsh/.zshenv
     ~/.zprofile: zsh/.zprofile
     ~/.zsh/jira.zsh: zsh/jira.zsh
+    ~/.gitconfig: git/.gitconfig
+    ~/.gitconfig-github: git/.gitconfig-github
+    ~/.config/git/ignore:
+      path: git/ignore
+      create: true
     ~/.claude/statusline-command.sh: zsh/statusline-command.sh
     ~/.claude-company/statusline-command.sh: zsh/statusline-command.sh
     ~/.claude/CLAUDE.md: ai/claude/CLAUDE.md
@@ -193,9 +199,11 @@
     ~/.codex/skills/mr-pipeline: ai/skills/mr-pipeline
     ~/.codex/skills/orca-cli: ai/skills/orca-cli
     ~/.codex/skills/planning-feature: ai/skills/planning-feature
+    ~/.codex/skills/reverse-engineer-anything: ai/skills/reverse-engineer-anything
     ~/.codex/skills/ios-test-failure-triage: ai/skills/ios-test-failure-triage
     ~/.codex/skills/sim-validation-flow: ai/skills/sim-validation-flow
     ~/.codex/skills/simulate-notification: ai/skills/simulate-notification
+    ~/.codex/skills/tracking-events: ai/skills/tracking-events
     ~/.codex/skills/usage-dashboard: ai/skills/usage-dashboard
     ~/.codex/skills/writing-unit-tests: ai/skills/writing-unit-tests
     ~/.pi/agent/AGENTS.md: ai/CLAUDE.md
