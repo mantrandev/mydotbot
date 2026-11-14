@@ -39,7 +39,7 @@ Rebuild `ai/skills/` from sources and re-apply symlinks:
 
 **Memory** — one store per profile: `ai/memory/` → `~/.claude/memory`, `ai/memory-company/` → `~/.claude-company/memory`. Never shared.
 
-**Codex accounts** — `install.conf.yaml` symlinks conversation history, sessions, memories, goals, attachments, and generated artifacts from `~/.codex` and `~/.codex-1` into `~/.local/share/codex`. Authentication, config, cache, logs, queues, and installation IDs remain account-local. Adding an account means adding its link entries to `install.conf.yaml`. Skills are linked from `ai/skills/`; native plugins are synchronized per account by `scripts/install-codex-plugins.sh`.
+**Codex accounts** — history, sessions, memories, goals, attachments, and generated artifacts are account-local. Dotbot manages rules and skills only. Skills are linked from `ai/skills/`; native plugins are synchronized per account by `scripts/install-codex-plugins.sh`.
 
 **Shell** — `zsh/` contains `.zshrc`, `.zprofile`, `jira.zsh`, and `statusline-command.sh`. Symlinked to `~/.zshrc`, `~/.zprofile`, `~/.zsh/jira.zsh`, and both profiles' `statusline-command.sh` respectively. The statusline labels the profile `Personal` or `Company`.
 
