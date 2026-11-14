@@ -269,11 +269,13 @@ profiles. Edit the source, never `~/.claude/agents/`.
 
 ## Codex multi-account
 
-`codex-mine` and `codex-1` keep separate credentials and config while sharing
-conversation history, sessions, the session index, memories, goals, attachments,
-generated images and thread state through `~/.local/share/codex`. The symlinks
-are declared in `install.conf.yaml`; no Codex process needs to be closed.
-Adding an account means adding its link entries to `install.conf.yaml`.
+`codex-mine` and `codex-1` keep their own history, sessions, memories, goals,
+attachments, generated images, and thread state. Dotbot manages rules and skills
+only. Native plugins are synchronized per account by
+`scripts/install-codex-plugins.sh`.
+
+Existing links to `~/.local/share/codex` are left untouched. Removing their
+declarations from Dotbot does not detach data already shared on this device.
 
 ## Submodules
 

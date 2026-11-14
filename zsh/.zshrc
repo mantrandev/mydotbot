@@ -7,16 +7,10 @@ source $ZSH/oh-my-zsh.sh
 alias claude-mine='CLAUDE_CONFIG_DIR=~/.claude claude'
 alias claude-company='CLAUDE_CONFIG_DIR=~/.claude-company claude'
 codex-mine() {
-  if [ -x "$HOME/dotfiles/scripts/sync-codex-accounts.sh" ]; then
-    bash "$HOME/dotfiles/scripts/sync-codex-accounts.sh" || return
-  fi
   CODEX_HOME="$HOME/.codex" codex "$@"
 }
 
 codex-1() {
-  if [ -x "$HOME/dotfiles/scripts/sync-codex-accounts.sh" ]; then
-    bash "$HOME/dotfiles/scripts/sync-codex-accounts.sh" || return
-  fi
   CODEX_HOME="$HOME/.codex-1" codex "$@"
 }
 
