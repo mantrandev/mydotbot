@@ -41,6 +41,10 @@ for dir in "${config_dirs[@]}"; do
   marketplaces_file="$dir/plugins/known_marketplaces.json"
   installed_file="$dir/plugins/installed_plugins.json"
   settings_file="$dir/settings.json"
+  profile_plugins=("${plugins[@]}")
+  if [ "$dir" = "$HOME/.claude" ]; then
+    profile_plugins+=("vercel@claude-plugins-official")
+  fi
 
   for marketplace in "${marketplaces[@]}"; do
     IFS='|' read -r source name <<< "$marketplace"
@@ -57,13 +61,17 @@ for dir in "${config_dirs[@]}"; do
     fi
   done
 
-  for plugin in "${plugins[@]}"; do
+  for plugin in "${profile_plugins[@]}"; do
     if [ -f "$installed_file" ] && jq -e --arg plugin "$plugin" '.plugins[$plugin] // [] | any(.scope == "user")' "$installed_file" >/dev/null; then
       CLAUDE_CONFIG_DIR="$dir" claude plugin update "$plugin" --scope user
     else
       CLAUDE_CONFIG_DIR="$dir" claude plugin install "$plugin" --scope user
     fi
-    if [ ! -f "$settings_file" ] || ! jq -e --arg plugin "$plugin" '.enabledPlugins[$plugin] == true' "$settings_file" >/dev/null; then
+    if [ "$dir" = "$HOME/.claude" ] && { [ "$plugin" = "frontend-design@claude-plugins-official" ] || [ "$plugin" = "posthog@claude-plugins-official" ]; }; then
+      if [ ! -f "$settings_file" ] || ! jq -e --arg plugin "$plugin" '.enabledPlugins[$plugin] == false' "$settings_file" >/dev/null; then
+        CLAUDE_CONFIG_DIR="$dir" claude plugin disable "$plugin" --scope user
+      fi
+    elif [ ! -f "$settings_file" ] || ! jq -e --arg plugin "$plugin" '.enabledPlugins[$plugin] == true' "$settings_file" >/dev/null; then
       CLAUDE_CONFIG_DIR="$dir" claude plugin enable "$plugin" --scope user
     fi
   done
