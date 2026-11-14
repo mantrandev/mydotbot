@@ -62,15 +62,31 @@ git submodule update --init --recursive
 ./install.sh
 ```
 
-`./install.sh` installs apps via `brew bundle`, VS Code extensions, npm globals,
-Claude Code plugins and native Codex plugins, then applies every symlink.
+`./install.sh` installs Homebrew packages, VS Code extensions, and npm globals,
+applies the declared symlinks, then synchronizes agent plugins and herdr hooks.
 
 Device-only files are not in this repo and have to be recreated by hand — see
 [Device-only files](#device-only-files).
 
+## Homebrew
+
+`Brewfile` records the Homebrew-managed packages on this device: 5 taps, 52
+formulae, and 13 casks. It includes the Atlassian `acli` and simulator `axe`
+formulae from their own taps, plus `openjdk@21` and `uv`. The existing
+`dotnet@8` and `postgresql@16` links are preserved with `link: true`.
+
+Check that the declared packages are installed without requiring upgrades:
+
+```bash
+brew bundle check --no-upgrade --verbose --file=Brewfile
+```
+
+Without `--no-upgrade`, the check also reports available updates. An app bundle
+in `/Applications` does not mean Homebrew manages it.
+
 ## Manual installs
 
-Not on Homebrew:
+Installed outside Homebrew on this device. Some are also available as casks.
 
 | App | Link |
 |---|---|
@@ -80,6 +96,21 @@ Not on Homebrew:
 | RocketSim | [Mac App Store](https://apps.apple.com/app/rocketsim-for-xcode-simulator/id1504940162) |
 | Zalo | [zalo.me](https://zalo.me/pc) |
 | SF Symbols | [developer.apple.com](https://developer.apple.com/sf-symbols/) |
+
+These existing app bundles also have no Homebrew install record and are kept
+outside `Brewfile`:
+
+| Group | Apps |
+|---|---|
+| AI | Claude, ChatGPT, Gemini |
+| Browsers | Brave Browser, Google Chrome |
+| Development | Beyond Compare, Fork, iTerm, Proxyman, Raycast |
+| Communication | Discord, Notion, Obsidian, Slack, Telegram |
+| Utilities | Pritunl, Scroll Reverser |
+
+MacTeX is installed outside Homebrew under `/Library/TeX` and
+`/usr/local/texlive`. HTTP Toolkit has neither an app bundle nor a Homebrew
+install record on this device. Both are removed from `Brewfile`.
 
 ## Claude profiles
 
