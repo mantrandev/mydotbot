@@ -252,6 +252,9 @@
   .lg--write{background:#5d5466;border-radius:2px} .lg--msg{background:#efb041;border-radius:2.5px} .lg--poison{background:#e5534b;border-radius:2.5px}
   .lg--ping{background:#f4fbef;border:2px solid #2f8a43} .lg--kill{background:#fde3df;border:2px solid #c0392b}
   .lg--fail{width:13px;height:13px;color:#fff;background:#e5534b;border-color:#8f2a22;font-size:11px;font-style:normal;font-weight:800;line-height:1}
+  .lg--cur,.lg--cmp,.lg--swap,.lg--win,.lg--done,.lg--bad,.lg--dim{width:12px;height:12px;border-radius:3px}
+  .lg--cur{background:var(--t-green-b)} .lg--cmp{background:var(--t-yellow-b)} .lg--swap{background:var(--t-orange-b)} .lg--win{background:var(--t-blue-b)}
+  .lg--done{background:var(--t-purple-b)} .lg--bad{background:var(--t-rose-b)} .lg--dim{background:var(--t-slab-b);opacity:.45}
 
   .iso-grid-line{fill:none;stroke:var(--grid-line);stroke-opacity:var(--grid-alpha);stroke-width:.8}
   .iso-shadow{fill:var(--iso-shadow)}
@@ -302,6 +305,19 @@
   .spot{fill:var(--spot-fill);stroke:#5fae57;stroke-width:2.4;animation:spot 1.5s ease-out forwards}
   .pulse{animation:pulse 1.3s ease-in-out infinite}
   .moved{animation:moved 1.4s ease-out infinite}
+  .iso-val{font-size:12px;font-weight:800;fill:var(--ink);font-variant-numeric:tabular-nums}
+  .iso-val.is-fresh,.iso-title.is-fresh{animation:fresh-in .45s var(--ease)}
+  .iso-idx{font-size:9.5px;font-weight:700;fill:var(--muted)}
+  .iso-axis{font-size:10.5px;font-weight:800;fill:var(--ink-2)}
+  .cell.is-empty{opacity:.5}
+  .cell.is-dim,.ent.is-dim{opacity:.32}
+  .cell{transition:opacity .35s ease}
+  .ent.is-off{opacity:0}
+  .slab.is-drop{animation:slab-drop .5s var(--spring) both}
+  .slab.is-lift{animation:slab-lift .45s var(--ease) forwards;pointer-events:none}
+  .ptr{transition:transform .45s var(--ease)}
+  .ptr-stem{stroke:var(--ink);stroke-width:1.4;stroke-linecap:round}
+  .ptr-tip{fill:var(--ink)}
 
   .timeline{margin-top:12px;padding:10px 14px}
   .timeline__head{display:flex;align-items:baseline;justify-content:space-between}
@@ -350,6 +366,15 @@
   .goals li{display:flex;align-items:flex-start;padding:4px 0;font-size:12px;line-height:1.45;color:var(--muted);transition:color .3s}
   .goals li .check{margin-top:1px;margin-inline-end:10px}
   .goals li.is-hit{color:var(--ink)}
+  .trace{display:flex;flex-direction:column;flex:none;max-height:40%;min-height:0;padding:12px 0 10px}
+  .trace__head{display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding:0 16px 8px}
+  .trace__head .eyebrow{font-size:12.5px}
+  .trace__lang{font-size:11px;font-weight:600;color:var(--muted)}
+  .trace__lines{position:relative;min-height:0;overflow:auto;scrollbar-width:thin}
+  .trace__lines li{position:relative;display:flex;gap:10px;padding:1px 16px;font-size:12px;line-height:1.6;white-space:pre;color:var(--ink-2);transition:background .25s}
+  .trace__lines .ln{flex:none;width:18px;text-align:end;color:var(--muted-2);font-variant-numeric:tabular-nums}
+  .trace__lines li.is-line{background:var(--green-tile);color:var(--ink);font-weight:700}
+  .trace__lines li.is-line::before{content:"";position:absolute;inset-block:2px;inset-inline-start:0;width:3px;border-radius:0 3px 3px 0;background:var(--green-3)}
 
   .callout{display:flex;gap:11px;margin:4px 0 10px;padding:11px 12px 12px;border:1px solid var(--line-strong);border-radius:10px}
   .callout__icon{display:grid;place-items:center;flex:none;width:28px;height:28px;background:var(--btn);border:1.3px solid var(--ink-2);border-radius:8px}
@@ -510,6 +535,8 @@
   @keyframes pulse{0%,to{opacity:.4}50%{opacity:1}}
   @keyframes moved{0%{opacity:.9;transform:scale(.6)}to{opacity:0;transform:scale(1.5)}}
   @keyframes march{to{stroke-dashoffset:-14}}
+  @keyframes slab-drop{from{opacity:0;transform:translateY(-30px)}}
+  @keyframes slab-lift{to{opacity:0;transform:translateY(-30px)}}
 
   @media (max-width:1199px),(max-height:640px){
     body{overflow:auto}
@@ -875,12 +902,46 @@
 </div>
 
 <script>
+const AT = (col, row) => [(row + col) / 2, (row - col) / 2]
+const TREE = (vals, o = {}) => {
+  const p = o.prefix || 'n', gap = o.gap || 4, dy = o.dy || 9, [c0, r0] = o.at || [0, 0], nodes = {}, links = {}
+  if (!vals.length || vals[0] == null) return { nodes, links }
+  const items = [{ v: vals[0], d: 0, k: 0 }], q = [items[0]]
+  let i = 1
+  while (q.length && i < vals.length) {
+    const par = q.shift()
+    for (const side of [0, 1]) {
+      const v = vals[i++]
+      if (v == null) continue
+      const ch = { v, d: par.d + 1, k: par.k * 2 + side, par }
+      items.push(ch); q.push(ch)
+    }
+  }
+  const H = Math.max(...items.map(t => t.d))
+  items.forEach(t => {
+    const col = c0 + (t.k - (2 ** t.d - 1) / 2) * gap * 2 ** (H - t.d)
+    nodes[p + t.v] = { kind: 'dot', at: AT(col, r0 + t.d * dy), title: String(t.v), tone: o.tone || 'slab', noteAt: o.noteAt || 'right' }
+    if (t.par) links[p + t.par.v + '-' + p + t.v] = { from: p + t.par.v, to: p + t.v, arrow: !!o.arrow }
+  })
+  return { nodes, links }
+}
+const CHAIN = (vals, o = {}) => {
+  const p = o.prefix || 'l', [c0, r0] = o.at || [0, 0], gap = o.gap || 8, nodes = {}, links = {}
+  vals.forEach((v, k) => {
+    nodes[p + k] = { kind: 'box', at: AT(c0 + k * gap, r0), size: o.size || [2.4, 2.4, 1.2], tone: o.tone || 'slab', title: String(v), noteAt: o.noteAt || 'bottom' }
+    if (k) links[p + (k - 1) + '-' + p + k] = { from: p + (k - 1), to: p + k }
+  })
+  return { nodes, links }
+}
+</script>
+<script>
 const WORDS = {
   step: 'Step', of: 'of', next: 'Next', back: 'Back', nextView: 'Next', finish: 'Finished',
   changed: 'What changed', inLesson: 'In this lesson', replay: 'Replay', pause: 'Pause', play: 'Play',
   expand: 'Expand', collapse: 'Close', hintStep: 'step', hintReplay: 'replay', hintPause: 'pause',
-  done: 'Lesson complete', steps: 'steps', pages: 'pages', none: 'No matches'
+  done: 'Lesson complete', steps: 'steps', pages: 'pages', none: 'No matches', code: 'Code'
 }
+
 
 const SCENES = {
   request: {
@@ -1246,9 +1307,9 @@ const SCENES = {
     return outer
   }
 
-  const drawBox = (g, x, y, w, d, h, z0, tone, lines) => {
+  const drawBox = (g, x, y, w, d, h, z0, tone, lines, bare) => {
     const x0 = x - w / 2, x1 = x + w / 2, y0 = y - d / 2, y1 = y + d / 2, zt = z0 + h
-    if (!z0) el('polygon', { class: 'iso-shadow', points: pts([P(x0, y0), P(x1, y0), P(x1, y1), P(x0, y1)]), transform: 'translate(0 7)', filter: 'url(#iso-blur)' }, g)
+    if (!z0 && !bare) el('polygon', { class: 'iso-shadow', points: pts([P(x0, y0), P(x1, y0), P(x1, y1), P(x0, y1)]), transform: 'translate(0 7)', filter: 'url(#iso-blur)' }, g)
     el('polygon', { points: pts([P(x0, y1, zt), P(x1, y1, zt), P(x1, y1, z0), P(x0, y1, z0)]), fill: `url(#s-${tone})` }, g)
     const right = pts([P(x1, y0, zt), P(x1, y1, zt), P(x1, y1, z0), P(x1, y0, z0)])
     el('polygon', { points: right, fill: `url(#s-${tone})` }, g)
@@ -1275,7 +1336,38 @@ const SCENES = {
     el('ellipse', { class: 'iso-edge', cx, cy: ty, rx, ry }, g)
     return { top: [cx, ty - ry], bottom: [cx, by + ry], front: [cx, ty + ry], right: [cx + rx, (ty + by) / 2], left: [cx - rx, (ty + by) / 2] }
   }
-  const half = n => n.kind === 'cyl' ? [n.r || 1.5, n.r || 1.5] : [(n.size || [3, 3])[0] / 2, (n.size || [3, 3])[1] / 2]
+  const TONES = ['slab', 'orange', 'green', 'blue', 'yellow', 'purple', 'rose']
+  const MARKS = { cur: 'green', cmp: 'yellow', swap: 'orange', win: 'blue', done: 'purple', bad: 'rose', dim: 'slab' }
+  const toneOf = (m, base) => MARKS[m] || (TONES.includes(m) ? m : base)
+  const STRUCT = ['array', 'grid', 'stack']
+  const capOf = n => n.cap || (n.values || []).length || 1
+  const shapeOf = n => {
+    const [ax, ay] = n.at
+    if (n.kind === 'array') {
+      const c = n.cell || 2, len = capOf(n), alongY = n.axis === 'y'
+      const pos = k => { const o = (Number(k) - (len - 1) / 2) * c; return alongY ? [ax, ay + o] : [ax + o, ay] }
+      return { hw: alongY ? [c / 2, len * c / 2] : [len * c / 2, c / 2], H: n.h || 0.9, pos, c }
+    }
+    if (n.kind === 'grid') {
+      const c = n.cell || 2.2, R = n.values.length, C = Math.max(...n.values.map(r => r.length))
+      const pos = k => { const [r, q] = String(k).split(',').map(Number); return [ax + (q - (C - 1) / 2) * c, ay + (r - (R - 1) / 2) * c] }
+      return { hw: [C * c / 2, R * c / 2], H: n.h || 0.3, pos, c, R, C }
+    }
+    if (n.kind === 'stack') { const c = n.cell || 3; return { hw: [c / 2 + 0.4, c / 2 + 0.4], H: capOf(n) * (n.h || 1.5) + 0.25, c } }
+    if (n.kind === 'cyl' || n.kind === 'dot') { const r = n.r || (n.kind === 'dot' ? 1.1 : 1.5); return { hw: [r, r], H: n.h || (n.kind === 'dot' ? 0.7 : 2.4) } }
+    const s = n.size || (n.kind === 'device' ? [5, 4, 0.9] : [3, 3, 2.6])
+    return { hw: [s[0] / 2, s[1] / 2], H: s[2] }
+  }
+  const footGeo = (n, sh) => {
+    const [x, y] = n.at, [a, b] = sh.hw, H = sh.H
+    return { top: [P(x, y)[0], P(x - a, y - b, H)[1]], bottom: n.axis === 'y' ? P(x + a, y + b) : [P(x, y)[0], P(x + a, y + b)[1]], front: P(x + a, y + b, H), right: P(x + a, y - b, H / 2), left: P(x - a, y + b, H / 2) }
+  }
+  const floorShadow = (g, x, y, a, b) => el('polygon', { class: 'iso-shadow', points: pts([P(x - a, y - b), P(x + a, y - b), P(x + a, y + b), P(x - a, y + b)]), transform: 'translate(0 7)', filter: 'url(#iso-blur)' }, g)
+  const valText = (g, x, y, v, fresh) => { el('text', { class: 'iso-val' + (fresh ? ' is-fresh' : ''), x: x.toFixed(1), y: (y + 4.5).toFixed(1), 'text-anchor': 'middle' }, g).textContent = v }
+  const rangeKeys = k => { const m = /^(\d+)\.\.(\d+)$/.exec(k); if (!m) return [k]; const out = []; for (let j = +m[1]; j <= +m[2]; j++) out.push(String(j)); return out }
+  const clone = v => v == null ? v : JSON.parse(JSON.stringify(v))
+  const TOK = /\b(\d+)\b|\b(def|function|return|for|while|if|elif|else|in|range|and|or|not|break|continue|let|const|var|of|new|null|None|True|False|true|false|yield)\b/g
+  const hl = line => esc(line).replace(TOK, (m, num) => `<span class="${num ? 'c-amb' : 'c-blu'}">${m}</span>`)
   const clip = (c, q, hw, m) => {
     const dx = q[0] - c[0], dy = q[1] - c[1]
     const t = Math.min(dx ? (hw[0] + m) / Math.abs(dx) : Infinity, dy ? (hw[1] + m) / Math.abs(dy) : Infinity, 1)
@@ -1304,37 +1396,109 @@ const SCENES = {
     const L = {}
     ;['pads', 'links', 'packets', 'ents', 'notes', 'fx'].forEach(k => { L[k] = el('g', { class: 'layer-' + k }, svg) })
     const nodes = {}, links = {}
+    L.ptrs = el('g', { class: 'layer-ptrs' }, svg)
+    svg.insertBefore(L.ptrs, L.notes)
 
-    Object.entries(def.nodes).sort((a, b) => (a[1].at[0] + a[1].at[1]) - (b[1].at[0] + b[1].at[1])).forEach(([id, nd]) => {
-      const [x, y] = nd.at, hw = half(nd)
-      const pad = el('polygon', { class: 'pad', points: pts([P(x - hw[0] - 0.9, y - hw[1] - 0.9), P(x + hw[0] + 0.9, y - hw[1] - 0.9), P(x + hw[0] + 0.9, y + hw[1] + 0.9), P(x - hw[0] - 0.9, y + hw[1] + 0.9)]) }, L.pads)
-      const g = el('g', { class: 'ent', 'data-id': id }, L.ents)
+    const paint = (id, look) => {
+      const N = nodes[id], nd = N.def, sh = N.shp, sig = JSON.stringify(look)
+      if (N.sig === sig) return
+      const prevVals = N.vals, g = N.g, [x, y] = nd.at
+      N.sig = sig; N.vals = look.vals
+      g.replaceChildren()
+      g.classList.toggle('is-dim', look.mark === 'dim')
+      const marks = look.marks || {}
       let geo
-      if (nd.kind === 'cyl') geo = drawCyl(g, x, y, nd.r || 1.5, nd.h || 2.4, nd.tone || 'purple')
-      else if (nd.kind === 'device') {
-        const [w, d, h] = nd.size || [5, 4, 0.9]
-        geo = drawBox(g, x, y, w, d, h, 0, nd.tone || 'slab')
-        const scr = drawBox(g, x - w * 0.04, y - d * 0.3, w * 0.62, 0.24, Math.max(1.8, d * 0.55), h, nd.screen || 'purple')
-        drawBox(g, x + w * 0.04, y + d * 0.12, w * 0.56, d * 0.34, 0.1, h, 'slab')
-        geo.top = scr.top
-      } else geo = drawBox(g, x, y, ...(nd.size || [3, 3, 2.6]), 0, nd.tone || 'slab', nd.lines)
-      if (nd.title) {
-        const h = nd.kind === 'cyl' ? (nd.h || 2.4) : (nd.size || [3, 3, 2.6])[2]
-        const ty = nd.kind === 'cyl' ? (geo.front[1] + geo.bottom[1]) / 2 : geo.front[1] + h * S / 2
-        el('text', { class: 'iso-title', x: geo.front[0], y: ty + (nd.sub ? -2 : 4), 'text-anchor': 'middle' }, g).textContent = nd.title
-        if (nd.sub) el('text', { class: 'iso-sub', x: geo.front[0], y: ty + 11, 'text-anchor': 'middle' }, g).textContent = nd.sub
+      if (nd.kind === 'array') {
+        const c = sh.c, len = capOf(nd), idx = []
+        floorShadow(g, x, y, ...sh.hw)
+        for (let k = 0; k < len; k++) {
+          const [cx, cy] = sh.pos(k), v = look.vals[k], empty = v == null || v === '', m = marks[k]
+          const cg = el('g', { class: 'cell' + (empty ? ' is-empty' : '') + (m === 'dim' ? ' is-dim' : ''), 'data-k': k }, g)
+          drawBox(cg, cx, cy, c - 0.2, c - 0.2, sh.H, 0, toneOf(m, nd.tone || 'slab'), 0, true)
+          if (!empty) valText(cg, ...P(cx, cy, sh.H), v, prevVals && String(prevVals[k]) !== String(v))
+          if (nd.index !== false) idx.push([Array.isArray(nd.index) ? nd.index[k] : k, nd.axis === 'y' ? P(cx + c / 2 + 0.8, cy) : P(cx, cy + c / 2 + 0.8)])
+        }
+        idx.forEach(([t, [ix, iy]]) => { if (t != null) el('text', { class: 'iso-idx', x: ix.toFixed(1), y: (iy + 3.5).toFixed(1), 'text-anchor': 'middle' }, g).textContent = t })
+        geo = footGeo(nd, sh)
+      } else if (nd.kind === 'grid') {
+        const c = sh.c, cells = []
+        floorShadow(g, x, y, ...sh.hw)
+        for (let r = 0; r < sh.R; r++) for (let q = 0; q < sh.C; q++) cells.push([r, q])
+        cells.sort((a, b) => (a[0] + a[1]) - (b[0] + b[1])).forEach(([r, q]) => {
+          const key = r + ',' + q, [cx, cy] = sh.pos(key), v = (look.vals[r] || [])[q], empty = v == null || v === '', m = marks[key]
+          const cg = el('g', { class: 'cell' + (empty ? ' is-empty' : '') + (m === 'dim' ? ' is-dim' : ''), 'data-k': key }, g)
+          drawBox(cg, cx, cy, c - 0.22, c - 0.22, sh.H, 0, toneOf(m, nd.tone || 'slab'), 0, true)
+          if (!empty) valText(cg, ...P(cx, cy, sh.H), v, prevVals && String((prevVals[r] || [])[q]) !== String(v))
+        })
+        ;(nd.rows || []).forEach((t, r) => { const [lx, ly] = P(x - sh.hw[0] - 0.9, sh.pos(r + ',0')[1]); el('text', { class: 'iso-axis', x: lx.toFixed(1), y: (ly + 4).toFixed(1), 'text-anchor': 'middle' }, g).textContent = t })
+        ;(nd.cols || []).forEach((t, q) => { const [lx, ly] = P(sh.pos('0,' + q)[0], y - sh.hw[1] - 0.9); el('text', { class: 'iso-axis', x: lx.toFixed(1), y: (ly + 4).toFixed(1), 'text-anchor': 'middle' }, g).textContent = t })
+        geo = footGeo(nd, sh)
+      } else if (nd.kind === 'stack') {
+        const c = sh.c, h = nd.h || 1.5, vals = look.vals
+        drawBox(g, x, y, c + 0.8, c + 0.8, 0.25, 0, 'slab')
+        const slab = (v, k, cls, m) => {
+          const cg = el('g', { class: 'cell slab' + cls + (m === 'dim' ? ' is-dim' : ''), 'data-k': k }, g)
+          const sg = drawBox(cg, x, y, c, c, h * 0.9, 0.25 + k * h, toneOf(m, nd.tone || 'yellow'), 0, true)
+          valText(cg, sg.front[0], sg.front[1] + h * 0.9 * S / 2, v)
+          return cg
+        }
+        vals.forEach((v, k) => slab(v, k, prevVals && k >= prevVals.length && !reduced ? ' is-drop' : '', marks[k]))
+        if (prevVals && !reduced) for (let k = vals.length; k < prevVals.length; k++) { const gh = slab(prevVals[k], k, ' is-lift'); setTimeout(() => gh.remove(), 480) }
+        geo = footGeo(nd, sh)
+      } else {
+        const tone = toneOf(look.mark, nd.tone || (nd.kind === 'cyl' ? 'purple' : 'slab'))
+        if (nd.kind === 'cyl' || nd.kind === 'dot') geo = drawCyl(g, x, y, sh.hw[0], sh.H, tone)
+        else if (nd.kind === 'device') {
+          const [w, d, h] = nd.size || [5, 4, 0.9]
+          geo = drawBox(g, x, y, w, d, h, 0, tone)
+          const scr = drawBox(g, x - w * 0.04, y - d * 0.3, w * 0.62, 0.24, Math.max(1.8, d * 0.55), h, nd.screen || 'purple')
+          drawBox(g, x + w * 0.04, y + d * 0.12, w * 0.56, d * 0.34, 0.1, h, 'slab')
+          geo.top = scr.top
+        } else geo = drawBox(g, x, y, ...(nd.size || [3, 3, 2.6]), 0, tone, nd.lines)
+        const title = look.title
+        if (title != null && title !== '') {
+          if (nd.kind === 'dot' || (nd.kind === 'box' && sh.H < 1.6)) valText(g, P(x, y)[0], P(x, y, sh.H)[1], title, N.title !== undefined && N.title !== title)
+          else {
+            const ty = nd.kind === 'cyl' ? (geo.front[1] + geo.bottom[1]) / 2 : geo.front[1] + sh.H * S / 2
+            el('text', { class: 'iso-title' + (N.title !== undefined && N.title !== title ? ' is-fresh' : ''), x: geo.front[0], y: ty + (nd.sub ? -2 : 4), 'text-anchor': 'middle' }, g).textContent = title
+            if (nd.sub) el('text', { class: 'iso-sub', x: geo.front[0], y: ty + 11, 'text-anchor': 'middle' }, g).textContent = nd.sub
+          }
+        }
+        N.title = title
       }
       if (nd.label) pill(g, geo.bottom[0], geo.bottom[1] + 22, nd.label)
-      nodes[id] = { def: nd, g, pad, geo }
+      N.geo = geo
+    }
+    const lookOf = (id, s) => {
+      const nd = def.nodes[id], v = s ? s.vals[id] : undefined, m = s ? s.marks[id] : undefined
+      if (STRUCT.includes(nd.kind)) return { vals: v || nd.values || [], marks: m && typeof m === 'object' ? m : {} }
+      return { title: v != null ? String(v) : nd.title, mark: typeof m === 'string' ? m : '' }
+    }
+
+    Object.entries(def.nodes).sort((a, b) => (a[1].at[0] + a[1].at[1]) - (b[1].at[0] + b[1].at[1])).forEach(([id, nd]) => {
+      const [x, y] = nd.at, sh = shapeOf(nd), hw = sh.hw
+      const pad = el('polygon', { class: 'pad', points: pts([P(x - hw[0] - 0.9, y - hw[1] - 0.9), P(x + hw[0] + 0.9, y - hw[1] - 0.9), P(x + hw[0] + 0.9, y + hw[1] + 0.9), P(x - hw[0] - 0.9, y + hw[1] + 0.9)]) }, L.pads)
+      if (STRUCT.includes(nd.kind)) {
+        const lift = steps.some(st => st.ptrs && st.ptrs[id]) ? 64 : 0
+        el('polygon', { points: pts([P(x - hw[0], y - hw[1], sh.H), P(x + hw[0], y - hw[1], sh.H), P(x + hw[0], y + hw[1]), P(x - hw[0], y + hw[1])]), fill: 'none', transform: `translate(0 ${-lift})` }, L.pads)
+      }
+      const g = el('g', { class: 'ent', 'data-id': id }, L.ents)
+      nodes[id] = { def: nd, g, pad, shp: sh }
+      paint(id, lookOf(id))
     })
 
-    Object.entries(def.links).forEach(([id, lk]) => {
-      const A = def.nodes[lk.from], B = def.nodes[lk.to], via = lk.via || []
+    const endOf = ref => {
+      const dot = ref.indexOf('.'), id = dot < 0 ? ref : ref.slice(0, dot), N = nodes[id]
+      if (dot < 0 || !N.shp.pos) return { id, at: N.def.at, hw: N.shp.hw }
+      return { id, at: N.shp.pos(ref.slice(dot + 1)), hw: [N.shp.c / 2, N.shp.c / 2] }
+    }
+    Object.entries(def.links || {}).forEach(([id, lk]) => {
+      const A = endOf(lk.from), B = endOf(lk.to), via = lk.via || []
       const route = [A.at, ...via, B.at]
-      const start = clip(A.at, route[1], half(A), 0.45), end = clip(B.at, route[route.length - 2], half(B), 0.45)
+      const start = clip(A.at, route[1], A.hw, 0.45), end = clip(B.at, route[route.length - 2], B.hw, 0.45)
       const sp = [start, ...via, end].map(p => P(p[0], p[1], 0))
       const path = el('path', { class: 'link', d: roundPath(sp) }, L.links)
-      links[id] = { def: lk, path, len: path.getTotalLength() }
+      links[id] = { def: lk, path, len: path.getTotalLength(), a: A.id, b: B.id }
     })
 
     const box = svg.getBBox()
@@ -1362,16 +1526,46 @@ const SCENES = {
       `<button class="btn-pop btn-next" type="button" data-act="next"><span class="btn-next__label"></span>${ICON.right}</button></div>` +
       `<div class="guide__hint">${ICON.keys}<kbd>←</kbd><kbd>→</kbd> ${esc(W.hintStep)} · <kbd>R</kbd> ${esc(W.hintReplay)} · <kbd>Space</kbd> ${esc(W.hintPause)}</div>`
     const content = $('.guide__content', guide), chap = $('.chapter', guide)
+    let trace = $('.trace', view)
+    if (def.code) {
+      if (!trace) { trace = document.createElement('div'); trace.className = 'card trace'; guide.after(trace) }
+      const src = Array.isArray(def.code) ? def.code : def.code.split('\n')
+      trace.innerHTML = `<div class="trace__head"><span class="eyebrow">${esc(W.code || 'Code')}</span><span class="trace__lang">${esc(def.lang || '')}</span></div>` +
+        `<ol class="trace__lines">${src.map((l, k) => `<li data-ln="${k + 1}"><span class="ln">${k + 1}</span><span class="src">${hl(l)}</span></li>`).join('')}</ol>`
+    }
 
     let i = -1, token = 0, paused = false, prev = { chips: {}, notes: {} }
+    const ptrG = {}
 
     const stateAt = k => {
-      const s = { show: new Set(), chips: {}, notes: {}, style: {} }
+      const s = { show: new Set(), chips: {}, notes: {}, style: {}, vals: {}, marks: {}, ptrs: {} }
       for (let j = 0; j <= k; j++) {
         const st = steps[j]
         ;(st.show || []).forEach(id => s.show.add(id))
         ;(st.hide || []).forEach(id => s.show.delete(id))
         Object.assign(s.chips, st.chips || {}); Object.assign(s.notes, st.notes || {}); Object.assign(s.style, st.linkStyle || {})
+        for (const id in st.vals || {}) s.vals[id] = clone(st.vals[id])
+        for (const id in st.set || {}) {
+          const base = s.vals[id] = clone(s.vals[id] || def.nodes[id].values || [])
+          for (const key in st.set[id]) {
+            const [r, q] = key.split(',')
+            if (q === undefined) base[r] = st.set[id][key]
+            else (base[r] = base[r] || [])[q] = st.set[id][key]
+          }
+        }
+        for (const id in st.marks || {}) {
+          const m = st.marks[id]
+          if (m == null) { delete s.marks[id]; continue }
+          if (typeof m !== 'object') { s.marks[id] = m; continue }
+          const cur = s.marks[id] = Object.assign({}, m['*'] === null || typeof s.marks[id] !== 'object' ? {} : s.marks[id])
+          for (const key in m) if (key !== '*') rangeKeys(key).forEach(q => { if (m[key] == null) delete cur[q]; else cur[q] = m[key] })
+        }
+        for (const id in st.ptrs || {}) {
+          const pt = st.ptrs[id]
+          if (pt == null) { delete s.ptrs[id]; continue }
+          const cur = s.ptrs[id] = Object.assign({}, s.ptrs[id])
+          for (const name in pt) { if (pt[name] == null) delete cur[name]; else cur[name] = pt[name] }
+        }
       }
       return s
     }
@@ -1425,9 +1619,29 @@ const SCENES = {
         if (!(await tween(1100, tok))) return
       }
     }
+    const hop = tok => {
+      const sw = steps[i].swap
+      if (!sw || reduced) return
+      Object.entries(sw).forEach(([id, pair]) => {
+        const N = nodes[id]
+        if (!N || !N.shp.pos) return
+        const [a, b] = pair, ga = $(`.cell[data-k="${a}"]`, N.g), gb = $(`.cell[data-k="${b}"]`, N.g)
+        if (!ga || !gb) return
+        const pa = P(...N.shp.pos(a)), pb = P(...N.shp.pos(b)), dx = pb[0] - pa[0], dy = pb[1] - pa[1], next = ga.nextSibling
+        N.g.appendChild(ga)
+        tween(620, tok, p => {
+          const e = ease(p), up = Math.sin(Math.PI * p) * 26
+          ga.setAttribute('transform', `translate(${(dx * (1 - e)).toFixed(1)} ${(dy * (1 - e) - up).toFixed(1)})`)
+          gb.setAttribute('transform', `translate(${(-dx * (1 - e)).toFixed(1)} ${(-dy * (1 - e) + up * 0.3).toFixed(1)})`)
+        }).then(() => {
+          ga.removeAttribute('transform'); gb.removeAttribute('transform')
+          if (ga.parentNode === N.g && next && next.parentNode === N.g) N.g.insertBefore(ga, next)
+        })
+      })
+    }
     const spot = id => {
       const nd = nodes[id]; if (!nd) return
-      const [x, y] = nd.def.at, hw = half(nd.def)
+      const [x, y] = nd.def.at, hw = nd.shp.hw
       const s = el('polygon', { class: 'spot', points: pts([P(x - hw[0] - 1.4, y - hw[1] - 1.4), P(x + hw[0] + 1.4, y - hw[1] - 1.4), P(x + hw[0] + 1.4, y + hw[1] + 1.4), P(x - hw[0] - 1.4, y + hw[1] + 1.4)]) }, L.pads)
       setTimeout(() => s.remove(), 1600)
     }
@@ -1438,15 +1652,16 @@ const SCENES = {
       const st = steps[k], s = stateAt(k), focus = new Set(st.focus || [])
       for (const id in nodes) {
         const on = s.show.has(id)
+        paint(id, lookOf(id, s))
         nodes[id].g.classList.toggle('is-off', !on)
         nodes[id].pad.classList.toggle('is-on', on && focus.has(id))
       }
       if (!reduced) focus.forEach(id => { if (s.show.has(id)) spot(id) })
       for (const id in links) {
         const lk = links[id], style = s.style[id] || lk.def.style || ''
-        const vis = s.show.has(lk.def.from) && s.show.has(lk.def.to) && style !== 'hidden'
+        const vis = s.show.has(lk.a) && s.show.has(lk.b) && style !== 'hidden'
         lk.path.setAttribute('class', 'link' + (style ? ' link--' + style : '') + (vis ? '' : ' is-off'))
-        const mk = MARK[style] || (lk.def.arrow === false ? '' : 'url(#iso-arrow)')
+        const mk = lk.def.arrow === false ? '' : MARK[style] || 'url(#iso-arrow)'
         if (mk) lk.path.setAttribute('marker-end', mk); else lk.path.removeAttribute('marker-end')
         if (lk.def.both && mk) lk.path.setAttribute('marker-start', mk); else lk.path.removeAttribute('marker-start')
         lk.vis = vis
@@ -1472,6 +1687,33 @@ const SCENES = {
         else if (side === 'bottom') pill(L.notes, geo.bottom[0], geo.bottom[1] + (nodes[id].def.label ? 50 : 22), note[0], note[1], fresh)
         else pill(L.notes, geo.top[0], geo.top[1] - 20, note[0], note[1], fresh)
       }
+      const seen = new Set()
+      for (const id in s.ptrs) {
+        const N = nodes[id]
+        if (!N || !N.shp.pos || !s.show.has(id)) continue
+        const slots = {}
+        Object.entries(s.ptrs[id]).forEach(([name, v]) => {
+          const [at, lv] = [].concat(v), key = id + '.' + name, slot = slots[at] = (slots[at] || 0) + 1
+          const [cx, cy] = N.shp.pos(at), half = N.shp.c / 2, tx = P(cx, cy)[0], ty = P(cx - half, cy - half, N.shp.H)[1]
+          let pg = ptrG[key]
+          const fresh = !pg
+          if (!pg) pg = ptrG[key] = el('g', { class: 'ptr' }, L.ptrs)
+          pg.style.transform = `translate(${tx.toFixed(1)}px,${ty.toFixed(1)}px)`
+          pg.replaceChildren()
+          const off = 24 + (slot - 1) * 25
+          if (slot === 1) { el('line', { class: 'ptr-stem', x1: 0, y1: -off + 11, x2: 0, y2: -4 }, pg); el('circle', { class: 'ptr-tip', cy: -3, r: 2.2 }, pg) }
+          pill(pg, 0, -off, name, lv || '', fresh && !reduced)
+          seen.add(key)
+        })
+      }
+      for (const key in ptrG) if (!seen.has(key)) { ptrG[key].remove(); delete ptrG[key] }
+      if (trace) {
+        const on = new Set([].concat(st.line || []).map(Number))
+        $$('li', trace).forEach(li => li.classList.toggle('is-line', on.has(Number(li.dataset.ln))))
+        const first = $('li.is-line', trace), box = $('.trace__lines', trace)
+        if (first && (first.offsetTop < box.scrollTop || first.offsetTop + first.offsetHeight > box.scrollTop + box.clientHeight)) box.scrollTop = first.offsetTop - box.clientHeight / 3
+      }
+
       $$('.chip', hud).forEach(c => {
         const v = s.chips[c.dataset.chip] || ['—'], val = $('.chip__value', c)
         const key = v[0] + '|' + (v[1] || '')
@@ -1533,6 +1775,7 @@ const SCENES = {
       token++
       L.packets.replaceChildren()
       render(k, dir)
+      hop(token)
       play(token)
     }
     const setPaused = p => {
@@ -1542,7 +1785,7 @@ const SCENES = {
       b.classList.toggle('is-on', p)
       b.innerHTML = (p ? ICON.play : ICON.pause) + `<span>${esc(p ? W.play : W.pause)}</span>`
     }
-    const replay = () => { token++; L.packets.replaceChildren(); setPaused(false); (steps[i].focus || []).forEach(spot); play(token) }
+    const replay = () => { token++; L.packets.replaceChildren(); setPaused(false); (steps[i].focus || []).forEach(spot); hop(token); play(token) }
     const advance = d => {
       const k = i + d
       if (k >= 0 && k < n) return go(k)
@@ -1577,25 +1820,45 @@ const SCENES = {
 
   const sx = $('#sx'), sxInput = $('#sxInput'), sxList = $('#sxList'), sxCount = $('#sxCount')
   const index = []
+  const fold = t => [...String(t)].map(c => c === 'đ' || c === 'Đ' ? 'd' : c.normalize('NFD')[0]).join('').toLowerCase()
+  const plain = h => { const d = document.createElement('div'); d.innerHTML = h || ''; return d.textContent }
   $$('.sidebar .mod').forEach(mod => {
     const group = $('.mod__title', mod).textContent.trim(), folder = $('.folder', mod).outerHTML
     $$('[data-go]', mod).forEach(a => {
       const id = a.dataset.go, v = views[id]
       const sc = v && v.dataset.scene && SCENES[v.dataset.scene]
       const sub = v ? ($('.subtitle', v) || {}).textContent || '' : ''
-      index.push({ group, mod, icon: folder, title: titleOf(id), sub, meta: sc ? sc.steps.length + ' ' + WORDS.steps : '', go: id })
-      if (sc) sc.steps.forEach((s, k) => index.push({ group, mod, step: k, title: s.title, sub: titleOf(id) + ' · ' + (s.short || ''), meta: WORDS.step + ' ' + (k + 1), go: id }))
+      const body = v ? [v.dataset.keywords || '', ($('.doc__body', v) || {}).textContent || ''].join(' ') : ''
+      const title = titleOf(id)
+      index.push({ group, mod, icon: folder, title, sub, kw: v ? v.dataset.keywords || '' : '', meta: sc ? sc.steps.length + ' ' + WORDS.steps : '', go: id, hay: fold([title, sub, body].join(' ')) })
+      if (sc) sc.steps.forEach((s, k) => {
+        const e = { group, mod, step: k, title: plain(s.title), sub: title + ' · ' + (s.short || ''), meta: WORDS.step + ' ' + (k + 1), go: id }
+        e.hay = fold([e.title, e.sub, plain(s.body), s.callout ? plain(s.callout.title) + ' ' + plain(s.callout.text) : ''].join(' '))
+        index.push(e)
+      })
     })
   })
   let hits = [], sel = 0
-  const mark = (text, q) => {
-    if (!q) return esc(text)
-    const at = text.toLowerCase().indexOf(q)
-    return at < 0 ? esc(text) : esc(text.slice(0, at)) + '<mark>' + esc(text.slice(at, at + q.length)) + '</mark>' + esc(text.slice(at + q.length))
+  const mark = (text, toks) => {
+    const chars = [...text], f = fold(text), on = new Array(chars.length).fill(false)
+    toks.forEach(t => { const at = f.indexOf(t); if (at >= 0) for (let j = at; j < at + t.length; j++) on[j] = true })
+    let out = '', open = false
+    chars.forEach((c, j) => {
+      if (on[j] !== open) { out += open ? '</mark>' : '<mark>'; open = on[j] }
+      out += esc(c)
+    })
+    return out + (open ? '</mark>' : '')
   }
   const renderSx = () => {
-    const q = sxInput.value.trim().toLowerCase()
-    hits = index.filter(e => q ? (e.title + ' ' + e.sub).toLowerCase().includes(q) : e.step === undefined)
+    const q = fold(sxInput.value.trim()), toks = q.split(/\s+/).filter(Boolean)
+    hits = index.filter(e => toks.length ? toks.every(t => e.hay.includes(t)) : e.step === undefined)
+    if (toks.length) {
+      const has = f => toks.every(t => f.includes(t))
+      const score = new Map(hits.map(e => [e, (has(fold(e.title)) ? 0 : has(fold(e.title + ' ' + e.sub + ' ' + (e.kw || ''))) ? 2 : 4) + (e.step === undefined ? 0 : 3)]))
+      const best = {}, first = {}
+      hits.forEach(e => { best[e.group] = Math.min(best[e.group] ?? 9, score.get(e)); if (!(e.group in first)) first[e.group] = index.indexOf(e) })
+      hits.sort((a, b) => a.group === b.group ? score.get(a) - score.get(b) || index.indexOf(a) - index.indexOf(b) : best[a.group] - best[b.group] || first[a.group] - first[b.group])
+    }
     sel = Math.min(sel, Math.max(0, hits.length - 1))
     let html = '', last = null
     hits.forEach((e, k) => {
@@ -1605,7 +1868,7 @@ const SCENES = {
         html += `<div class="sx__group"><span>${esc(e.group)}</span><span>${list.filter(i => done[i]).length}/${list.length}</span></div>`
       }
       const icon = e.step === undefined ? `<span class="sx__icon">${e.icon}</span>` : `<span class="sx__icon sx__icon--step">${e.step + 1}</span>`
-      html += `<button class="sx__item${k === sel ? ' is-sel' : ''}" type="button" role="option" data-k="${k}">${icon}<span class="sx__main"><span class="sx__title">${mark(e.title, q)}</span><span class="sx__sub">${mark(e.sub, q)}</span></span><span class="sx__meta">${esc(e.meta)}<kbd class="sx__enter">↵</kbd></span></button>`
+      html += `<button class="sx__item${k === sel ? ' is-sel' : ''}" type="button" role="option" data-k="${k}">${icon}<span class="sx__main"><span class="sx__title">${mark(e.title, toks)}</span><span class="sx__sub">${mark(e.sub, toks)}</span></span><span class="sx__meta">${esc(e.meta)}<kbd class="sx__enter">↵</kbd></span></button>`
     })
     sxList.innerHTML = html || `<div class="sx__empty">${esc(WORDS.none)}</div>`
     sxCount.textContent = `${index.filter(e => e.step === undefined).length} ${WORDS.pages} · ${index.filter(e => e.step !== undefined).length} ${WORDS.steps}`

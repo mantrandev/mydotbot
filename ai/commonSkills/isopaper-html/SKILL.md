@@ -1,6 +1,6 @@
 ---
 name: isopaper-html
-description: "Warm-paper isometric house style for standalone HTML — interactive step-through lessons with animated isometric diagrams (packets moving between servers, databases, devices), plus the matching report blocks. Light and dark themes, JetBrains Mono, hard-shadow 'pop' buttons, cream paper with grain. Start from the bundled assets/template.html and reuse its blocks, tokens and scene engine. Use when the user asks for the isopaper / designed-to-scale look, an animated system-design explainer, or a lesson the reader steps through; otherwise blueprint-html stays the default."
+description: "Warm-paper isometric house style for standalone HTML — interactive step-through lessons with animated isometric diagrams (packets moving between servers, databases, devices; arrays, pointers, stacks, trees, graphs, DP grids and a code-trace panel for DSA / algorithm labs), plus the matching report blocks. Light and dark themes, JetBrains Mono, hard-shadow 'pop' buttons, cream paper with grain. Start from the bundled assets/template.html and reuse its blocks, tokens and scene engine. Use when the user asks for the isopaper / designed-to-scale look, an animated system-design or algorithm explainer, or a lesson the reader steps through; otherwise blueprint-html stays the default."
 ---
 
 # Isopaper HTML
@@ -18,7 +18,7 @@ House style for interactive explainers: warm cream paper, ink outlines, pastel i
    - `.topbar` → `.menu-btn`, `.brand` (`.brand__name span` = marker highlight), `.nav` → `.nav__item[data-area][data-go]` or `[data-soon]`, `.search` (opens the ⌘K palette), `.theme-btn`
    - `.app-shell` → `.sidebar` + `.nav-scrim` + `.app-main`
    - `.sidebar` → `.tree-root`, `.course` → `.mod` (`.mod__head` + `.folder--<tone>` + `.mod__count[data-count]`) → `.mod__lessons` → `.lesson > a[data-go]` (`.is-soon` + `.soon` for placeholders), `.progress` (expandable, auto-filled)
-   - `.toast`, `.sx` palette — auto-wired, never hand-filled
+   - `.toast`, `.sx` palette — auto-wired, never hand-filled. It searches titles, subtitles, step text, callouts and doc bodies, ignores Vietnamese accents, and requires every typed word. Put synonyms (English terms for a Vietnamese page, abbreviations) in `data-keywords` on the `section.view`
 
    Lesson view `section.view.view--lesson[data-scene]`:
    - `.lesson-grid` → `.sheet` + `.rail`
@@ -45,6 +45,8 @@ House style for interactive explainers: warm cream paper, ink outlines, pastel i
 
 3. Write the diagrams as data in the `SCENES` object, one entry per `data-scene`. Read [Scene Engine](references/scene-engine.md) before writing or changing a scene — it covers coordinates, node kinds, links, flows, notes, chips and what accumulates across steps.
 
+   For data structures and algorithms, also read [DSA Primitives](references/dsa-primitives.md): arrays, grids, stacks, tree/graph dots, pointers, cell marks, swaps, links into cells, the code-trace panel and the `AT` / `TREE` / `CHAIN` helpers. Copy patterns from [the DSA demo](assets/dsa-demo.js); `python3 scripts/build_dsa_demo.py` builds it into `~/.agent/artifacts/isopaper-dsa-demo.html`.
+
 4. For a page with more than one section, read [Layout and Navigation](references/layout-nav.md).
 
 5. Translate the UI strings in `WORDS` (and per-scene `words`) when the page is not in English. Keep `lang` on `<html>` in sync.
@@ -65,6 +67,7 @@ House style for interactive explainers: warm cream paper, ink outlines, pastel i
 - Green (`--green`) marks the current item only: active nav, current lesson, current step dot, primary button. Status uses the level trio `good / warn / bad`. Rust is for a single hot metric or link, not decoration.
 - Every page with more than one section uses the sidebar, one view per section. The sidebar selects a view; it never scroll-spies one long page.
 - Diagrams with steps, branches or states go in a scene, not in Mermaid and not in a static image.
+- Algorithm state (indices, comparisons, swaps, visited sets) is shown with `ptrs` and `marks`, never with ad-hoc text pills on cells. One `cur` (green) per step.
 - Everything inline. The only remote resource is the JetBrains Mono stylesheet; the stack falls back to local monospace when it is blocked. No CDN scripts, no remote images.
 - Every page has a topic-relevant SVG favicon as a percent-encoded data URI (`#` → `%23`), legible at 16×16, drawn in the palette.
 - Completion state lives in `localStorage` under `isopaper-done:` + `location.pathname`. Keep that key shape so `file://` pages don't overwrite each other.

@@ -50,7 +50,7 @@ SCENES.myScene = {
 
 | key | meaning |
 |---|---|
-| `kind` | `box` (default), `cyl` (database / store), `device` (slab with screen and keyboard) |
+| `kind` | `box` (default), `cyl` (database / store), `device` (slab with screen and keyboard); `array`, `grid`, `stack`, `dot` are in [DSA Primitives](dsa-primitives.md) |
 | `at` | `[x, y]` centre of the footprint |
 | `size` | box / device: `[w, d, h]`; default box `[3, 3, 2.6]`, device `[5, 4, 0.9]` |
 | `r`, `h` | cylinder radius and height; default `1.5`, `2.4` |
@@ -67,9 +67,9 @@ Pick tones by role and keep them consistent across lessons: `blue` compute, `pur
 
 | key | meaning |
 |---|---|
-| `from`, `to` | node ids |
+| `from`, `to` | node ids, or `node.cell` for a cell of an array / grid (`'b.2'`, `'g.1,3'`) |
 | `via` | list of `[x, y]` corners, rounded automatically |
-| `style` | default look: `dashed`, `off`, `beat`, `flow`, `cut`, `hot` |
+| `style` | default look: `dashed`, `off`, `beat`, `flow`, `cut`, `hot`, `hidden` (invisible, still carries packets) |
 | `both` | arrowheads on both ends |
 | `arrow` | `false` removes the arrowhead |
 | `label` | pill on the link |
@@ -93,6 +93,7 @@ A link shows only while both ends are visible.
 | `notes` | yes | `{ nodeOrLinkId: ['400 ms · scanning', 'bad'] }`; levels `bad`, `warn`, `ok`, `info`; `null` removes; a link note replaces the link label |
 | `linkStyle` | yes | `{ linkId: 'cut' }`; `null` restores the link's own style; `'hidden'` hides it |
 | `focus` | — | node ids that get the green pad and a spotlight ring this step |
+| `vals`, `set`, `marks`, `ptrs`, `swap`, `line` | see [DSA Primitives](dsa-primitives.md) | node values, cell colours, pointers, swap hops, code-line highlight |
 | `flows` | — | packet choreography, below |
 
 Accumulating keys mean you only write what changes. To undo something, write it again with `null`.
