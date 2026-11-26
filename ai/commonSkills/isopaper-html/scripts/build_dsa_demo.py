@@ -5,7 +5,7 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 TEMPLATE = ROOT / 'assets/template.html'
 DEMO = ROOT / 'assets/dsa-demo.js'
-OUT = pathlib.Path(sys.argv[1]) if len(sys.argv) > 1 else pathlib.Path.home() / '.agent/artifacts/isopaper-dsa-demo.html'
+OUT = pathlib.Path(sys.argv[1]) if len(sys.argv) > 1 else pathlib.Path.cwd() / '.agent/artifacts/isopaper-dsa-demo.html'
 ICON = ("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E"
         "%3Crect x='2' y='14' width='9' height='9' rx='2' fill='%23f7f0e7' stroke='%231d1b18' stroke-width='2'/%3E"
         "%3Crect x='11.5' y='14' width='9' height='9' rx='2' fill='%23d1e9c2' stroke='%231d1b18' stroke-width='2'/%3E"

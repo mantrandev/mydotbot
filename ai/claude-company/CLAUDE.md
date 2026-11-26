@@ -98,7 +98,7 @@ Strong success criteria let you loop independently. Weak criteria ("make it work
 
 ## Artifacts
 
-- Every generated HTML file must be written under `~/.agent/artifacts/` (absolute: `/Users/maybe/.agent/artifacts/`), never the cwd, Desktop, or a project dir.
+- Every generated HTML file must be written under `<project>/.agent/artifacts/`, where `<project>` is `git rev-parse --show-toplevel` of the current project, or the cwd outside a git repo. Never write to the global `~/.agent/artifacts/` or the Desktop.
 - Create the directory if missing, then open or report the absolute path.
 - Applies to all standalone HTML output (courses, dashboards, diagrams, slides, reports) unless the user names a different destination.
 - Before writing any standalone HTML, follow the `blueprint-html` skill: start from its bundled `assets/template.html`, reuse its component blocks and design tokens, and keep its single blueprint theme.

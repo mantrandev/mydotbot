@@ -9,7 +9,7 @@ House style for all standalone HTML: technical-drawing blueprint. Monospace thro
 
 ## Steps
 
-1. Copy the bundled [template asset](assets/template.html) directly to `~/.agent/artifacts/<name>.html`. Resolve the asset relative to this `SKILL.md`; never use a hard-coded checkout or mirror path.
+1. Copy the bundled [template asset](assets/template.html) directly to `<project>/.agent/artifacts/<name>.html` (`<project>` = git root, or the cwd outside a repo). Resolve the asset relative to this `SKILL.md`; never use a hard-coded checkout or mirror path.
 
 2. Build the page by reusing the existing blocks. Add a token-based class only when no existing pattern fits:
    - `.sheet` — the double-ruled frame; always keep `width:100%;max-width:none`
@@ -57,7 +57,7 @@ House style for all standalone HTML: technical-drawing blueprint. Monospace thro
 
 4. Open the finished artifact:
    ```bash
-   open ~/.agent/artifacts/<name>.html
+   open <project>/.agent/artifacts/<name>.html
    ```
 
 ## The handwriting layer

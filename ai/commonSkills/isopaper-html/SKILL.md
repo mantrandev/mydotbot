@@ -9,7 +9,7 @@ House style for interactive explainers: warm cream paper, ink outlines, pastel i
 
 ## Steps
 
-1. Copy the bundled [template asset](assets/template.html) to `~/.agent/artifacts/<name>.html`. Resolve the asset relative to this `SKILL.md`; never use a hard-coded checkout or mirror path.
+1. Copy the bundled [template asset](assets/template.html) to `<project>/.agent/artifacts/<name>.html` (`<project>` = git root, or the cwd outside a repo). Resolve the asset relative to this `SKILL.md`; never use a hard-coded checkout or mirror path.
 
 2. Build the page from existing blocks. Add a token-based class only when no pattern fits.
 
@@ -45,7 +45,7 @@ House style for interactive explainers: warm cream paper, ink outlines, pastel i
 
 3. Write the diagrams as data in the `SCENES` object, one entry per `data-scene`. Read [Scene Engine](references/scene-engine.md) before writing or changing a scene — it covers coordinates, node kinds, links, flows, notes, chips and what accumulates across steps.
 
-   For data structures and algorithms, also read [DSA Primitives](references/dsa-primitives.md): arrays, grids, stacks, tree/graph dots, pointers, cell marks, swaps, links into cells, the code-trace panel and the `AT` / `TREE` / `CHAIN` helpers. Copy patterns from [the DSA demo](assets/dsa-demo.js); `python3 scripts/build_dsa_demo.py` builds it into `~/.agent/artifacts/isopaper-dsa-demo.html`.
+   For data structures and algorithms, also read [DSA Primitives](references/dsa-primitives.md): arrays, grids, stacks, tree/graph dots, pointers, cell marks, swaps, links into cells, the code-trace panel and the `AT` / `TREE` / `CHAIN` helpers. Copy patterns from [the DSA demo](assets/dsa-demo.js); `python3 scripts/build_dsa_demo.py` builds it into `./.agent/artifacts/isopaper-dsa-demo.html`.
 
 4. For a page with more than one section, read [Layout and Navigation](references/layout-nav.md).
 
@@ -53,7 +53,7 @@ House style for interactive explainers: warm cream paper, ink outlines, pastel i
 
 6. Open the finished artifact:
    ```bash
-   open ~/.agent/artifacts/<name>.html
+   open <project>/.agent/artifacts/<name>.html
    ```
 
 ## Hard rules

@@ -2,7 +2,7 @@
 
 Read this before writing a scene about data structures or algorithms. It adds node kinds, step keys and helpers on top of [Scene Engine](scene-engine.md); everything there still applies.
 
-Working examples: [DSA demo lessons](../assets/dsa-demo.js) — two pointers, binary search, bubble sort, stack, BFS, BST, hash chaining, grid DP, linked-list reversal. Build them with `python3 scripts/build_dsa_demo.py [out.html]` (default `~/.agent/artifacts/isopaper-dsa-demo.html`).
+Working examples: [DSA demo lessons](../assets/dsa-demo.js) — two pointers, binary search, bubble sort, stack, BFS, BST, hash chaining, grid DP, linked-list reversal. Build them with `python3 scripts/build_dsa_demo.py [out.html]` (default `./.agent/artifacts/isopaper-dsa-demo.html`).
 
 ## Pick the primitive
 
