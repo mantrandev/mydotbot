@@ -67,4 +67,3 @@ cask "mantrandev/tap/mkey-vni", trusted: true
 cask "postman"
 cask "unity-hub"
 cask "visual-studio-code"
-cask "warp"

@@ -219,7 +219,6 @@ pyright-lsp@claude-plugins-official
 rust-analyzer-lsp@claude-plugins-official
 swift-lsp@claude-plugins-official
 visual-explainer@visual-explainer-marketplace
-warp@claude-code-warp
 ```
 
 It registers the marketplaces, installs what is missing, updates what is

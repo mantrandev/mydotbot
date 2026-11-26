@@ -4,7 +4,6 @@ set -euo pipefail
 marketplaces=(
   "anthropics/claude-plugins-official|claude-plugins-official"
   "anthropics/skills|anthropic-agent-skills"
-  "warpdotdev/claude-code-warp|claude-code-warp"
   "nicobailon/visual-explainer|visual-explainer-marketplace"
   "mantrandev/clean-architecture-ios|clean-architecture-ios"
 )
@@ -19,11 +18,11 @@ plugins=(
   "rust-analyzer-lsp@claude-plugins-official"
   "swift-lsp@claude-plugins-official"
   "visual-explainer@visual-explainer-marketplace"
-  "warp@claude-code-warp"
 )
 
 removed_plugins=(
   "code-review@claude-plugins-official"
+  "warp@claude-code-warp"
 )
 
 if ! command -v claude >/dev/null 2>&1; then
