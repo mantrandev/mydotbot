@@ -11,9 +11,7 @@ marketplaces=(
 plugins=(
   "clangd-lsp@claude-plugins-official"
   "clean-architecture-ios@clean-architecture-ios"
-  "frontend-design@claude-plugins-official"
   "mattpocock-skills@claude-plugins-official"
-  "posthog@claude-plugins-official"
   "pyright-lsp@claude-plugins-official"
   "rust-analyzer-lsp@claude-plugins-official"
   "swift-lsp@claude-plugins-official"
@@ -23,6 +21,9 @@ plugins=(
 removed_plugins=(
   "code-review@claude-plugins-official"
   "warp@claude-code-warp"
+  "posthog@claude-plugins-official"
+  "blender-skills@blender-skills"
+  "frontend-design@claude-plugins-official"
 )
 
 if ! command -v claude >/dev/null 2>&1; then
@@ -66,11 +67,7 @@ for dir in "${config_dirs[@]}"; do
     else
       CLAUDE_CONFIG_DIR="$dir" claude plugin install "$plugin" --scope user
     fi
-    if [ "$dir" = "$HOME/.claude" ] && { [ "$plugin" = "frontend-design@claude-plugins-official" ] || [ "$plugin" = "posthog@claude-plugins-official" ]; }; then
-      if [ ! -f "$settings_file" ] || ! jq -e --arg plugin "$plugin" '.enabledPlugins[$plugin] == false' "$settings_file" >/dev/null; then
-        CLAUDE_CONFIG_DIR="$dir" claude plugin disable "$plugin" --scope user
-      fi
-    elif [ ! -f "$settings_file" ] || ! jq -e --arg plugin "$plugin" '.enabledPlugins[$plugin] == true' "$settings_file" >/dev/null; then
+    if [ ! -f "$settings_file" ] || ! jq -e --arg plugin "$plugin" '.enabledPlugins[$plugin] == true' "$settings_file" >/dev/null; then
       CLAUDE_CONFIG_DIR="$dir" claude plugin enable "$plugin" --scope user
     fi
   done

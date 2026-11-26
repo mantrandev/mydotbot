@@ -123,7 +123,7 @@ statusline script.
 | rules | `ai/claude/CLAUDE.md` | `ai/claude-company/CLAUDE.md` |
 | skills | `ai/skills-claude` (5) | `ai/skills-company` (12) |
 | memory | `ai/memory` | `ai/memory-company` |
-| plugins | marketplace set + `vercel`; `frontend-design` and `posthog` disabled | marketplace set + `delivery` |
+| plugins | marketplace set + `vercel` | marketplace set + `delivery` |
 | history, projects, sessions | own, local | own, local |
 | commits as | GitHub identity | GitLab identity |
 
@@ -212,9 +212,7 @@ truth. It runs on `./install.sh` and drives both Claude config dirs:
 ```
 clangd-lsp@claude-plugins-official
 clean-architecture-ios@clean-architecture-ios
-frontend-design@claude-plugins-official
 mattpocock-skills@claude-plugins-official
-posthog@claude-plugins-official
 pyright-lsp@claude-plugins-official
 rust-analyzer-lsp@claude-plugins-official
 swift-lsp@claude-plugins-official
@@ -224,9 +222,9 @@ visual-explainer@visual-explainer-marketplace
 It registers the marketplaces, installs what is missing, updates what is
 installed, enables the declared set, and removes superseded plugins while keeping
 their data. The personal profile also installs and enables
-`vercel@claude-plugins-official`, keeps `frontend-design` and `posthog` disabled,
-and enables `rust-analyzer-lsp`. Project-scope and local-scope plugins are
-untouched. Add or remove entries by editing the script.
+`vercel@claude-plugins-official` and enables `rust-analyzer-lsp`. Project-scope
+and local-scope plugins are untouched. Add or remove entries by editing the
+script.
 
 **Local plugins** — `claude plugin marketplace add` also accepts a filesystem
 path, so a plugin can exist only on this device. `~/.localplugins/delivery` is
