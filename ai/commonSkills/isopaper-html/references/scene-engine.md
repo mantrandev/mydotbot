@@ -58,8 +58,9 @@ SCENES.myScene = {
 | `screen` | device screen tone, default `purple` |
 | `title`, `sub` | text on the block's front edge; keep `title` ≤ 6 chars |
 | `lines` | rack slots on the right face (servers) |
-| `label` | name pill below the node |
-| `noteAt` | where step notes sit: `top` (default), `right`, `left`, `bottom` |
+| `label` | name pill; sits below the node, and the engine moves it to top, right or left on any step where below would cover something |
+| `labelSide` | preferred side for `label`: `bottom` (default), `top`, `right`, `left` |
+| `noteAt` | preferred side for step notes: `top` (default), `right`, `left`, `bottom`. If that side is taken, the engine tries the others, small nudges and a farther tier |
 
 Pick tones by role and keep them consistent across lessons: `blue` compute, `purple` storage, `yellow` lookup / DNS / cache, `green` routing / load balancer, `orange` queue / producer, `rose` failure or external risk, `slab` clients and floors.
 
@@ -73,7 +74,7 @@ Pick tones by role and keep them consistent across lessons: `blue` compute, `pur
 | `both` | arrowheads on both ends |
 | `arrow` | `false` removes the arrowhead |
 | `label` | pill on the link |
-| `labelAt` | position along the link, `0..1`, default `0.5` — move it when the pill covers a node |
+| `labelAt` | preferred position along the link, `0..1`, default `0.5`. If the pill would cover a node, a label or another link pill, the engine shifts it along or off the link and draws a dashed leader back to it |
 
 A link shows only while both ends are visible.
 
@@ -122,9 +123,45 @@ flows: [
 
 Arrivals pop a green ring; `fail`, `kill` and `poison` burst red with a cross. Add a matching `.lg--<kind>` dot to the stage legend for every kind a lesson uses.
 
+## Automatic placement
+
+On every step the engine places pills in this order, each avoiding the real shape of every visible node, every pill already placed, and the edge of the drawing:
+
+```
+node labels → node notes → link labels and link notes
+```
+
+Placement picks the free spot closest to what you asked for; if nothing is free it takes the spot with the least overlap. It cannot invent space: a crowded layout still fails the check. Fix the layout, not the pill.
+
+## Layout pitfalls
+
+| Symptom | Cause | Fix |
+|---|---|---|
+| Pill wider than its link covers both ends | long note on a short link | keep link text ≤ ~22 chars, or lengthen the link (≥ 4 units between footprints) |
+| Label of one node reads as another node's | nodes stacked closer than label height | ≥ 2 units vertical gap when both have labels; or give one `labelSide` |
+| Link passes through a node | straight line between two nodes with a third in the way | add `via` corners, or move the third node off the line |
+| Nodes overlap | footprints closer than `(w1 + w2) / 2` | space by footprint size, not by centre distance |
+| Text sits on a block's bottom edge | `sub` on a box under 2.2 high | the engine drops `sub` on short boxes; make the box taller if `sub` matters |
+| Diagram hidden under the chip row | many or long chip labels | handled: the canvas starts below the chip row; still keep chips ≤ 5 |
+| Timeline labels collide | many steps with long `short` names | handled: only the current label shows; keep `short` to 1–2 words anyway |
+| Same space reused across steps | nodes shown in different steps occupy the same spot | allowed; `hide` the old node before showing the new one |
+| Pill outside the stage | note on the outermost node, pointing outward | the engine penalises spots outside the drawing; if it still fails, set `noteAt` to an inner side or shorten the text |
+
 ## Checks before shipping a scene
 
-- Step through every step in light and dark; no pill overlaps a node or another pill.
+Run the bundled checker and do not hand the page over until it prints `PASS`:
+
+```bash
+node scripts/check.mjs <page.html> --shots=/tmp/iso-shots
+node scripts/check.mjs <page.html> --dark
+node scripts/check.mjs <page.html> --mobile
+```
+
+It steps through every lesson, screenshots each step with `--shots`, and fails on: pill over pill, pill over node, node over node, link through a node, pill outside the stage, anything under the chip row, guide text overflow, tables wider than their column, and console errors. Shape tests use the real isometric outline, so a FAIL is a real overlap. First run installs `puppeteer-core` into `~/.cache/isopaper-check`; set `CHROME_PATH` if Chrome is not in a standard place.
+
+Also confirm by hand:
+
+- Open a few screenshots per lesson; the layout reads left to right or top to bottom without crossing lines.
 - Every flow references an existing link; every `show`, `focus` and note references an existing node.
 - Chips start at `'—'` in step 1 so the first real value flashes.
 - `data-at` values in `.goals` match the step that teaches each goal.

@@ -51,7 +51,15 @@ House style for interactive explainers: warm cream paper, ink outlines, pastel i
 
 5. Translate the UI strings in `WORDS` (and per-scene `words`) when the page is not in English. Keep `lang` on `<html>` in sync.
 
-6. Open the finished artifact:
+6. Verify with the bundled checker (`scripts/check.mjs`, resolved relative to this `SKILL.md`) until it prints `PASS` in all three modes. Never hand over a page that fails:
+   ```bash
+   node scripts/check.mjs <project>/.agent/artifacts/<name>.html --shots=/tmp/iso-shots
+   node scripts/check.mjs <project>/.agent/artifacts/<name>.html --dark
+   node scripts/check.mjs <project>/.agent/artifacts/<name>.html --mobile
+   ```
+   Fix every reported overlap by changing the layout (spacing, `via`, `labelSide`, `noteAt`, shorter pill text), then rerun. Look at a few screenshots per lesson as well. See [Scene Engine › Layout pitfalls](references/scene-engine.md).
+
+7. Open the finished artifact:
    ```bash
    open <project>/.agent/artifacts/<name>.html
    ```
@@ -71,6 +79,7 @@ House style for interactive explainers: warm cream paper, ink outlines, pastel i
 - Everything inline. The only remote resource is the JetBrains Mono stylesheet; the stack falls back to local monospace when it is blocked. No CDN scripts, no remote images.
 - Every page has a topic-relevant SVG favicon as a percent-encoded data URI (`#` → `%23`), legible at 16×16, drawn in the palette.
 - Completion state lives in `localStorage` under `isopaper-done:` + `location.pathname`. Keep that key shape so `file://` pages don't overwrite each other.
+- A page is done only when `scripts/check.mjs` prints `PASS` in light, `--dark` and `--mobile`.
 - No comments in generated HTML, CSS or JS.
 
 ## Content rules

@@ -271,6 +271,7 @@
   .pad.is-on{opacity:1}
   .pill-body{fill:var(--card);stroke:var(--ink);stroke-width:1.4}
   .pill-drop{fill:var(--drop)}
+  .pill-lead{stroke:var(--muted-2);stroke-width:1.2;stroke-dasharray:2 3}
   .pill text{font-size:11.5px;font-weight:700;fill:var(--ink)}
   .pill--bad .pill-body{fill:var(--rose);stroke:var(--bad-ink)} .pill--bad text{fill:var(--rose-ink)} .pill--bad .pill-drop{fill:var(--bad-ink)}
   .pill--warn .pill-body{fill:var(--amber)} .pill--warn text{fill:var(--amber-ink)}
@@ -334,6 +335,10 @@
   .timeline__label{min-height:2.6em;margin-top:5px;font-size:11.5px;line-height:1.3;text-align:center;color:var(--muted)}
   .timeline__steps li.is-done .timeline__label{color:var(--ink-2)}
   .timeline__steps li.is-current .timeline__label{color:var(--ink);font-weight:700}
+  .timeline.is-tight .timeline__label{visibility:hidden;white-space:nowrap}
+  .timeline.is-tight li.is-current .timeline__label{visibility:visible}
+  .timeline.is-tight li:first-child.is-current .timeline__label{align-self:flex-start}
+  .timeline.is-tight li:last-child.is-current .timeline__label{align-self:flex-end}
 
   .rail{display:flex;flex-direction:column;gap:14px;min-height:0}
   .rail .card{background:var(--paper-2)}
@@ -1295,8 +1300,9 @@ const SCENES = {
     el('stop', { offset: 1, style: `stop-color:var(--s-${t}-b)` }, side)
   })
 
+  const pillW = text => [...text].length * 6.9 + 22
   const pill = (parent, x, y, text, level, fresh, align) => {
-    const w = [...text].length * 6.9 + 22, h = 22
+    const w = pillW(text), h = 22
     if (align === 'start') x += w / 2
     if (align === 'end') x -= w / 2
     const outer = el('g', { transform: `translate(${x.toFixed(1)} ${y.toFixed(1)})` }, parent)
@@ -1399,6 +1405,40 @@ const SCENES = {
     L.ptrs = el('g', { class: 'layer-ptrs' }, svg)
     svg.insertBefore(L.ptrs, L.notes)
 
+    const sideAt = (geo, side, w, gap) => ({
+      bottom: [geo.bottom[0], geo.bottom[1] + gap], top: [geo.top[0], geo.top[1] - 20],
+      bottom2: [geo.bottom[0], geo.bottom[1] + gap + 28], top2: [geo.top[0], geo.top[1] - 48],
+      right: [geo.right[0] + 12 + w / 2, geo.right[1]], left: [geo.left[0] - 12 - w / 2, geo.left[1]]
+    })[side]
+    const placer = ids => {
+      const ov = (a, o) => Math.max(0, Math.min(a.r, o.r) - Math.max(a.x, o.x)) * Math.max(0, Math.min(a.b, o.b) - Math.max(a.y, o.y))
+      const shapes = ids.map(id => {
+        const es = [...nodes[id].g.querySelectorAll('.iso-edge')], bs = (es.length ? es : [nodes[id].g]).map(e => e.getBBox())
+        const ring = es.flatMap(e => { const L = e.getTotalLength ? e.getTotalLength() : 0, o = []; for (let k = 0; L && k < 40; k++) { const q = e.getPointAtLength(L * k / 40); o.push([q.x, q.y]) } return o })
+        return { es, ring, x: Math.min(...bs.map(b => b.x)), y: Math.min(...bs.map(b => b.y)), r: Math.max(...bs.map(b => b.x + b.width)), b: Math.max(...bs.map(b => b.y + b.height)) }
+      })
+      const rects = ids.flatMap(id => [...nodes[id].g.querySelectorAll('.pill-body')].map(e => {
+        const b = e.getBBox(), m = e.parentNode.parentNode.transform.baseVal.consolidate(), dx = m ? m.matrix.e : 0, dy = m ? m.matrix.f : 0
+        return { id, x: b.x + dx, y: b.y + dy, r: b.x + b.width + dx, b: b.y + b.height + dy }
+      }))
+      const cost = (x, y, w, own) => {
+        const a = { x: x - w / 2 - 4, y: y - 15, r: x + w / 2 + 4, b: y + 15 }
+        let c = rects.reduce((sum, o) => o.id === own && own ? sum : sum + ov(a, o), 0)
+        c += (Math.max(0, vx - a.x) + Math.max(0, a.r - vx - vw) + Math.max(0, vy - a.y) + Math.max(0, a.b - vy - vh)) * 400
+        for (const sh of shapes) {
+          if (!ov(a, sh)) continue
+          if (!sh.es.length) { c += ov(a, sh); continue }
+          if (sh.ring.some(([px, py]) => px > a.x + 2 && px < a.r - 2 && py > a.y + 2 && py < a.b - 2)) c += 1000
+          for (let k = 0; k <= 8; k++) for (const py of [a.y + 4, y, a.b - 4]) {
+            const dp = new DOMPoint(a.x + 4 + (a.r - a.x - 8) * k / 8, py)
+            if (sh.es.some(e => e.isPointInFill && e.isPointInFill(dp))) c += 1000
+          }
+        }
+        return c
+      }
+      const take = (x, y, w, id) => rects.push({ id, x: x - w / 2, y: y - 11, r: x + w / 2, b: y + 11 })
+      return { cost, take }
+    }
     const paint = (id, look) => {
       const N = nodes[id], nd = N.def, sh = N.shp, sig = JSON.stringify(look)
       if (N.sig === sig) return
@@ -1459,14 +1499,16 @@ const SCENES = {
         if (title != null && title !== '') {
           if (nd.kind === 'dot' || (nd.kind === 'box' && sh.H < 1.6)) valText(g, P(x, y)[0], P(x, y, sh.H)[1], title, N.title !== undefined && N.title !== title)
           else {
-            const ty = nd.kind === 'cyl' ? (geo.front[1] + geo.bottom[1]) / 2 : geo.front[1] + sh.H * S / 2
-            el('text', { class: 'iso-title' + (N.title !== undefined && N.title !== title ? ' is-fresh' : ''), x: geo.front[0], y: ty + (nd.sub ? -2 : 4), 'text-anchor': 'middle' }, g).textContent = title
-            if (nd.sub) el('text', { class: 'iso-sub', x: geo.front[0], y: ty + 11, 'text-anchor': 'middle' }, g).textContent = nd.sub
+            const top = geo.front[1], bot = nd.kind === 'cyl' ? geo.bottom[1] - 4 : geo.front[1] + sh.H * S
+            const ty = (top + bot) / 2, sub = nd.sub && bot - top >= 30 ? nd.sub : ''
+            const subY = Math.min(ty + 11, bot - 4), titleY = sub ? subY - 13 : ty + 4
+            el('text', { class: 'iso-title' + (N.title !== undefined && N.title !== title ? ' is-fresh' : ''), x: geo.front[0], y: titleY, 'text-anchor': 'middle' }, g).textContent = title
+            if (sub) el('text', { class: 'iso-sub', x: geo.front[0], y: subY, 'text-anchor': 'middle' }, g).textContent = sub
           }
         }
         N.title = title
       }
-      if (nd.label) pill(g, geo.bottom[0], geo.bottom[1] + 22, nd.label)
+      if (nd.label) { const at = sideAt(geo, N.labelSide || 'bottom', pillW(nd.label), 22); pill(g, at[0], at[1], nd.label) }
       N.geo = geo
     }
     const lookOf = (id, s) => {
@@ -1497,7 +1539,7 @@ const SCENES = {
       const route = [A.at, ...via, B.at]
       const start = clip(A.at, route[1], A.hw, 0.45), end = clip(B.at, route[route.length - 2], B.hw, 0.45)
       const sp = [start, ...via, end].map(p => P(p[0], p[1], 0))
-      const path = el('path', { class: 'link', d: roundPath(sp) }, L.links)
+      const path = el('path', { class: 'link', d: roundPath(sp), 'data-a': A.id, 'data-b': B.id }, L.links)
       links[id] = { def: lk, path, len: path.getTotalLength(), a: A.id, b: B.id }
     })
 
@@ -1526,6 +1568,14 @@ const SCENES = {
       `<button class="btn-pop btn-next" type="button" data-act="next"><span class="btn-next__label"></span>${ICON.right}</button></div>` +
       `<div class="guide__hint">${ICON.keys}<kbd>←</kbd><kbd>→</kbd> ${esc(W.hintStep)} · <kbd>R</kbd> ${esc(W.hintReplay)} · <kbd>Space</kbd> ${esc(W.hintPause)}</div>`
     const content = $('.guide__content', guide), chap = $('.chapter', guide)
+    const canvas = $('.stage__canvas', view)
+    const fit = () => {
+      if (hud.children.length && hud.offsetHeight) canvas.style.top = Math.max(58, hud.offsetTop + hud.offsetHeight + 10) + 'px'
+      const labels = $$('.timeline__label', tl)
+      tl.classList.remove('is-tight')
+      tl.classList.toggle('is-tight', labels.some(l => l.scrollWidth > l.clientWidth + 1 || l.scrollHeight > l.clientHeight + 1))
+    }
+    new ResizeObserver(fit).observe(stage)
     let trace = $('.trace', view)
     if (def.code) {
       if (!trace) { trace = document.createElement('div'); trace.className = 'card trace'; guide.after(trace) }
@@ -1668,24 +1718,61 @@ const SCENES = {
       }
       L.notes.replaceChildren()
       const shown = {}
+      const visible = Object.keys(nodes).filter(id => s.show.has(id))
+      const lp = placer(visible)
+      visible.forEach(id => {
+        const N = nodes[id], nd = N.def
+        if (!nd.label) return
+        const w = pillW(nd.label), cur = N.labelSide || 'bottom'
+        let best = Infinity, side = cur
+        for (const sd of [...new Set([cur, 'bottom', 'top', 'right', 'left'])]) {
+          const at = sideAt(N.geo, sd, w, 22), c = lp.cost(at[0], at[1], w, id)
+          if (c < best) { best = c; side = sd }
+          if (!best) break
+        }
+        const at = sideAt(N.geo, side, w, 22)
+        lp.take(at[0], at[1], w, id)
+        if (side !== cur) { N.labelSide = side; N.sig = null; paint(id, lookOf(id, s)) }
+      })
+      const { cost, take } = placer(visible)
+      for (const id in nodes) {
+        const note = s.notes[id]
+        if (!note || !s.show.has(id)) continue
+        const geo = nodes[id].geo, w = pillW(note[0]), fresh = !reduced && prev.notes[id] !== (note[0] + '|' + (note[1] || ''))
+        const gap = nodes[id].def.label && (nodes[id].labelSide || 'bottom') === 'bottom' ? 50 : 22
+        let spot = null, best = Infinity
+        for (const side of [...new Set([nodes[id].def.noteAt || 'top', 'top', 'right', 'left', 'bottom', 'top2', 'bottom2'])]) {
+          for (const dy of [0, -6, 6, -12, 12]) {
+            const at = sideAt(geo, side, w, gap), c = cost(at[0], at[1] + dy, w)
+            if (c < best) { best = c; spot = [at[0], at[1] + dy] }
+            if (!best) break
+          }
+          if (!best) break
+        }
+        take(spot[0], spot[1], w)
+        shown[id] = note[0] + '|' + (note[1] || '')
+        pill(L.notes, spot[0], spot[1], note[0], note[1], fresh)
+      }
       for (const id in links) {
         const lk = links[id]
         if (!lk.vis) continue
         const note = s.notes[id], text = note ? note[0] : lk.def.label
         if (!text) continue
-        const m = lk.path.getPointAtLength(lk.len * (lk.def.labelAt || 0.5))
+        const w = pillW(text), t0 = lk.def.labelAt || 0.5
+        let spot = null, anchor = null, best = Infinity
+        for (const t of [t0, 0.35, 0.65, 0.2, 0.8]) {
+          const m = lk.path.getPointAtLength(lk.len * t)
+          for (const dy of [0, -26, 26, -52, 52, -78, 78]) {
+            const c = cost(m.x, m.y + dy, w)
+            if (c < best) { best = c; spot = [m.x, m.y + dy]; anchor = m }
+            if (!best) break
+          }
+          if (!best) break
+        }
+        take(spot[0], spot[1], w)
+        if (spot[1] !== anchor.y) el('line', { class: 'pill-lead', x1: anchor.x, y1: anchor.y, x2: spot[0], y2: spot[1] + (spot[1] < anchor.y ? 11 : -11) }, L.notes)
         shown[id] = text + '|' + (note ? note[1] || '' : '')
-        pill(L.notes, m.x, m.y, text, note ? note[1] : '', !reduced && prev.notes[id] !== shown[id])
-      }
-      for (const id in nodes) {
-        const note = s.notes[id]
-        if (!note || !s.show.has(id)) continue
-        const geo = nodes[id].geo, side = nodes[id].def.noteAt || 'top', fresh = !reduced && prev.notes[id] !== (note[0] + '|' + (note[1] || ''))
-        shown[id] = note[0] + '|' + (note[1] || '')
-        if (side === 'right') pill(L.notes, geo.right[0] + 12, geo.right[1], note[0], note[1], fresh, 'start')
-        else if (side === 'left') pill(L.notes, geo.left[0] - 12, geo.left[1], note[0], note[1], fresh, 'end')
-        else if (side === 'bottom') pill(L.notes, geo.bottom[0], geo.bottom[1] + (nodes[id].def.label ? 50 : 22), note[0], note[1], fresh)
-        else pill(L.notes, geo.top[0], geo.top[1] - 20, note[0], note[1], fresh)
+        pill(L.notes, spot[0], spot[1], text, note ? note[1] : '', !reduced && prev.notes[id] !== shown[id])
       }
       const seen = new Set()
       for (const id in s.ptrs) {
